@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="icon_color">#ffbc02</color>
+    <color name="colorPrimary">#a0244f</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <!--<color name="colorAccent">#017196</color>-->
+    <!--<color name="colorAccent">#FF4081</color>-->
+    <color name="colorAccent">#29a5ff</color>
+
+    <color name="disable">#dddddd</color>
+    <color name="disable2">#e1e1e1</color>
+    <color name="pressed">#00a1de</color>
+    <!--<color name="normal">#007152</color>-->
+    <color name="normal">#017196</color>
+
+    <color name="black">#000000</color>
+    <color name="blackTextMenu">#272727</color>
+    <color name="white">#FFFFFF</color>
+    <color name="gray">#d3d3d3</color>
+    <color name="gray_tab_job">#fbfbfb</color>
+    <color name="complate_tab_job">#53a93f</color>
+    <color name="progressing_tab_job">#57b5e3</color>
+    <color name="no_progress_tab_job">#cccccc</color>
+    <color name="not_complate_tab_job">#d73e33</color>
+
+    <color name="transparent">#00000000</color>
+    <color name="app">#0081b2</color>
+
+    <color name="error">#f31f3d</color>
+    <color name="notify">#f31f3d</color>
+
+    <color name="statusBar">#017196</color>
+
+    <color name="light">#edecec</color>
+
+    <color name="colorBorder">#ebebeb</color>
+
+    <color name="backgroundCallWave">#4cccffff</color>
+    <color name="redCus">#F44336</color>
+
+    <color name="textColorEdt">#9fa2a4</color>
+    <color name="colorBackground">#f2f2f2</color>
+
+    <color name="colorRegular">#3e444b</color>
+    <color name="colorThin">#8b8f92</color>
+    <color name="background">#fafafa</color>
+    <color name="statusContact">#959595</color>
+    <color name="colorBackgroundSearch">#f5f5f5</color>
+    <color name="backgroundSearchActionbar">#29a5ff</color>
+    <color name="colorIconDongLV">#757575</color>
+    <color name="colorGrayIcon">#808080</color>
+    <color name="backgroundLogin">#1f4b5e</color>
+
+    <color name="colorIconMain">#9DD2D8</color>
+    <color name="colorBackgroundList">#c1f4fa</color>
+</resources>

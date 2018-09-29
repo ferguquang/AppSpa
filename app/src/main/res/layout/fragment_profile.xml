@@ -1,0 +1,435 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/white"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include layout="@layout/toolbar_base"/>
+
+        <LinearLayout
+            android:layout_marginTop="@dimen/margin_16dp"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:gravity="center_vertical"
+                android:background="@drawable/edt_bg_selector"
+                android:paddingRight="@dimen/padding_16dp"
+                android:paddingLeft="@dimen/padding_16dp"
+                android:paddingBottom="@dimen/padding_8dp"
+                android:paddingTop="@dimen/padding_8dp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:text="Tên"
+                    android:textSize="@dimen/textSize"
+                    android:textColor="@color/black"
+                    android:layout_width="@dimen/profileWidth"
+                    android:layout_height="wrap_content" />
+
+                <EditText
+                    android:id="@+id/nameEdt"
+                    android:textColor="@drawable/edit_text_selector"
+                    android:background="@color/transparent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:gravity="center_vertical"
+                android:background="@drawable/edt_bg_selector"
+                android:paddingRight="@dimen/padding_16dp"
+                android:paddingLeft="@dimen/padding_16dp"
+                android:paddingBottom="@dimen/padding_8dp"
+                android:paddingTop="@dimen/padding_8dp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:text="Số điện thoại"
+                    android:textSize="@dimen/textSize"
+                    android:textColor="@color/black"
+                    android:layout_width="@dimen/profileWidth"
+                    android:layout_height="wrap_content" />
+
+                <EditText
+                    android:inputType="number"
+                    android:id="@+id/phoneEdt"
+                    android:textColor="@drawable/edit_text_selector"
+                    android:background="@color/transparent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:paddingRight="@dimen/padding_16dp"
+                android:paddingLeft="@dimen/padding_16dp"
+                android:paddingBottom="@dimen/padding_8dp"
+                android:paddingTop="@dimen/padding_8dp"
+                android:id="@+id/categorylayout"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/textSize"
+                    android:layout_marginTop="@dimen/margin_16dp"
+                    android:text="Dịch vụ của cửa hàng"
+                    android:layout_marginBottom="@dimen/margin_8dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                </android.support.v7.widget.RecyclerView>
+
+                <LinearLayout
+                    android:gravity="center_vertical"
+                    android:background="@drawable/edt_bg_selector"
+                    android:paddingBottom="@dimen/padding_8dp"
+                    android:paddingTop="@dimen/padding_8dp"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:text="Mô tả"
+                        android:textSize="@dimen/textSize"
+                        android:textColor="@color/black"
+                        android:layout_width="@dimen/profileWidth"
+                        android:layout_height="wrap_content" />
+
+                    <EditText
+                        android:id="@+id/describeEdt"
+                        android:textSize="@dimen/textSize"
+                        android:textColor="@drawable/edit_text_selector"
+                        android:background="@color/transparent"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:paddingRight="@dimen/padding_16dp"
+                android:paddingLeft="@dimen/padding_16dp"
+                android:paddingBottom="@dimen/padding_8dp"
+                android:paddingTop="@dimen/padding_8dp"
+                android:gravity="center_vertical"
+                android:background="@drawable/edt_bg_selector"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:textSize="@dimen/textSize"
+                        android:textColor="@color/black"
+                        android:text="Tỉnh/Thành phố:"
+                        android:layout_width="@dimen/profileWidth"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:text="Chọn Tỉnh/Thành phố"
+                        android:textSize="@dimen/textSize"
+                        android:textColor="@color/black"
+                        android:id="@+id/valueProvince"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:paddingRight="@dimen/padding_16dp"
+                android:paddingLeft="@dimen/padding_16dp"
+                android:paddingBottom="@dimen/padding_8dp"
+                android:paddingTop="@dimen/padding_8dp"
+                android:gravity="center_vertical"
+                android:background="@drawable/edt_bg_selector"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:textSize="@dimen/textSize"
+                        android:textColor="@color/black"
+                        android:text="Quận/Huyện:"
+                        android:layout_width="@dimen/profileWidth"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:text="Chọn Quận/Huyện"
+                        android:textSize="@dimen/textSize"
+                        android:textColor="@color/black"
+                        android:id="@+id/valueDistrict"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:gravity="center_vertical"
+                android:background="@drawable/edt_bg_selector"
+                android:paddingRight="@dimen/padding_16dp"
+                android:paddingLeft="@dimen/padding_16dp"
+                android:paddingBottom="@dimen/padding_8dp"
+                android:paddingTop="@dimen/padding_8dp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:text="Địa chỉ"
+                    android:textSize="@dimen/textSize"
+                    android:textColor="@color/black"
+                    android:layout_width="@dimen/profileWidth"
+                    android:layout_height="wrap_content" />
+
+                <EditText
+                    android:id="@+id/addressEdt"
+                    android:textColor="@drawable/edit_text_selector"
+                    android:background="@color/transparent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:gravity="center_vertical"
+                android:background="@drawable/edt_bg_selector"
+                android:paddingRight="@dimen/padding_16dp"
+                android:paddingLeft="@dimen/padding_16dp"
+                android:paddingBottom="@dimen/padding_8dp"
+                android:paddingTop="@dimen/padding_8dp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:text="Địa chỉ email"
+                    android:textSize="@dimen/textSize"
+                    android:textColor="@color/black"
+                    android:layout_width="@dimen/profileWidth"
+                    android:layout_height="wrap_content" />
+
+                <EditText
+                    android:id="@+id/emailEdt"
+                    android:textColor="@drawable/edit_text_selector"
+                    android:background="@color/transparent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llBirthday"
+                android:gravity="center_vertical"
+                android:background="@drawable/edt_bg_selector"
+                android:paddingRight="@dimen/padding_16dp"
+                android:paddingLeft="@dimen/padding_16dp"
+                android:paddingBottom="@dimen/padding_8dp"
+                android:paddingTop="@dimen/padding_8dp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:text="Ngày sinh"
+                    android:textSize="@dimen/textSize"
+                    android:textColor="@color/black"
+                    android:layout_width="@dimen/profileWidth"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/birthdayEdt"
+                    android:textSize="@dimen/textSize"
+                    android:textColor="@drawable/edit_text_selector"
+                    android:background="@color/transparent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:gravity="center_vertical"
+                android:background="@drawable/edt_bg_selector"
+                android:paddingRight="@dimen/padding_16dp"
+                android:paddingLeft="@dimen/padding_16dp"
+                android:paddingBottom="@dimen/padding_8dp"
+                android:paddingTop="@dimen/padding_8dp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:text="Giới tính"
+                    android:textSize="@dimen/textSize"
+                    android:textColor="@color/black"
+                    android:layout_width="@dimen/profileWidth"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:textSize="@dimen/textSize"
+                    android:id="@+id/genderEdt"
+                    android:textColor="@drawable/edit_text_selector"
+                    android:background="@color/transparent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layoutContentPass"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:gravity="center_vertical"
+                    android:background="@drawable/edt_bg_selector"
+                    android:paddingRight="@dimen/padding_16dp"
+                    android:paddingLeft="@dimen/padding_16dp"
+                    android:paddingBottom="@dimen/padding_8dp"
+                    android:paddingTop="@dimen/padding_8dp"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:text="Mật khẩu cũ"
+                        android:textSize="@dimen/textSize"
+                        android:textColor="@color/black"
+                        android:layout_width="@dimen/profileWidth"
+                        android:layout_height="wrap_content" />
+
+                    <EditText
+                        android:hint="Nhập mật khẩu"
+                        android:inputType="textPassword"
+                        android:id="@+id/oldPassEdt"
+                        android:background="@color/transparent"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+
+                <CheckBox
+                    android:id="@+id/cbChangePassword"
+                    android:layout_marginRight="@dimen/padding_16dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginBottom="@dimen/padding_8dp"
+                    android:layout_marginTop="@dimen/padding_8dp"
+                    android:text="Đổi mật khẩu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <LinearLayout
+                    android:id="@+id/layoutChangePassword"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:gravity="center_vertical"
+                        android:background="@drawable/edt_bg_selector"
+                        android:paddingRight="@dimen/padding_16dp"
+                        android:paddingLeft="@dimen/padding_16dp"
+                        android:paddingBottom="@dimen/padding_8dp"
+                        android:paddingTop="@dimen/padding_8dp"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:text="Mật khẩu mới"
+                            android:textSize="@dimen/textSize"
+                            android:textColor="@color/black"
+                            android:layout_width="@dimen/profileWidth"
+                            android:layout_height="wrap_content" />
+
+                        <EditText
+                            android:hint="Nhập mật khẩu"
+                            android:inputType="textPassword"
+                            android:id="@+id/newPassEdt"
+                            android:background="@color/transparent"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:gravity="center_vertical"
+                        android:background="@drawable/edt_bg_selector"
+                        android:paddingRight="@dimen/padding_16dp"
+                        android:paddingLeft="@dimen/padding_16dp"
+                        android:paddingBottom="@dimen/padding_8dp"
+                        android:paddingTop="@dimen/padding_8dp"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:text="Nhập lại mật khẩu"
+                            android:textSize="@dimen/textSize"
+                            android:textColor="@color/black"
+                            android:layout_width="@dimen/profileWidth"
+                            android:layout_height="wrap_content" />
+
+                        <EditText
+                            android:hint="Nhập mật khẩu"
+                            android:inputType="textPassword"
+                            android:id="@+id/repeatNewPassEdt"
+                            android:background="@color/transparent"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <Button
+                    android:layout_marginTop="32dp"
+                    android:background="@color/colorPrimary"
+                    android:textColor="@color/white"
+                    android:id="@+id/updateProfile"
+                    android:textStyle="bold"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Cập nhật thông tin"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</android.support.v4.widget.NestedScrollView>

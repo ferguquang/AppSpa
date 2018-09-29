@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <include layout="@layout/toolbar_base"/>
+
+        <LinearLayout
+            android:paddingRight="@dimen/padding_16dp"
+            android:paddingLeft="@dimen/padding_16dp"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:minHeight="@dimen/sizeFormTextInput"
+                android:orientation="horizontal"
+                android:paddingTop="8dp">
+
+                <com.ngo.ducquang.appspa.base.CustomEditText
+                    android:id="@+id/userNameEdt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Tên đăng nhập"
+                    android:textSize="@dimen/textSize"/>
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:minHeight="@dimen/sizeFormTextInput"
+                android:orientation="horizontal"
+                android:paddingTop="8dp">
+
+                <com.ngo.ducquang.appspa.base.CustomEditText
+                    android:id="@+id/fullNameEdt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Tên đầy đủ"
+                    android:textSize="@dimen/textSize"/>
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:minHeight="@dimen/sizeFormTextInput"
+                android:orientation="horizontal"
+                android:paddingTop="8dp">
+
+                <com.ngo.ducquang.appspa.base.CustomEditText
+                    android:id="@+id/phoneEdt"
+                    android:inputType="number"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Số điện thoại"
+                    android:textSize="@dimen/textSize"/>
+
+            </android.support.design.widget.TextInputLayout>
+
+            <LinearLayout
+                android:visibility="gone"
+                android:id="@+id/categorylayout"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/textSize"
+                    android:layout_marginTop="@dimen/margin_16dp"
+                    android:text="Dịch vụ của cửa hàng"
+                    android:layout_marginBottom="@dimen/margin_8dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                </android.support.v7.widget.RecyclerView>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:minHeight="@dimen/sizeFormTextInput"
+                    android:orientation="horizontal"
+                    android:paddingTop="8dp">
+
+                    <com.ngo.ducquang.appspa.base.CustomEditText
+                        android:id="@+id/describeEdt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Mô tả"
+                        android:textSize="@dimen/textSize"/>
+
+                </android.support.design.widget.TextInputLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:paddingBottom="@dimen/padding_8dp"
+                android:paddingTop="@dimen/padding_8dp"
+                android:gravity="center_vertical"
+                android:background="@drawable/edt_bg_selector"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/sizeFormTextInput">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:textSize="@dimen/textSize"
+                        android:textColor="@color/black"
+                        android:text="Tỉnh/Thành phố:"
+                        android:layout_width="@dimen/profileWidth"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:text="Chọn Tỉnh/Thành phố"
+                        android:textSize="@dimen/textSize"
+                        android:textColor="@color/black"
+                        android:id="@+id/valueProvince"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:paddingBottom="@dimen/padding_8dp"
+                android:paddingTop="@dimen/padding_8dp"
+                android:gravity="center_vertical"
+                android:background="@drawable/edt_bg_selector"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/sizeFormTextInput">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:textSize="@dimen/textSize"
+                        android:textColor="@color/black"
+                        android:text="Quận/Huyện:"
+                        android:layout_width="@dimen/profileWidth"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:text="Chọn Quận/Huyện"
+                        android:textSize="@dimen/textSize"
+                        android:textColor="@color/black"
+                        android:id="@+id/valueDistrict"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:minHeight="@dimen/sizeFormTextInput"
+                android:orientation="horizontal"
+                android:paddingTop="8dp">
+
+                <com.ngo.ducquang.appspa.base.CustomEditText
+                    android:id="@+id/addressEdt"
+                    android:inputType="textEmailAddress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Địa chỉ"
+                    android:textSize="@dimen/textSize"/>
+
+            </android.support.design.widget.TextInputLayout>
+
+            <LinearLayout
+                android:id="@+id/llChooseDate"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/sizeForm"
+                android:layout_weight="10"
+                android:background="@drawable/edt_bg_selector"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="4"
+                    android:text="Ngày sinh: "
+                    android:textColor="@color/colorIconDongLV"
+                    android:textSize="@dimen/textSize"/>
+
+                <TextView
+                    android:textColor="@color/black"
+                    android:id="@+id/birthdayEdt"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/size_img_margin_right"
+                    android:layout_weight="5"
+                    android:textSize="@dimen/textSize"/>
+
+                <ImageView
+                    android:layout_width="@dimen/size_img"
+                    android:layout_height="@dimen/size_img"
+                    android:layout_marginRight="@dimen/size_img_margin_right"
+                    android:layout_weight="0"
+                    app:srcCompat="@drawable/icon_asset_date_editor"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:gravity="center_vertical"
+                android:background="@drawable/edt_bg_selector"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/sizeForm">
+
+                <TextView
+                    android:text="Giới tính"
+                    android:textSize="@dimen/textSize"
+                    android:layout_width="@dimen/profileWidth"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:textColor="@color/black"
+                    android:id="@+id/genderEdt"
+                    android:background="@color/transparent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:minHeight="@dimen/sizeFormTextInput"
+                android:orientation="horizontal"
+                android:paddingTop="8dp">
+
+                <com.ngo.ducquang.appspa.base.CustomEditText
+                    android:id="@+id/emailEdt"
+                    android:inputType="textEmailAddress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Địa chỉ email"
+                    android:textSize="@dimen/textSize"/>
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:minHeight="@dimen/sizeFormTextInput"
+                android:orientation="horizontal"
+                android:paddingTop="8dp">
+
+                <com.ngo.ducquang.appspa.base.CustomEditText
+                    android:inputType="textPassword"
+                    android:id="@+id/passwordEdt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Mật khẩu"
+                    android:textSize="@dimen/textSize"/>
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:minHeight="@dimen/sizeFormTextInput"
+                android:orientation="horizontal"
+                android:paddingTop="8dp">
+
+                <com.ngo.ducquang.appspa.base.CustomEditText
+                    android:id="@+id/repeatPasswordEdt"
+                    android:inputType="textPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Nhập lại mật khẩu"
+                    android:textSize="@dimen/textSize"/>
+
+            </android.support.design.widget.TextInputLayout>
+
+        </LinearLayout>
+
+        <Button
+            android:layout_marginTop="32dp"
+            android:background="@color/colorPrimary"
+            android:textColor="@color/white"
+            android:id="@+id/register"
+            android:textStyle="bold"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Đăng kí"/>
+
+    </LinearLayout>
+
+</android.support.v4.widget.NestedScrollView>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:id="@+id/relativeLayoutEmpty">
+
+    <LinearLayout
+        android:id="@+id/llContent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/imgEmpty"
+            android:layout_width="@dimen/size_img_layout_empty"
+            android:layout_height="@dimen/size_img_layout_empty"
+            android:tint="@color/gray"
+            app:srcCompat="@drawable/icon_face_empty"/>
+
+        <TextView
+            android:id="@+id/textEmpty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="@dimen/padding_text_layout_empty"
+            android:text="Nội dung trống!!!"
+            android:textColor="@color/gray"
+            android:textSize="@dimen/text_size_content_layout_empty"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

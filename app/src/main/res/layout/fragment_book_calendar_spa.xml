@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include layout="@layout/toolbar_base"/>
+
+        <LinearLayout
+            android:paddingLeft="@dimen/padding_16dp"
+            android:paddingRight="@dimen/padding_16dp"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:textColor="@color/black"
+                android:textSize="@dimen/textSize"
+                android:layout_marginTop="@dimen/margin_16dp"
+                android:text="Mời bạn lựa chọn dịch vụ của cửa hàng"
+                android:layout_marginBottom="@dimen/margin_8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </android.support.v7.widget.RecyclerView>
+
+            <LinearLayout
+                android:id="@+id/llStartDate"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/sizeForm"
+                android:layout_weight="10"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="4"
+                    android:text="Đặt vào lúc: "
+                    android:textColor="@color/colorIconDongLV"
+                    android:textSize="@dimen/textSize"/>
+
+                <TextView
+                    android:id="@+id/startDate"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/size_img_margin_right"
+                    android:layout_weight="5"
+                    android:gravity="right"
+                    android:textSize="@dimen/textSize"/>
+
+                <ImageView
+                    android:layout_width="@dimen/size_img"
+                    android:layout_height="@dimen/size_img"
+                    android:layout_weight="0"
+                    app:srcCompat="@drawable/icon_date_time"/>
+
+            </LinearLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/relatedJobLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:minHeight="@dimen/sizeFormTextInput"
+                android:orientation="horizontal"
+                android:paddingTop="8dp">
+
+                <EditText
+                    android:id="@+id/noteEdt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Lưu ý"
+                    android:maxLines="6"
+                    android:textSize="@dimen/textSize"/>
+
+            </android.support.design.widget.TextInputLayout>
+
+        </LinearLayout>
+
+        <Button
+            android:layout_marginTop="32dp"
+            android:background="@color/colorPrimary"
+            android:textColor="@color/white"
+            android:id="@+id/book"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Đặt lịch"/>
+
+    </LinearLayout>
+
+</android.support.v4.widget.NestedScrollView>

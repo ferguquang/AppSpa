@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="mainLayoutMarginLeft">5dp</dimen> <!--4 to 9 main or mother layout-->
+    <dimen name="mainLayoutMarginRight">5dp</dimen> <!--4 to 9-->
+
+    <dimen name="filterHeight">35dp</dimen> <!--35 to 45 all/online/offline/unread...-->
+    <dimen name="otherHeight">35dp</dimen> <!--35 to 45-->
+
+    <dimen name="blankHeight">5dp
+    </dimen> <!--5 to 9 (if need distance and color is gray or name="disable"<==>#cccccc or 7 AoE I) maybe no need if list view or grid view-->
+
+    <dimen name="heightItem">54dp</dimen> <!--44 to 60-->
+    <dimen name="iconSizeItem">40dp</dimen> <!--less than itemHeight-->
+    <dimen name="functionSizeItem">35dp</dimen> <!--less than itemHeight same itemIconSize-->
+    <dimen name="titleItem">16sp</dimen>
+    <dimen name="statusItem">13sp</dimen>
+
+    <dimen name="floatActionButtonSize">54dp</dimen> <!--mini 40 max 60-->
+    <dimen name="floatActionButtonIconSize">24dp</dimen>
+    <dimen name="floatActionButtonMarginRight">14dp
+    </dimen> <!--between with device border ~ 16dp: 10 to 20 maybe ok-->
+    <dimen name="floatActionButtonMarginBottomWithoutAHBottomNavigation">12dp
+    </dimen> <!--between with device border ~ 16dp: 10 to 20 maybe ok-->
+    <dimen name="floatActionButtonMarginBottomWithAHBottomNavigation">70dp</dimen>
+
+    <dimen name="ahBottomNavigationHeight">54dp</dimen> <!--45 to 60-->
+    <!--core end-->
+
+    <!--general start-->
+    <dimen name="textSize">16sp</dimen>
+    <dimen name="textSizeGigantic">22sp</dimen>
+    <dimen name="textSizeHuge">18sp</dimen>
+    <dimen name="textSizeLarge">16sp</dimen>
+    <dimen name="textSizeMedium">15sp</dimen>
+    <dimen name="textSizeSmall">14sp</dimen>
+    <dimen name="textSizeTitle">16sp</dimen>
+
+    <dimen name="maximumImageWidth">435dp</dimen>
+    <dimen name="maximumImageHeight">435dp</dimen>
+    <dimen name="minimumImageHeight">35dp</dimen>
+    <dimen name="minimumImageWidth">35dp</dimen>
+    <dimen name="imageWidth">235dp</dimen>
+    <dimen name="imageHeight">235dp</dimen>
+
+    <dimen name="callWaveSize">175dp</dimen>
+
+    <dimen name="avatar">48dp</dimen>
+    <dimen name="avatarProfile">40dp</dimen>
+    <dimen name="avatarProfileBig">100dp</dimen>
+
+    <dimen name="minimumEditText">25dp</dimen>
+    <!--general end-->
+
+    <dimen name="title">20sp</dimen>
+    <dimen name="hint">15sp</dimen>
+    <dimen name="content">16sp</dimen>
+
+    <dimen name="distanceAvatarAndText">16dp</dimen>
+
+    <dimen name="floatingActionButtonMargin">16dp</dimen>
+    <dimen name="bottomNavigationHeight">54dp</dimen>
+
+    <dimen name="padding">7dp</dimen>
+    <dimen name="margin">0dp</dimen>
+
+    <dimen name="profileWidth">135dp</dimen>
+
+    <dimen name="sizeShowHidePass">30dp</dimen>
+
+    <dimen name="heightProfileItem">54dp</dimen>
+    <dimen name="paddingProfileItem">8dp</dimen>
+    <dimen name="sizeProfileList">16dp</dimen>
+
+    <dimen name="marginFunction">15dp</dimen>
+    <dimen name="sizeUpdateProfile">14dp</dimen>
+
+    <dimen name="sizeBottomSheetStorage">24dp</dimen>
+    <dimen name="paddingIconBottomSheet">8dp</dimen>
+    <dimen name="paddingNameBottomSheet">8dp</dimen>
+    <dimen name="marginLeftNameBottomSheet">32dp</dimen>
+    <dimen name="heightMenuDocument">58dp</dimen>
+
+    <dimen name="sizeTextDocumentMenu">16sp</dimen>
+
+    <dimen name="smallIconEdt">18dp</dimen>
+    <dimen name="distanceBetween2Edt">16dp</dimen>
+    <dimen name="marginLeftRightLogin">15dp</dimen>
+
+    <dimen name="maxNameWidthGridView">100dp</dimen>
+
+    <dimen name="textSizeEdt">16sp</dimen>
+    <dimen name="marginSmallIcon">8dp</dimen>
+    <dimen name="paddingEdt">8dp</dimen>
+
+    <dimen name="marginProfile">15dp</dimen>
+    <dimen name="paddingChangePass">16dp</dimen>
+
+    <dimen name="marginSearchFragment">16dp</dimen>
+    <dimen name="iconSearchFragment">15dp</dimen>
+
+    <dimen name="iconBottomSheetQuick">30dp</dimen>
+
+    <dimen name="paddingSearchItem">8dp</dimen>
+
+    <dimen name="storageListFragmentHeight">400dp</dimen>
+
+    <dimen name="marginSlideMenuDocpro">15dp</dimen>
+    <dimen name="sizeSearchStorage">16dp</dimen>
+    <dimen name="heightItemSearchFragment">45dp</dimen>
+    <dimen name="iconCheckBoxSort">18dp</dimen>
+    <dimen name="iconBottomSheetFloating">45dp</dimen>
+    <dimen name="sizeFloating">14sp</dimen>
+    <dimen name="marginFolderTextFloating">15dp</dimen>
+    <dimen name="avatarContact">48dp</dimen>
+    <dimen name="sizeCallVideoCall">20dp</dimen>
+    <dimen name="statusContact">12sp</dimen>
+
+    <dimen name="chipSearchIcon">12sp</dimen>
+    <dimen name="searchItem">6dp</dimen>
+    <dimen name="marginLeftSearchItem">10dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="avatarContactDetail">64dp</dimen>
+    <dimen name="marginAvatarContactDetail">30dp</dimen>
+    <dimen name="actionContactDetail">24dp</dimen>
+    <dimen name="marginContactDetail">20dp</dimen>
+    <dimen name="textSizeContactDetail">14sp</dimen>
+
+    <dimen name="avatarPeople">50dp</dimen>
+    <dimen name="avatarProjectMemberSize">20dp</dimen>
+    <dimen name="statusIconProjectSize">15dp</dimen>
+
+    <dimen name="marginPager">2dp</dimen>
+
+    <dimen name="iconShareScan">32dp</dimen>
+    <dimen name="shareScan">16sp</dimen>
+
+    <dimen name="heighItemOptionChat">60dp</dimen>
+    <dimen name="maxWidthScannerDetail">120dp</dimen>
+    <dimen name="textSizeScanner">16sp</dimen>
+    <dimen name="maxWidthScanner">90dp</dimen>
+    <dimen name="marginScannerDetail">15dp</dimen>
+
+    <dimen name="app_defaultsize_w">632.0dip</dimen>
+    <dimen name="app_defaultsize_h">598.0dip</dimen>
+    <dimen name="app_minimumsize_w">632.0dip</dimen>
+    <dimen name="app_minimumsize_h">598.0dip</dimen>
+    <dimen name="margin_padding_72">72dp</dimen>
+    <dimen name="dotsHeight">30dp</dimen>
+    <dimen name="dots_margin_bottom">20dp</dimen>
+    <dimen name="marginIntro">16dp</dimen>
+    <dimen name="sizeContentIntro">16sp</dimen>
+    <dimen name="sizeTitleIntro">22sp</dimen>
+    <dimen name="marginTopIntro">32dp</dimen>
+    <dimen name="marginBottomIntro">16dp</dimen>
+    <dimen name="heightSpace">120dp</dimen>
+    <dimen name="sizeBtnIntro">50dp</dimen>
+    <dimen name="sizeImageMainIntro">300dp</dimen>
+    <dimen name="marginNotifyItem">16dp</dimen>
+    <dimen name="marginLinkPreview">60dp</dimen>
+    <dimen name="marginTitleLink">8dp</dimen>
+    <dimen name="avatarChatSize">30dp</dimen>
+    <dimen name="iconDownload">24dp</dimen>
+    <dimen name="activity_margin">16dp</dimen>
+    <dimen name="thumbnailsPicture">80dp</dimen>
+    <dimen name="sizeGridViewPicture">120dp</dimen>
+    <dimen name="photos_list_spacing">2px</dimen>
+    <dimen name="withCustomerItem">100dp</dimen>
+    <dimen name="paddingCustomerItem">2dp</dimen>
+    <dimen name="marginLeftCustomerItem">8dp</dimen>
+
+    <dimen name="cardMargin">8dp</dimen>
+    <dimen name="cardCorner">4dp</dimen>
+    <dimen name="cardElevation">2dp</dimen>
+    <dimen name="cardPadding">4dp</dimen>
+    <dimen name="cardMarginTopBottom">4dp</dimen>
+    <dimen name="tilEdit">8dp</dimen>
+    <dimen name="widthIconTask">36dp</dimen>
+    <dimen name="marginLeftTaskItem">4dp</dimen>
+    <dimen name="textHintSize">16sp</dimen>
+    <dimen name="marginTTLLV">24dp</dimen>
+    <dimen name="marginVerticalTTLLV">8dp</dimen>
+
+    <dimen name="item_meeting_img">15dp</dimen>
+    <dimen name="padding_bottom_sheet_option">16dp</dimen>
+    <dimen name="paddingBusiness">10dp</dimen>
+    <dimen name="marginLeftItemUtilities">5dp</dimen>
+    <dimen name="marginHeaderHRM">14.456789dp</dimen>
+
+    <dimen name="sizeIconSelected">28dp</dimen>
+    <dimen name="textTitleSizeBook">16sp</dimen>
+    <dimen name="textTitleAsset">18sp</dimen>
+
+    <dimen name="imgItemAssign">24dp</dimen>
+    <dimen name="marginJobDetail">16dp</dimen>
+    <dimen name="marginItemJobDetail">8dp</dimen>
+    <dimen name="sizeAvatarJob">48dp</dimen>
+    <dimen name="sizeAvatarMiniJob">24dp</dimen>
+    <dimen name="sizeOption">24dp</dimen>
+    <dimen name="marginDialogAdd">10dp</dimen>
+    <dimen name="sizetextcheckboxeditoptionjob">10sp</dimen>
+    <dimen name="sizetext_sizebottomtext">9sp</dimen>
+
+
+    <dimen name="width_height_progress">50dp</dimen>
+    <dimen name="width_arc_background">3dp</dimen>
+    <dimen name="width_arc_primary">3dp</dimen>
+    <dimen name="text_size_progress">16sp</dimen>
+
+    <dimen name="padingRadio">4dp</dimen>
+    <dimen name="marginLeftRadio">16dp</dimen>
+    <dimen name="textSizeRadio">12sp</dimen>
+    <dimen name="sizeForm">60dp</dimen>
+    <dimen name="minWidthForm">100dp</dimen>
+    <dimen name="sizeFormTextInput">60dp</dimen>
+    <dimen name="size_img_margin_right">8dp</dimen>
+    <dimen name="size_img">16dp</dimen>
+    <dimen name="size_TextView1">11dp</dimen>
+    <dimen name="size_TextView2">16dp</dimen>
+
+    <dimen name="height_min_layout_empty">500dp</dimen>
+    <dimen name="size_img_layout_empty">24dp</dimen>
+    <dimen name="padding_text_layout_empty">5dp</dimen>
+    <dimen name="text_size_content_layout_empty">14sp</dimen>
+
+    <!-- for fsi group -->
+    <dimen name="width_min_date_birthday">60dp</dimen>
+    <dimen name="height_1px">1px</dimen>
+    <dimen name="height_1dp">1dp</dimen>
+    <dimen name="height_3dp">3dp</dimen>
+    <dimen name="height_distance_between_views_8dp">8dp</dimen>
+    <dimen name="height_distance_end_view_16dp">16dp</dimen>
+    <dimen name="height_fsi_group_project_header_80dp">80dp</dimen>
+    <dimen name="height_bar_chart_fsi_group">300dp</dimen>
+    <dimen name="height_layout_pie_chart">180dp</dimen>
+    <dimen name="height_footer_list_view">80dp</dimen>
+    <dimen name="height_footer_list_qlts">120dp</dimen>
+    <dimen name="height_text_background">8dp</dimen>
+    <dimen name="height_scroll_view_list_item_right_pie_chart_fsi_group">100dp</dimen>
+    <dimen name="sizeIconBook">16dp</dimen>
+    <dimen name="sizeIconHumanFSIGroup">10dp</dimen>
+    <dimen name="size_circle_color_project_item">15dp</dimen>
+    <dimen name="size_img_circle_doc_man">80dp</dimen>
+    <dimen name="size_img_center_circle_doc_man">16dp</dimen>
+    <dimen name="size_img_title_human_man">40dp</dimen>
+    <dimen name="size_img_item_book_list">54dp</dimen>
+    <dimen name="size_avatar_birthday_item">50dp</dimen>
+    <dimen name="size_progress_bar_wait">40dp</dimen>
+    <dimen name="margin_2dp">2dp</dimen>
+    <dimen name="margin_4dp">4dp</dimen>
+    <dimen name="margin_8dp">8dp</dimen>
+    <dimen name="margin_16dp">16dp</dimen>
+    <dimen name="marginLeftBusinessItem">5dp</dimen>
+    <dimen name="margin_side_bottom_bar_chart_bottom">16dp</dimen>
+    <dimen name="margin_side_left_bar_chart_bottom">6dp</dimen>
+    <dimen name="margin_side_bar_chart_right">18dp</dimen>
+    <dimen name="margin_img_title_human_man_right">16dp</dimen>
+    <dimen name="margin_icon_style_human_man_left">16dp</dimen>
+    <dimen name="margin_progress_bar_human_man_top">4dp</dimen>
+    <dimen name="margin_txt_see_more_left">8dp</dimen>
+    <dimen name="margin_txt_see_more_top">4dp</dimen>
+    <dimen name="margin_layout_pie_chart">8dp</dimen>
+    <dimen name="margin_line_between_item_10dp">10dp</dimen>
+    <dimen name="margin_avatar_birthday_item_right">20dp</dimen>
+    <dimen name="margin_scroll_view_list_right_pie_chart_top_fsi_group">16dp</dimen>
+    <dimen name="padding_4dp">4dp</dimen>
+    <dimen name="padding_8dp">8dp</dimen>
+    <dimen name="padding_16dp">16dp</dimen>
+    <dimen name="padding_22dp">22dp</dimen>
+    <dimen name="paddingBusinessItem">10dp</dimen>
+    <dimen name="padding_side_recycler_view_item_fsi_group">22dp</dimen>
+    <dimen name="textSizeBook">14sp</dimen>
+    <dimen name="text_size_title_bar_chart">16sp</dimen>
+    <dimen name="text_size_side_bar_chart">12sp</dimen>
+    <dimen name="text_size_title_recycler_view_item_fsi_group">12sp</dimen>
+    <dimen name="text_size_below_circle_doc_man_1">16sp</dimen>
+    <dimen name="text_size_below_circle_doc_man_2">12sp</dimen>
+    <dimen name="text_size_title_human_man">18sp</dimen>
+    <dimen name="text_size_total_employees">18sp</dimen>
+    <dimen name="text_size_style_human">12sp</dimen>
+    <dimen name="text_size_center_pie_chart">13sp</dimen>
+    <dimen name="text_size_see_more">12sp</dimen>
+    <dimen name="text_size_number_book_list">26sp</dimen>
+    <dimen name="text_size_content_book_list">13sp</dimen>
+    <dimen name="text_size_title_dialog_center_list">18sp</dimen>
+    <dimen name="text_size_name_human_birthday">16sp</dimen>
+    <dimen name="text_size_detail_human_birthday">14sp</dimen>
+    <dimen name="text_size_title_list_top_sellers">12sp</dimen>
+    <dimen name="text_size_title_fsi_group">18sp</dimen>
+
+    <!-- for human resource management -->
+    <dimen name="height_distance_between_views_10dp">10dp</dimen>
+    <dimen name="height_scroll_view_list_item_right_pie_chart">105dp</dimen>
+    <dimen name="height_scroll_bar">4dp</dimen>
+    <dimen name="margin_room_name_in_list_item">8dp</dimen>
+    <dimen name="margin_bar_chart_bottom">30dp</dimen>
+    <dimen name="margin_scroll_view_list_right_pie_chart_top">24dp</dimen>
+    <dimen name="marin_layout_asset">5dp</dimen>
+    <dimen name="marin_left_text_asset_5dp">5dp</dimen>
+    <dimen name="padding_1dp">1dp</dimen>
+    <dimen name="padding_2dp">2dp</dimen>
+    <dimen name="padding_pie_chart_left">28dp</dimen>
+    <dimen name="padding_pie_chart_right">12dp</dimen>
+    <dimen name="padding_pie_chart_bottom">4dp</dimen>
+    <dimen name="padding_list_item_right_pie_chart_left">1dp</dimen>
+    <dimen name="text_size_in_room_list_item">14sp</dimen>
+    <dimen name="textSizeMini">12sp</dimen>
+    <dimen name="radiusProgressbar">10dp</dimen>
+    <dimen name="radius_asset_status">14dp</dimen>
+    <dimen name="sizeMaleFemale">12dp</dimen>
+    <dimen name="sizeMaleFemaleAsset">12dp</dimen>
+    <dimen name="sizeView">10dp</dimen>
+    <dimen name="viewpagerSlide">250dp</dimen>
+
+    <!-- for borrow pay document -->
+    <dimen name="height_32dp">32dp</dimen>
+    <dimen name="height_button_at_bottom_layout">50dp</dimen>
+    <dimen name="margin_5dp">5dp</dimen>
+    <dimen name="margin_6dp">6dp</dimen>
+    <dimen name="margin_20dp">20dp</dimen>
+    <dimen name="margin_left_right_line_between_views_register_form_bp">10dp</dimen>
+    <dimen name="margin_top_text_size_in_edit_custom_view">8dp</dimen>
+    <dimen name="margin_right_text_size_in_edit_custom_view">16dp</dimen>
+    <dimen name="padding_5dp">5dp</dimen>
+    <dimen name="padding_10dp">10dp</dimen>
+    <dimen name="text_size_title_borrow_pay_doc_item">16sp</dimen>
+    <dimen name="text_size_title_manager_borrow_pay_doc">14sp</dimen>
+    <dimen name="radius_corner_in_card_view">14dp</dimen>
+    <dimen name="margin_12dp">12dp</dimen>
+    <dimen name="radius_view">5dp</dimen>
+</resources>
