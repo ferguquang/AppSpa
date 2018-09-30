@@ -49,6 +49,12 @@
             android:theme="@style/MyAppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize"/>
         <activity
+            android:name=".service.ServiceAdminActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyAppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"/>
+        <activity
             android:name=".userList.UserListActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
             android:screenOrientation="portrait"

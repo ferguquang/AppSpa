@@ -36,6 +36,7 @@ public class MainActivity extends BaseActivity implements SlideMenuFragment.Even
     public static final int NOTIFICATION = 3;
     public static final int BOOK_AT_HOME = 4;
     public static final int LIST_USER = 5;
+    public static final int LIST_SERVICE = 6;
 
     @BindView(R.id.drawerLayout) DrawerLayout drawerLayout;
     @BindView(R.id.leftDrawer) FrameLayout leftDrawer;
@@ -119,6 +120,7 @@ public class MainActivity extends BaseActivity implements SlideMenuFragment.Even
         dataList.add(new ModelItemMain(NOTIFICATION, "thông báo", "Thông báo", R.drawable.icon_notification));
         dataList.add(new ModelItemMain(BOOK_AT_HOME, "ĐẶT TẠI NHÀ", "Tại nhà", R.drawable.icon_notification));
         dataList.add(new ModelItemMain(LIST_USER, "danh sách khách hàng", "", R.drawable.icon_notification));
+        dataList.add(new ModelItemMain(LIST_SERVICE, "danh sách dịch vụ", "dịch vụ", R.drawable.icon_notification));
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         MainAdapter mainAdapter = new MainAdapter(dataList, getSupportFragmentManager(), this);

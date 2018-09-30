@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
+import android.view.View;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.ngo.ducquang.appspa.R;
@@ -14,11 +16,13 @@ import com.ngo.ducquang.appspa.base.PreferenceUtil;
 import com.ngo.ducquang.appspa.base.api.ApiService;
 import com.ngo.ducquang.appspa.base.view.TabPagerAdapter;
 import com.ngo.ducquang.appspa.base.view.TransformerFadeViewPager;
+import com.ngo.ducquang.appspa.book.BookCalendarSpaFragment;
 import com.ngo.ducquang.appspa.login.modelRegister.ResponseRegister;
 import com.ngo.ducquang.appspa.storageList.StorageAdapter;
 import com.ngo.ducquang.appspa.storageList.model.UserStore;
 import com.ngo.ducquang.appspa.storageList.storeDetail.categories.CategoriesFragment;
 import com.ngo.ducquang.appspa.storageList.storeDetail.commentRating.CommentRatingFragment;
+import com.ngo.ducquang.appspa.storageList.storeDetail.model.DataStoreDetail;
 import com.ngo.ducquang.appspa.storageList.storeDetail.model.ResponseStoreDetail;
 
 import java.util.HashMap;
@@ -32,13 +36,15 @@ import retrofit2.Response;
  * Created by ducqu on 9/21/2018.
  */
 
-public class StoreDetailActivity extends BaseActivity
-{
+public class StoreDetailActivity extends BaseActivity implements View.OnClickListener {
     @BindView(R.id.tabLayout) TabLayout tabLayout;
     @BindView(R.id.viewPager) ViewPager viewPager;
     @BindView(R.id.name) TextView name;
     @BindView(R.id.address) TextView address;
     @BindView(R.id.phone) TextView phone;
+
+    @BindView(R.id.bookCalendar) TextView bookCalendar;
+    @BindView(R.id.ratingBar) RatingBar ratingBar;
 
     private TabPagerAdapter adapter;
 
@@ -69,10 +75,11 @@ public class StoreDetailActivity extends BaseActivity
             {
                 if (response.body().getStatus() == 1)
                 {
-                    UserStore userStore = response.body().getData().getUserStore();
-                    setView(userStore);
-                    hideLoadingDialog();
+                    DataStoreDetail dataStoreDetail = response.body().getData();
+                    setView(dataStoreDetail);
                 }
+
+                hideLoadingDialog();
             }
 
             @Override
@@ -80,17 +87,25 @@ public class StoreDetailActivity extends BaseActivity
                 LogManager.tagDefault().error();
             }
         });
+
+        bookCalendar.setOnClickListener(this);
     }
 
-    private void setView(UserStore userStore)
+    private void setView(DataStoreDetail dataStoreDetail)
     {
+        UserStore userStore = dataStoreDetail.getUserStore();
         name.setText(userStore.getName());
         address.setText("Địa chỉ: " + userStore.getAddress() + " - " + userStore.getDistrictName() + " - " + userStore.getProvinceName());
         phone.setText("Số điện thoại: " + userStore.getPhone());
 
+        ratingBar.setRating(dataStoreDetail.getRatingAverage());
+
         categoriesFragment = new CategoriesFragment();
         categoriesFragment.setCategoryList(userStore.getCategories());
+
         commentRatingFragment = new CommentRatingFragment();
+        commentRatingFragment.setRating(dataStoreDetail.isRating());
+        commentRatingFragment.setComment(dataStoreDetail.getCmt());
 
         adapter = new TabPagerAdapter(getSupportFragmentManager());
         adapter.setContext(getApplicationContext());
@@ -107,5 +122,17 @@ public class StoreDetailActivity extends BaseActivity
     @Override
     protected void initMenu(Menu menu)
     {
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId())
+        {
+            case R.id.bookCalendar:
+            {
+                addFragment(new BookCalendarSpaFragment(), null, true);
+                break;
+            }
+        }
     }
 }

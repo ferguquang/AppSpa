@@ -323,8 +323,6 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
                 params.put("Email", email);
                 params.put("Gender", gender);
                 params.put("Birthday", birthday);
-                params.put("PasswordOld", oldPass);
-
                 params.put("IDProvince", idProvince + "");
                 params.put("IDDistrict", idDistrict + "");
 
@@ -350,6 +348,7 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
                 if (type == TYPE_USER)
                 {
                     params.put("ID", userApp.getiDUser() + "");
+                    params.put("PasswordOld", oldPass);
 
                     ApiService.Factory.getInstance().updateProfile(params).enqueue(new Callback<ResponseRegister>()
                     {
@@ -392,6 +391,8 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
 
                     params.put("Describe", describe);
                     params.put("IDCategory", iDCategory);
+                    params.put("PasswordAdmin", oldPass);
+                    params.put("ID", userStore.getiDUser() + "");
 
                     showLoadingDialog();
                     ApiService.Factory.getInstance().updateStore(params).enqueue(new Callback<ResponseCreateStore>()
@@ -402,10 +403,10 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
                             Message message = response.body().getMessages().get(0);
                             if (response.body().getStatus() == 1)
                             {
-                                getActivity().onBackPressed();
                                 DataCreateStore dataCreateStore = response.body().getData();
                                 storageAdapter.updateItem(dataCreateStore.getUserStore(), position);
                                 showToast(message.getText(), GlobalVariables.TOAST_SUCCESS);
+                                getActivity().onBackPressed();
                             }
                             else
                             {

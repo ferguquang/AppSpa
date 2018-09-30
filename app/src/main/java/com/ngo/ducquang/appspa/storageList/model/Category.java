@@ -14,6 +14,9 @@ public class Category {
     @SerializedName("Name")
     @Expose
     private String name;
+    @SerializedName("Describe")
+    @Expose
+    private String describe;
 
     private boolean isChecked = false;
 
@@ -39,5 +42,13 @@ public class Category {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getDescribe() {
+        return describe;
+    }
+
+    public void setDescribe(String describe) {
+        this.describe = describe;
     }
 }

@@ -53,4 +53,5 @@
 
     <color name="colorIconMain">#9DD2D8</color>
     <color name="colorBackgroundList">#c1f4fa</color>
+    <color name="workTodo">#cccccc</color>
 </resources>

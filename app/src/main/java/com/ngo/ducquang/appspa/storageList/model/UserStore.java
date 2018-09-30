@@ -10,9 +10,9 @@ import java.util.List;
  */
 
 public class UserStore {
-    @SerializedName("IDUser")
+    @SerializedName("IDStore")
     @Expose
-    private int iDUser;
+    private int iDStore;
     @SerializedName("Name")
     @Expose
     private String name;
@@ -63,11 +63,11 @@ public class UserStore {
     private List<Category> categories = null;
 
     public int getiDUser() {
-        return iDUser;
+        return iDStore;
     }
 
     public void setiDUser(int iDUser) {
-        this.iDUser = iDUser;
+        this.iDStore = iDUser;
     }
 
     public String getName() {

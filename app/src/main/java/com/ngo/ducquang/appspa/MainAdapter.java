@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.ngo.ducquang.appspa.book.BookCalendarAtHome;
 import com.ngo.ducquang.appspa.book.BookCalendarSpaFragment;
 import com.ngo.ducquang.appspa.notification.NotificationActivity;
+import com.ngo.ducquang.appspa.service.ServiceAdminActivity;
 import com.ngo.ducquang.appspa.storageList.StoreActivity;
 import com.ngo.ducquang.appspa.userList.UserListActivity;
 
@@ -106,6 +107,11 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 case MainActivity.LIST_USER:
                 {
                     context.startActivity(UserListActivity.class, null, false);
+                    break;
+                }
+                case MainActivity.LIST_SERVICE:
+                {
+                    context.startActivity(ServiceAdminActivity.class, null, false);
                     break;
                 }
             }

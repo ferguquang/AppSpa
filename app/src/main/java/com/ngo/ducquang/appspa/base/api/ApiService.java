@@ -5,6 +5,8 @@ import com.ngo.ducquang.appspa.base.getAddress.ResponseGetAddress;
 import com.ngo.ducquang.appspa.base.reponseMessage.ResponseMessage;
 import com.ngo.ducquang.appspa.login.modelLogin.ResponseLogin;
 import com.ngo.ducquang.appspa.login.modelRegister.ResponseRegister;
+import com.ngo.ducquang.appspa.service.model.ResponseCreateService;
+import com.ngo.ducquang.appspa.service.model.ResponseServiceAdmin;
 import com.ngo.ducquang.appspa.slideMenu.logout.ResponseLogout;
 import com.ngo.ducquang.appspa.storageList.createStore.model.ResponseCreateStore;
 import com.ngo.ducquang.appspa.storageList.model.ResponseStoreList;
@@ -91,6 +93,19 @@ public interface ApiService
     @POST("store/active")
     @FormUrlEncoded
     Call<ResponseMessage> activeOrUnActiveStore(@FieldMap Map<String, String> params);
+
+    // service: //todo for admin
+    @POST("manager/services")
+    @FormUrlEncoded
+    Call<ResponseServiceAdmin> getListServiceAdmin(@Field("Token") String token);
+
+    @POST("manager/createService")
+    @FormUrlEncoded
+    Call<ResponseCreateService> createService(@FieldMap Map<String, String> params);
+
+    @POST("manager/updateService")
+    @FormUrlEncoded
+    Call<ResponseCreateService> updateService(@FieldMap Map<String, String> params);
 
     class Factory
     {
