@@ -10,6 +10,8 @@ import com.ngo.ducquang.appspa.service.model.ResponseServiceAdmin;
 import com.ngo.ducquang.appspa.slideMenu.logout.ResponseLogout;
 import com.ngo.ducquang.appspa.storageList.createStore.model.ResponseCreateStore;
 import com.ngo.ducquang.appspa.storageList.model.ResponseStoreList;
+import com.ngo.ducquang.appspa.storageList.storeDetail.model.ResponseComment;
+import com.ngo.ducquang.appspa.storageList.storeDetail.model.ResponseRate;
 import com.ngo.ducquang.appspa.storageList.storeDetail.model.ResponseStoreDetail;
 import com.ngo.ducquang.appspa.userList.model.ResponseGetListUser;
 import com.ngo.ducquang.appspa.userList.model.ResponseUserDetail;
@@ -33,6 +35,7 @@ import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.HTTP;
 import retrofit2.http.POST;
 
 /**
@@ -63,7 +66,7 @@ public interface ApiService
 
     @POST("user/detail")
     @FormUrlEncoded
-    Call<ResponseUserDetail> userDetail(@FieldMap Map<String, String> params); //todo
+    Call<ResponseUserDetail> userDetail(@FieldMap Map<String, String> params);
 
     @POST("BorrowEquip/approveindex")
     @FormUrlEncoded
@@ -94,6 +97,18 @@ public interface ApiService
     @FormUrlEncoded
     Call<ResponseMessage> activeOrUnActiveStore(@FieldMap Map<String, String> params);
 
+    @POST("store/rate")
+    @FormUrlEncoded
+    Call<ResponseRate> rateStore(@FieldMap Map<String, String> params);
+
+    @POST("store/deleteRate")
+    @FormUrlEncoded
+    Call<ResponseRate> deleteRateStore(@FieldMap Map<String, String> params); //todo
+
+    @POST("store/comment")
+    @FormUrlEncoded
+    Call<ResponseComment> commentStore(@FieldMap Map<String, String> params);//todo
+
     // service: //todo for admin
     @POST("manager/services")
     @FormUrlEncoded
@@ -106,6 +121,10 @@ public interface ApiService
     @POST("manager/updateService")
     @FormUrlEncoded
     Call<ResponseCreateService> updateService(@FieldMap Map<String, String> params);
+
+    @FormUrlEncoded
+    @HTTP(method = "DELETE", path = "manager/deleteService", hasBody = true)
+    Call<ResponseMessage> deleteService(@Field("Token") String token, @Field("ID") int idService);
 
     class Factory
     {

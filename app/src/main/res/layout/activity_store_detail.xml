@@ -1,120 +1,199 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <include layout="@layout/toolbar_base"/>
-
-    <LinearLayout
-        android:gravity="center"
-        android:orientation="vertical"
-        android:background="@color/white"
-        android:padding="16dp"
+    <android.support.design.widget.AppBarLayout
+        android:fitsSystemWindows="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/name"
-            android:layout_marginTop="@dimen/margin_16dp"
-            android:layout_marginBottom="@dimen/margin_8dp"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:textColor="@color/black"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:id="@+id/address"
-            android:paddingRight="@dimen/padding_16dp"
-            android:paddingLeft="@dimen/padding_16dp"
-            android:paddingBottom="@dimen/padding_8dp"
-            android:paddingTop="@dimen/padding_8dp"
-            android:textSize="@dimen/textSize"
-            android:textColor="@color/black"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:id="@+id/phone"
-            android:textColor="@color/black"
-            android:textSize="@dimen/textSize"
-            android:paddingRight="@dimen/padding_16dp"
-            android:paddingLeft="@dimen/padding_16dp"
-            android:paddingBottom="@dimen/padding_8dp"
-            android:paddingTop="@dimen/padding_8dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <android.support.v7.widget.CardView
-            app:cardCornerRadius="16dp"
-            app:cardBackgroundColor="@color/colorPrimary"
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:fitsSystemWindows="true"
+            app:layout_scrollFlags="exitUntilCollapsed|scroll"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/bookCalendar"
-                android:gravity="center"
-                android:paddingTop="@dimen/padding_16dp"
-                android:paddingBottom="@dimen/padding_16dp"
-                android:text="ĐẶT LỊCH NGAY"
-                android:textStyle="bold"
-                android:textColor="@color/white"
+            <LinearLayout
+                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content">
 
-        </android.support.v7.widget.CardView>
+                <include layout="@layout/toolbar_base"/>
 
-        <LinearLayout
-            android:id="@+id/lnRatingJob"
-            android:gravity="center"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp"
-            android:paddingBottom="4dp"
-            android:paddingTop="4dp"
-            android:background="@drawable/background_discuss_text_view_cycle"
-            android:layout_width="match_parent"
-            android:layout_height="24dp">
+                <LinearLayout
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:background="@color/white"
+                    android:paddingBottom="@dimen/padding_8dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-            <RatingBar
-                style="?android:attr/ratingBarStyleSmall"
-                android:isIndicator="false"
-                android:id="@+id/ratingBar"
-                android:numStars="5"
-                android:rating="2.28"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                    <TextView
+                        android:id="@+id/name"
+                        android:layout_marginTop="@dimen/margin_8dp"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/black"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
 
-        </LinearLayout>
+                    <LinearLayout
+                        android:layout_marginTop="@dimen/margin_16dp"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:text="Đánh giá của cửa hàng: "
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                        <LinearLayout
+                            android:id="@+id/lnRatingJob"
+                            android:gravity="center"
+                            android:paddingLeft="8dp"
+                            android:paddingRight="8dp"
+                            android:paddingBottom="4dp"
+                            android:paddingTop="4dp"
+                            android:background="@drawable/background_discuss_text_view_cycle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="24dp">
+
+                            <RatingBar
+                                style="?android:attr/ratingBarStyleSmall"
+                                android:isIndicator="false"
+                                android:id="@+id/ratingBar"
+                                android:numStars="5"
+                                android:rating="2.28"
+                                android:stepSize="0.5"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/address"
+                        android:paddingRight="@dimen/padding_16dp"
+                        android:paddingLeft="@dimen/padding_16dp"
+                        android:paddingTop="@dimen/padding_8dp"
+                        android:textSize="@dimen/textSize"
+                        android:textColor="@color/black"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:id="@+id/phone"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/textSize"
+                        android:paddingRight="@dimen/padding_16dp"
+                        android:paddingLeft="@dimen/padding_16dp"
+                        android:paddingBottom="@dimen/padding_8dp"
+                        android:paddingTop="@dimen/padding_8dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                    <android.support.v7.widget.CardView
+                        app:cardCornerRadius="16dp"
+                        android:layout_marginRight="48dp"
+                        android:layout_marginLeft="48dp"
+                        app:cardBackgroundColor="@color/colorPrimary"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/bookCalendar"
+                            android:gravity="center"
+                            android:paddingTop="@dimen/padding_8dp"
+                            android:paddingBottom="@dimen/padding_8dp"
+                            android:text="ĐẶT LỊCH NGAY"
+                            android:textStyle="bold"
+                            android:textColor="@color/white"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+
+                    </android.support.v7.widget.CardView>
+
+                    <LinearLayout
+                        android:layout_marginTop="@dimen/padding_8dp"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:text="Đánh giá của tôi: "
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                        <LinearLayout
+                            android:gravity="center"
+                            android:paddingLeft="8dp"
+                            android:paddingRight="8dp"
+                            android:paddingBottom="4dp"
+                            android:paddingTop="4dp"
+                            android:background="@drawable/background_discuss_text_view_cycle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="24dp">
+
+                            <RatingBar
+                                style="?android:attr/ratingBarStyleSmall"
+                                android:isIndicator="false"
+                                android:id="@+id/ratingMe"
+                                android:numStars="5"
+                                android:rating="2.28"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
 
 
-    </LinearLayout>
+                </LinearLayout>
 
-    <RelativeLayout
+            </LinearLayout>
+
+        </android.support.design.widget.CollapsingToolbarLayout>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <FrameLayout
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.design.widget.TabLayout
-            android:id="@+id/tabLayout"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:elevation="@dimen/height_3dp"
-            android:minHeight="?attr/actionBarSize"
-            app:tabGravity="fill"
-            app:tabIndicatorHeight="@dimen/height_3dp"
-            app:tabMode="fixed"
-            app:tabSelectedTextColor="@color/colorPrimary"
-            app:tabTextAppearance="@style/TabLayoutTextStyle"
-            app:tabTextColor="@color/gray"/>
+            android:layout_height="match_parent">
 
-        <android.support.v4.view.ViewPager
-            android:id="@+id/viewPager"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/tabLayout"/>
+            <android.support.design.widget.TabLayout
+                android:id="@+id/tabLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:elevation="@dimen/height_3dp"
+                android:minHeight="?attr/actionBarSize"
+                app:tabGravity="fill"
+                app:tabIndicatorHeight="@dimen/height_3dp"
+                app:tabMode="fixed"
+                app:tabSelectedTextColor="@color/colorPrimary"
+                app:tabTextAppearance="@style/TabLayoutTextStyle"
+                app:tabTextColor="@color/gray"/>
 
-    </RelativeLayout>
+            <android.support.v4.view.ViewPager
+                android:id="@+id/viewPager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/tabLayout"/>
 
-</LinearLayout>
+        </RelativeLayout>
+
+    </FrameLayout>
+
+</android.support.design.widget.CoordinatorLayout>

@@ -101,7 +101,7 @@ public class BookCalendarSpaFragment extends BaseFragment implements View.OnClic
             }
             case R.id.llStartDate:
             {
-                SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+                SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
                 new SlideDateTimePicker.Builder(getFragmentManager())
                         .setListener(new SlideDateTimeListener() {
                             @Override

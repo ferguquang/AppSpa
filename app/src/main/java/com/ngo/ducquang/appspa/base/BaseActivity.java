@@ -70,6 +70,11 @@ public abstract class BaseActivity extends AppCompatActivity
     @Override
     protected void onStart() {
         super.onStart();
+
+        if (!ServiceManager.isMyServiceRunning(ServiceManager.class, getBaseContext()))
+        {
+            ServiceManager.startService(getBaseContext());
+        }
     }
 
     @Override

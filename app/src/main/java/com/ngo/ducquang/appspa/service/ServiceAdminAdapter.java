@@ -33,7 +33,15 @@ public class ServiceAdminAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     private Context context;
     private List<Category> dataList;
-    FragmentManager fragmentManager;
+    private FragmentManager fragmentManager;
+    private boolean inDetail = false;
+
+    public ServiceAdminAdapter(Context context, List<Category> dataList, FragmentManager fragmentManager, boolean inDetail) {
+        this.context = context;
+        this.dataList = dataList;
+        this.fragmentManager = fragmentManager;
+        this.inDetail = inDetail;
+    }
 
     public ServiceAdminAdapter(Context context, List<Category> dataList, FragmentManager fragmentManager) {
         this.context = context;
@@ -126,6 +134,10 @@ public class ServiceAdminAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         {
             name.setText(model.getName());
             describe.setText(model.getDescribe());
+            if (inDetail)
+            {
+                imgOption.setVisibility(View.GONE);
+            }
         }
     }
 

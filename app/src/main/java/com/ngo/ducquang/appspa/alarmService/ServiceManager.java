@@ -1,5 +1,6 @@
 package com.ngo.ducquang.appspa.alarmService;
 
+import android.app.ActivityManager;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -59,5 +60,17 @@ public class ServiceManager extends Service
     {
         Intent i = new Intent(context, ServiceManager.class);
         context.stopService(i);
+    }
+
+    public static boolean isMyServiceRunning(Class<?> serviceClass, Context context)
+    {
+        ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE))
+        {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
     }
 }

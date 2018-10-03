@@ -1,6 +1,5 @@
 package com.ngo.ducquang.appspa.storageList.storeDetail;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -17,11 +16,12 @@ import com.ngo.ducquang.appspa.base.api.ApiService;
 import com.ngo.ducquang.appspa.base.view.TabPagerAdapter;
 import com.ngo.ducquang.appspa.base.view.TransformerFadeViewPager;
 import com.ngo.ducquang.appspa.book.BookCalendarSpaFragment;
-import com.ngo.ducquang.appspa.login.modelRegister.ResponseRegister;
 import com.ngo.ducquang.appspa.storageList.StorageAdapter;
 import com.ngo.ducquang.appspa.storageList.model.UserStore;
 import com.ngo.ducquang.appspa.storageList.storeDetail.categories.CategoriesFragment;
-import com.ngo.ducquang.appspa.storageList.storeDetail.commentRating.CommentRatingFragment;
+import com.ngo.ducquang.appspa.storageList.storeDetail.comment.CommentFragment;
+import com.ngo.ducquang.appspa.storageList.storeDetail.rate.RateFragment;
+import com.ngo.ducquang.appspa.storageList.storeDetail.model.DataRate;
 import com.ngo.ducquang.appspa.storageList.storeDetail.model.DataStoreDetail;
 import com.ngo.ducquang.appspa.storageList.storeDetail.model.ResponseStoreDetail;
 
@@ -36,7 +36,8 @@ import retrofit2.Response;
  * Created by ducqu on 9/21/2018.
  */
 
-public class StoreDetailActivity extends BaseActivity implements View.OnClickListener {
+public class StoreDetailActivity extends BaseActivity implements View.OnClickListener, DialogConfirmRate.SendListRating, DialogConfirmRate.SendOldRate
+{
     @BindView(R.id.tabLayout) TabLayout tabLayout;
     @BindView(R.id.viewPager) ViewPager viewPager;
     @BindView(R.id.name) TextView name;
@@ -45,11 +46,16 @@ public class StoreDetailActivity extends BaseActivity implements View.OnClickLis
 
     @BindView(R.id.bookCalendar) TextView bookCalendar;
     @BindView(R.id.ratingBar) RatingBar ratingBar;
+    @BindView(R.id.ratingMe) RatingBar ratingMe;
 
     private TabPagerAdapter adapter;
 
     private CategoriesFragment categoriesFragment;
-    private CommentRatingFragment commentRatingFragment;
+    private CommentFragment commentFragment;
+    private RateFragment rateFragment;
+
+    private int iDStore = -1;
+    private DataStoreDetail storeDetail;
 
     @Override
     protected int getContentView() {
@@ -62,10 +68,10 @@ public class StoreDetailActivity extends BaseActivity implements View.OnClickLis
         title.setText("Chi tiết cửa hàng");
 
         Bundle bundle = getIntent().getExtras();
-        int idStore = bundle.getInt(StorageAdapter.ID_STORE);
+        iDStore = bundle.getInt(StorageAdapter.ID_STORE);
         HashMap<String, String> params = new HashMap<>();
         params.put("Token", PreferenceUtil.getPreferences(getApplicationContext(), PreferenceUtil.TOKEN, ""));
-        params.put("ID", idStore + "");
+        params.put("ID", iDStore + "");
 
         showLoadingDialog();
         ApiService.Factory.getInstance().storeDetail(params).enqueue(new Callback<ResponseStoreDetail>()
@@ -93,6 +99,7 @@ public class StoreDetailActivity extends BaseActivity implements View.OnClickLis
 
     private void setView(DataStoreDetail dataStoreDetail)
     {
+        this.storeDetail = dataStoreDetail;
         UserStore userStore = dataStoreDetail.getUserStore();
         name.setText(userStore.getName());
         address.setText("Địa chỉ: " + userStore.getAddress() + " - " + userStore.getDistrictName() + " - " + userStore.getProvinceName());
@@ -103,26 +110,44 @@ public class StoreDetailActivity extends BaseActivity implements View.OnClickLis
         categoriesFragment = new CategoriesFragment();
         categoriesFragment.setCategoryList(userStore.getCategories());
 
-        commentRatingFragment = new CommentRatingFragment();
-        commentRatingFragment.setRating(dataStoreDetail.isRating());
-        commentRatingFragment.setComment(dataStoreDetail.getCmt());
+        commentFragment = new CommentFragment();
+        commentFragment.setDiscusses(dataStoreDetail.getDiscusses());
+        commentFragment.setIdStore(dataStoreDetail.getUserStore().getiDUser());
+
+        rateFragment = new RateFragment();
+        rateFragment.setRating(dataStoreDetail.isRating());
+        rateFragment.setDataList(dataStoreDetail.getRatings());
 
         adapter = new TabPagerAdapter(getSupportFragmentManager());
         adapter.setContext(getApplicationContext());
 
-        adapter.addFragment(categoriesFragment, "Thông tin dịch vụ");
-        adapter.addFragment(commentRatingFragment, "Thảo luận và đánh giá");
+        adapter.addFragment(categoriesFragment, "Dịch vụ");
+        adapter.addFragment(commentFragment, "Thảo luận");
+        adapter.addFragment(rateFragment, "Đánh giá");
 
         viewPager.setPageTransformer(false, new TransformerFadeViewPager());
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
         viewPager.setOffscreenPageLimit(adapter.getCount());
+
+        ratingMe.setIsIndicator(!dataStoreDetail.isRating());
+        ratingBar.setIsIndicator(true);
+
+        ratingMe.setOnRatingBarChangeListener((ratingBar, rating, fromUser) -> {
+            if (fromUser)
+            {
+                DialogConfirmRate dialogConfirmRate = new DialogConfirmRate();
+                dialogConfirmRate.setRatingSelect(rating);
+                dialogConfirmRate.setIdStore(iDStore);
+//            dialogConfirmRate.setRatingOld(dataStoreDetail.getRating());
+
+                dialogConfirmRate.show(getSupportFragmentManager(), dialogConfirmRate.getTag());
+            }
+        });
     }
 
     @Override
-    protected void initMenu(Menu menu)
-    {
-    }
+    protected void initMenu(Menu menu) {}
 
     @Override
     public void onClick(View v) {
@@ -134,5 +159,20 @@ public class StoreDetailActivity extends BaseActivity implements View.OnClickLis
                 break;
             }
         }
+    }
+
+    @Override
+    public void sendList(DataRate dataRate) {
+        viewPager.setCurrentItem(2);
+        rateFragment.updateData(dataRate.getRatings());
+
+        ratingMe.setRating(dataRate.getRating());
+        ratingBar.setRating(dataRate.getRatingAverage());
+    }
+
+    @Override
+    public void sendOldRate(float ratingOld) {
+        ratingMe.setRating(storeDetail.getRating());
+        ratingBar.setRating(storeDetail.getRatingAverage());
     }
 }

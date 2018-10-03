@@ -1,51 +1,51 @@
-package com.ngo.ducquang.appspa.storageList.storeDetail.categories;
+package com.ngo.ducquang.appspa.storageList.storeDetail.comment;
 
-import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.ngo.ducquang.appspa.R;
 import com.ngo.ducquang.appspa.base.BaseFragment;
-import com.ngo.ducquang.appspa.service.ServiceAdminAdapter;
-import com.ngo.ducquang.appspa.storageList.model.Category;
+import com.ngo.ducquang.appspa.storageList.storeDetail.model.Discuss;
+import com.ngo.ducquang.appspa.storageList.storeDetail.rate.RateAdapter;
 
 import java.util.List;
 
 import butterknife.BindView;
 
 /**
- * Created by ducqu on 9/27/2018.
+ * Created by ducqu on 10/3/2018.
  */
 
-public class CategoriesFragment extends BaseFragment
+public class CommentFragment extends BaseFragment
 {
     @BindView(R.id.recyclerView) RecyclerView recyclerView;
 
-    private List<Category> categoryList;
-    private ServiceAdminAdapter adapter;
+    private CommentAdapter adapter;
+    private List<Discuss> discusses;
+    private int idStore;
 
     @Override
     protected int getContentView() {
-        return R.layout.fragment_categories_detail;
+        return R.layout.fragment_comment;
     }
 
     @Override
     protected void initView(View view)
     {
-
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-        adapter = new ServiceAdminAdapter(getContext(), categoryList, getFragmentManager(), true);
+        adapter = new CommentAdapter(getContext(), discusses, idStore);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapter);
     }
 
-    public void setCategoryList(List<Category> categoryList) {
-        this.categoryList = categoryList;
+    public void setDiscusses(List<Discuss> discusses) {
+        this.discusses = discusses;
+    }
+
+    public void setIdStore(int idStore) {
+        this.idStore = idStore;
     }
 }

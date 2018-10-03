@@ -10,6 +10,7 @@ import com.ngo.ducquang.appspa.R;
 import com.ngo.ducquang.appspa.base.BaseActivity;
 import com.ngo.ducquang.appspa.base.LogManager;
 import com.ngo.ducquang.appspa.base.PreferenceUtil;
+import com.ngo.ducquang.appspa.base.Share;
 import com.ngo.ducquang.appspa.base.api.ApiService;
 import com.ngo.ducquang.appspa.service.model.ResponseServiceAdmin;
 import com.ngo.ducquang.appspa.storageList.model.Category;
@@ -53,6 +54,8 @@ public class ServiceAdminActivity extends BaseActivity implements DialogAddServi
                 if (response.body().getStatus() == 1)
                 {
                     List<Category> categories = response.body().getData().getCategories();
+
+                    Share.getInstance().categoryList = categories;
 
                     LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
                     adapter = new ServiceAdminAdapter(getApplicationContext(), categories, getSupportFragmentManager());
