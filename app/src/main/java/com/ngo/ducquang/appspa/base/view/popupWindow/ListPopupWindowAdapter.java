@@ -15,7 +15,8 @@ import java.util.List;
  * Created by ducqu on 9/28/2018.
  */
 
-public class ListPopupWindowAdapter  extends BaseAdapter {
+public class ListPopupWindowAdapter  extends BaseAdapter
+{
     LayoutInflater mLayoutInflater;
     List<ItemPopupMenu> mItemPopupMenuList;
 
@@ -71,5 +72,11 @@ public class ListPopupWindowAdapter  extends BaseAdapter {
         {
             tvTitle = view.findViewById(R.id.text);
         }
+    }
+
+    public void updateData(List<ItemPopupMenu> mItemPopupMenuList)
+    {
+        this.mItemPopupMenuList = mItemPopupMenuList;
+        notifyDataSetChanged();
     }
 }

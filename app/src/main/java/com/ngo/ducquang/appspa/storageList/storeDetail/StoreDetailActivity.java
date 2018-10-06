@@ -15,7 +15,7 @@ import com.ngo.ducquang.appspa.base.PreferenceUtil;
 import com.ngo.ducquang.appspa.base.api.ApiService;
 import com.ngo.ducquang.appspa.base.view.TabPagerAdapter;
 import com.ngo.ducquang.appspa.base.view.TransformerFadeViewPager;
-import com.ngo.ducquang.appspa.book.BookCalendarSpaFragment;
+import com.ngo.ducquang.appspa.oder.OrderFragment;
 import com.ngo.ducquang.appspa.storageList.StorageAdapter;
 import com.ngo.ducquang.appspa.storageList.model.UserStore;
 import com.ngo.ducquang.appspa.storageList.storeDetail.categories.CategoriesFragment;
@@ -155,7 +155,12 @@ public class StoreDetailActivity extends BaseActivity implements View.OnClickLis
         {
             case R.id.bookCalendar:
             {
-                addFragment(new BookCalendarSpaFragment(), null, true);
+                Bundle bundle = new Bundle();
+                bundle.putInt(OrderFragment.IDSTORE, storeDetail.getUserStore().getiDUser());
+                bundle.putString(OrderFragment.NAME_STORE, storeDetail.getUserStore().getName());
+                bundle.putBoolean(OrderFragment.WHERE, true);
+                bundle.putInt(OrderFragment.TYPE, OrderFragment.ORDER_NORMAL);
+                addFragment(new OrderFragment(), bundle, true);
                 break;
             }
         }

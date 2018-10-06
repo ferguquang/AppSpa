@@ -3,8 +3,11 @@ package com.ngo.ducquang.appspa.base.api;
 import com.ngo.ducquang.appspa.base.GlobalVariables;
 import com.ngo.ducquang.appspa.base.getAddress.ResponseGetAddress;
 import com.ngo.ducquang.appspa.base.reponseMessage.ResponseMessage;
+import com.ngo.ducquang.appspa.modelStore.ResponseGetStore;
+import com.ngo.ducquang.appspa.oder.model.ResponseListOder;
 import com.ngo.ducquang.appspa.login.modelLogin.ResponseLogin;
 import com.ngo.ducquang.appspa.login.modelRegister.ResponseRegister;
+import com.ngo.ducquang.appspa.oder.model.ResponseOrder;
 import com.ngo.ducquang.appspa.service.model.ResponseCreateService;
 import com.ngo.ducquang.appspa.service.model.ResponseServiceAdmin;
 import com.ngo.ducquang.appspa.slideMenu.logout.ResponseLogout;
@@ -37,6 +40,7 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.HTTP;
 import retrofit2.http.POST;
+import retrofit2.http.Query;
 
 /**
  * Created by ducqu on 9/21/2018.
@@ -112,7 +116,8 @@ public interface ApiService
     // service: //todo for admin
     @POST("manager/services")
     @FormUrlEncoded
-    Call<ResponseServiceAdmin> getListServiceAdmin(@Field("Token") String token);
+    Call<ResponseServiceAdmin> getListServiceAdmin(@Field("Token") String token,
+                                                   @Field("IDStore") int idStore);
 
     @POST("manager/createService")
     @FormUrlEncoded
@@ -125,6 +130,21 @@ public interface ApiService
     @FormUrlEncoded
     @HTTP(method = "DELETE", path = "manager/deleteService", hasBody = true)
     Call<ResponseMessage> deleteService(@Field("Token") String token, @Field("ID") int idService);
+
+    // đặt lịch todo
+    @POST("order/index")
+    @FormUrlEncoded
+    Call<ResponseListOder> getListOrder(@FieldMap Map<String, String> params);
+
+    @POST("order/create")
+    @FormUrlEncoded
+    Call<ResponseOrder> orderCreate(@FieldMap Map<String, String> params);
+
+    // get store:
+    @GET("account/getstores")
+    Call<ResponseGetStore> getStore(@Query("Token") String token,
+                                    @Query("IDCategory") String idCategory);
+
 
     class Factory
     {

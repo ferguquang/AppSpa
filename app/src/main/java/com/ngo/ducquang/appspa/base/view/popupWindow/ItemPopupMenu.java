@@ -8,6 +8,11 @@ public class ItemPopupMenu {
     private int id;
     private String title, code;
 
+    public ItemPopupMenu(int id, String title) {
+        this.id = id;
+        this.title = title;
+    }
+
     public ItemPopupMenu(int id, String title, String code) {
         this.id = id;
         this.title = title;

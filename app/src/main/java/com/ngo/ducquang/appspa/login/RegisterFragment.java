@@ -31,7 +31,7 @@ import com.ngo.ducquang.appspa.base.getAddress.Province;
 import com.ngo.ducquang.appspa.base.view.AddingArrayDialog;
 import com.ngo.ducquang.appspa.base.view.popupWindow.ItemPopupMenu;
 import com.ngo.ducquang.appspa.base.view.popupWindow.ListPopupWindowAdapter;
-import com.ngo.ducquang.appspa.book.BookOptionAdapter;
+import com.ngo.ducquang.appspa.oder.CategoryOptionAdapter;
 import com.ngo.ducquang.appspa.login.modelRegister.ResponseRegister;
 import com.ngo.ducquang.appspa.storageList.StoreActivity;
 import com.ngo.ducquang.appspa.storageList.createStore.model.ResponseCreateStore;
@@ -138,7 +138,7 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
             // list category
             categoryList = Share.getInstance().categoryList;
             GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 3);
-            BookOptionAdapter adapter = new BookOptionAdapter(getActivity(), categoryList);
+            CategoryOptionAdapter adapter = new CategoryOptionAdapter(getActivity(), categoryList);
             recyclerView.setLayoutManager(gridLayoutManager);
             recyclerView.setHasFixedSize(true);
             recyclerView.setAdapter(adapter);

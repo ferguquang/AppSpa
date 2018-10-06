@@ -32,8 +32,7 @@ import com.ngo.ducquang.appspa.base.getAddress.Province;
 import com.ngo.ducquang.appspa.base.view.AddingArrayDialog;
 import com.ngo.ducquang.appspa.base.view.popupWindow.ItemPopupMenu;
 import com.ngo.ducquang.appspa.base.view.popupWindow.ListPopupWindowAdapter;
-import com.ngo.ducquang.appspa.book.BookOptionAdapter;
-import com.ngo.ducquang.appspa.login.modelRegister.ResponseRegister;
+import com.ngo.ducquang.appspa.oder.CategoryOptionAdapter;
 import com.ngo.ducquang.appspa.storageList.createStore.model.ResponseCreateStore;
 import com.ngo.ducquang.appspa.storageList.model.Category;
 import com.ngo.ducquang.appspa.storageList.model.UserStore;
@@ -129,7 +128,7 @@ public class CreateStoreFragment extends BaseFragment implements View.OnClickLis
 
         categoryList = Share.getInstance().categoryList;
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 3);
-        BookOptionAdapter adapter = new BookOptionAdapter(getActivity(), categoryList);
+        CategoryOptionAdapter adapter = new CategoryOptionAdapter(getActivity(), categoryList);
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapter);

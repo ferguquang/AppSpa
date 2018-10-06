@@ -47,7 +47,7 @@ public class ServiceAdminActivity extends BaseActivity implements DialogAddServi
         title.setText("Danh sách dịch vụ");
         String token = PreferenceUtil.getPreferences(getApplicationContext(), PreferenceUtil.TOKEN, "");
         showLoadingDialog();
-        ApiService.Factory.getInstance().getListServiceAdmin(token).enqueue(new Callback<ResponseServiceAdmin>() {
+        ApiService.Factory.getInstance().getListServiceAdmin(token, 1).enqueue(new Callback<ResponseServiceAdmin>() {
             @Override
             public void onResponse(Call<ResponseServiceAdmin> call, Response<ResponseServiceAdmin> response)
             {

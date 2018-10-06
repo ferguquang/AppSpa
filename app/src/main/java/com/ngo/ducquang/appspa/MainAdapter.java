@@ -1,5 +1,6 @@
 package com.ngo.ducquang.appspa;
 
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.CardView;
@@ -10,9 +11,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.ngo.ducquang.appspa.book.BookCalendarAtHome;
-import com.ngo.ducquang.appspa.book.BookCalendarSpaFragment;
+import com.ngo.ducquang.appspa.oder.OrderFragment;
 import com.ngo.ducquang.appspa.notification.NotificationActivity;
+import com.ngo.ducquang.appspa.oder.OrderListActivity;
 import com.ngo.ducquang.appspa.service.ServiceAdminActivity;
 import com.ngo.ducquang.appspa.storageList.StoreActivity;
 import com.ngo.ducquang.appspa.userList.UserListActivity;
@@ -86,7 +87,9 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             {
                 case MainActivity.BOOK:
                 {
-                    context.addFragment(new BookCalendarSpaFragment(), null, true);
+                    Bundle bundle = new Bundle();
+                    bundle.putInt(OrderFragment.TYPE, OrderFragment.ORDER_NORMAL);
+                    context.addFragment(new OrderFragment(), bundle, true);
                     break;
                 }
                 case MainActivity.STORE_LIST:
@@ -101,7 +104,10 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 }
                 case MainActivity.BOOK_AT_HOME:
                 {
-                    context.addFragment(new BookCalendarAtHome(), null, true);
+                    Bundle bundle = new Bundle();
+                    bundle.putInt(OrderFragment.TYPE, OrderFragment.ORDER_AT_HOME);
+
+                    context.addFragment(new OrderFragment(), bundle, true);
                     break;
                 }
                 case MainActivity.LIST_USER:
@@ -112,6 +118,11 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 case MainActivity.LIST_SERVICE:
                 {
                     context.startActivity(ServiceAdminActivity.class, null, false);
+                    break;
+                }
+                case MainActivity.LIST_ORDER:
+                {
+                    context.startActivity(OrderListActivity.class, null, false);
                     break;
                 }
             }
