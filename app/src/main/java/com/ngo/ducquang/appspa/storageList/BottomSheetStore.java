@@ -81,6 +81,17 @@ public class BottomSheetStore extends BaseBottomSheetDialogFragment implements V
                 }
             });
         });
+
+        if (isAdmin)
+        {
+            editOption.setVisibility(View.VISIBLE);
+            setLockOption.setVisibility(View.VISIBLE);
+        }
+        else
+        {
+            editOption.setVisibility(View.GONE);
+            setLockOption.setVisibility(View.GONE);
+        }
     }
 
     @Override

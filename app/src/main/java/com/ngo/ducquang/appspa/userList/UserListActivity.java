@@ -39,8 +39,10 @@ public class UserListActivity extends BaseActivity
         hideMenu();
         showIconBack();
         title.setText("Danh sách khách hàng");
+
         showLoadingDialog();
-        ApiService.Factory.getInstance().getListUser(PreferenceUtil.getPreferences(getApplicationContext(), PreferenceUtil.TOKEN, "")).enqueue(new Callback<ResponseGetListUser>()
+        String token = PreferenceUtil.getPreferences(getApplicationContext(), PreferenceUtil.TOKEN, "");
+        ApiService.Factory.getInstance().getListUser(token).enqueue(new Callback<ResponseGetListUser>()
         {
             @Override
             public void onResponse(Call<ResponseGetListUser> call, Response<ResponseGetListUser> response)
@@ -66,7 +68,5 @@ public class UserListActivity extends BaseActivity
     }
 
     @Override
-    protected void initMenu(Menu menu) {
-
-    }
+    protected void initMenu(Menu menu) {}
 }

@@ -16,10 +16,10 @@ import java.util.List;
 public class Order implements Serializable {
     @SerializedName("ID")
     @Expose
-    private Integer iD;
+    private int iD;
     @SerializedName("Status")
     @Expose
-    private Integer status;
+    private int status;
     @SerializedName("StatusName")
     @Expose
     private String statusName;
@@ -31,10 +31,10 @@ public class Order implements Serializable {
     private String name;
     @SerializedName("Type")
     @Expose
-    private Integer type;
+    private int type;
     @SerializedName("Priority")
     @Expose
-    private Integer priority;
+    private int priority;
     @SerializedName("Describe")
     @Expose
     private String describe;
@@ -43,19 +43,25 @@ public class Order implements Serializable {
     private long onDate;
     @SerializedName("Finished")
     @Expose
-    private Integer finished;
+    private long finished;
     @SerializedName("StoreName")
     @Expose
     private String storeName;
     @SerializedName("StoreID")
     @Expose
-    private Integer storeID;
+    private int storeID;
     @SerializedName("User")
     @Expose
     private User user;
     @SerializedName("Created")
     @Expose
     private long created;
+    @SerializedName("Responsed")
+    @Expose
+    private long responsed;
+    @SerializedName("Categories")
+    @Expose
+    private List<Category> categories = null;
     @SerializedName("IsView")
     @Expose
     private Boolean isView;
@@ -65,23 +71,32 @@ public class Order implements Serializable {
     @SerializedName("IsUpdate")
     @Expose
     private Boolean isUpdate;
-    @SerializedName("Categories")
+    @SerializedName("IsDone")
     @Expose
-    private List<Category> categories = null;
+    private Boolean isDone;
+    @SerializedName("IsReject")
+    @Expose
+    private Boolean isReject;
+    @SerializedName("IsApproved")
+    @Expose
+    private Boolean isApproved;
+    @SerializedName("IsCancel")
+    @Expose
+    private Boolean isCancel;
 
-    public Integer getiD() {
+    public int getiD() {
         return iD;
     }
 
-    public void setiD(Integer iD) {
+    public void setiD(int iD) {
         this.iD = iD;
     }
 
-    public Integer getStatus() {
+    public int getStatus() {
         return status;
     }
 
-    public void setStatus(Integer status) {
+    public void setStatus(int status) {
         this.status = status;
     }
 
@@ -109,19 +124,19 @@ public class Order implements Serializable {
         this.name = name;
     }
 
-    public Integer getType() {
+    public int getType() {
         return type;
     }
 
-    public void setType(Integer type) {
+    public void setType(int type) {
         this.type = type;
     }
 
-    public Integer getPriority() {
+    public int getPriority() {
         return priority;
     }
 
-    public void setPriority(Integer priority) {
+    public void setPriority(int priority) {
         this.priority = priority;
     }
 
@@ -141,11 +156,11 @@ public class Order implements Serializable {
         this.onDate = onDate;
     }
 
-    public Integer getFinished() {
+    public long getFinished() {
         return finished;
     }
 
-    public void setFinished(Integer finished) {
+    public void setFinished(long finished) {
         this.finished = finished;
     }
 
@@ -157,11 +172,11 @@ public class Order implements Serializable {
         this.storeName = storeName;
     }
 
-    public Integer getStoreID() {
+    public int getStoreID() {
         return storeID;
     }
 
-    public void setStoreID(Integer storeID) {
+    public void setStoreID(int storeID) {
         this.storeID = storeID;
     }
 
@@ -179,6 +194,14 @@ public class Order implements Serializable {
 
     public void setCreated(long created) {
         this.created = created;
+    }
+
+    public List<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(List<Category> categories) {
+        this.categories = categories;
     }
 
     public Boolean getView() {
@@ -205,12 +228,44 @@ public class Order implements Serializable {
         isUpdate = update;
     }
 
-    public List<Category> getCategories() {
-        return categories;
+    public Boolean getDone() {
+        return isDone;
     }
 
-    public void setCategories(List<Category> categories) {
-        this.categories = categories;
+    public void setDone(Boolean done) {
+        isDone = done;
+    }
+
+    public Boolean getReject() {
+        return isReject;
+    }
+
+    public void setReject(Boolean reject) {
+        isReject = reject;
+    }
+
+    public Boolean getApproved() {
+        return isApproved;
+    }
+
+    public void setApproved(Boolean approved) {
+        isApproved = approved;
+    }
+
+    public Boolean getCancel() {
+        return isCancel;
+    }
+
+    public void setCancel(Boolean cancel) {
+        isCancel = cancel;
+    }
+
+    public long getResponsed() {
+        return responsed;
+    }
+
+    public void setResponsed(long responsed) {
+        this.responsed = responsed;
     }
 
     public static Order initialize(String jsonGson)

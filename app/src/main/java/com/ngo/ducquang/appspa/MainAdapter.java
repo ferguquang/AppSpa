@@ -125,6 +125,11 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     context.startActivity(OrderListActivity.class, null, false);
                     break;
                 }
+                case MainActivity.REPORT:
+                {
+
+                    break;
+                }
             }
         }
     }

@@ -65,16 +65,16 @@ public abstract class BaseActivity extends AppCompatActivity
 
         progressBarHandler = new ProgressBarHandler(this);
         initView();
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
 
         if (!ServiceManager.isMyServiceRunning(ServiceManager.class, getBaseContext()))
         {
             ServiceManager.startService(getBaseContext());
         }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
     }
 
     @Override

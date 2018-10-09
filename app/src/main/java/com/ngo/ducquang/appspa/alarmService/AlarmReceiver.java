@@ -14,6 +14,6 @@ public class AlarmReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        NotificationMessage.notificationAlarmService(context, 9, "dsg");
+//        NotificationMessage.notificationAlarmService(context, 9, "dsg");
     }
 }

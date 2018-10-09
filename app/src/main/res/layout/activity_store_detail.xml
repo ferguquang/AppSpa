@@ -24,6 +24,7 @@
                 <include layout="@layout/toolbar_base"/>
 
                 <LinearLayout
+                    android:id="@+id/llContent"
                     android:gravity="center"
                     android:orientation="vertical"
                     android:background="@color/white"

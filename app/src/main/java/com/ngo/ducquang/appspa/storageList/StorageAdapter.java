@@ -36,9 +36,9 @@ public class StorageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 {
     public static final String ID_STORE = "idstore";
 
-    public int TYPE_EMPTY = 0;
-    public int TYPE_ITEM = 1;
-    public int TYPE_FOOTER = 2;
+    private final int TYPE_EMPTY = 0;
+    private final int TYPE_ITEM = 1;
+    private final int TYPE_FOOTER = 2;
 
     private StoreActivity context;
     private List<UserStore> dataList;

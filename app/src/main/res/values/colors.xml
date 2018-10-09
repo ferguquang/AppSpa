@@ -52,6 +52,8 @@
     <color name="backgroundLogin">#1f4b5e</color>
 
     <color name="colorIconMain">#9DD2D8</color>
-    <color name="colorBackgroundList">#c1f4fa</color>
+    <color name="colorBackgroundList">#ffffff</color>
     <color name="workTodo">#cccccc</color>
+    <color name="noread">#ebf8ff</color>
+
 </resources>

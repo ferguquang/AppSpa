@@ -13,15 +13,15 @@ import static android.arch.persistence.room.OnConflictStrategy.REPLACE;
 
 @Dao
 public interface UserDao {
-    @Query("SELECT * FROM UserApp")
-    UserApp getUser();
-
-    @Insert(onConflict = REPLACE)
-    void insert(UserApp userApp);
-
-    @Query("DELETE FROM UserApp")
-    void clearData();
-
-    @Update
-    void updateClue(UserApp userApp);
+//    @Query("SELECT * FROM UserApp")
+//    UserApp getUser();
+//
+//    @Insert(onConflict = REPLACE)
+//    void insert(UserApp userApp);
+//
+//    @Query("DELETE FROM UserApp")
+//    void clearData();
+//
+//    @Update
+//    void updateClue(UserApp userApp);
 }

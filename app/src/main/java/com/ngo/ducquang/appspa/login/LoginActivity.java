@@ -12,6 +12,7 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.ngo.ducquang.appspa.BuildConfig;
@@ -20,6 +21,7 @@ import com.ngo.ducquang.appspa.R;
 import com.ngo.ducquang.appspa.alarmService.AlarmSend;
 import com.ngo.ducquang.appspa.alarmService.ServiceManager;
 import com.ngo.ducquang.appspa.base.BaseActivity;
+import com.ngo.ducquang.appspa.base.DrawableHelper;
 import com.ngo.ducquang.appspa.base.EventBusManager;
 import com.ngo.ducquang.appspa.base.GlobalVariables;
 import com.ngo.ducquang.appspa.base.LogManager;
@@ -28,7 +30,7 @@ import com.ngo.ducquang.appspa.base.Message;
 import com.ngo.ducquang.appspa.base.PreferenceUtil;
 import com.ngo.ducquang.appspa.base.Share;
 import com.ngo.ducquang.appspa.base.api.ApiService;
-import com.ngo.ducquang.appspa.base.database.DatabaseRoom;
+//import com.ngo.ducquang.appspa.base.database.DatabaseRoom;
 import com.ngo.ducquang.appspa.base.getAddress.ResponseGetAddress;
 import com.ngo.ducquang.appspa.login.modelLogin.DataLogin;
 import com.ngo.ducquang.appspa.login.modelLogin.ResponseLogin;
@@ -53,6 +55,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener
     @BindView(R.id.password) EditText password;
     @BindView(R.id.login) CardView login;
     @BindView(R.id.register) CardView register;
+    @BindView(R.id.imgAccount) ImageView imgAccount;
+    @BindView(R.id.lock) ImageView lock;
 
     private SubcriberLogin subcriberLogin = new SubcriberLogin()
     {
@@ -72,7 +76,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener
     protected void initView()
     {
         hideToolBar();
-        disableServiceNotification();
 
         login.setOnClickListener(this);
         register.setOnClickListener(this);
@@ -106,12 +109,17 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener
                 LogManager.tagDefault().debug();
             }
         });
+
+//        DrawableHelper.withContext(getBaseContext()).withColor(R.color.white).withDrawable(R.drawable.icon_account).applyTo(imgAccount);
+//        DrawableHelper.withContext(getBaseContext()).withColor(R.color.white).withDrawable(R.drawable.icon_lock).applyTo(lock);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
         EventBusManager.instance().register(subcriberLogin);
+
+        disableServiceNotification();
     }
 
     @Override
@@ -146,21 +154,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener
                         if (response.body().getStatus() == 1) // login success
                         {
                             DataLogin dataLogin = response.body().getData();
-
-//                            AlarmSend.enableBootReceiver(getApplicationContext());
-//                            AlarmSend.setAlarm(getApplicationContext(), "tesst");
-
-                              ServiceManager.startService(getBaseContext());
-//                            startService(new Intent(getBaseContext(), ServiceManager.class));
-//                            Intent intent = new Intent(getBaseContext(), ServiceManager.class);
-//                            PendingIntent pintent = PendingIntent.getService(getBaseContext(), 0, intent, 0);
-//
-//                            AlarmManager alarm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-//                            alarm.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), 1000 * 60, pintent);
+                            ServiceManager.startService(getBaseContext());
 
                             PreferenceUtil.savePreferences(getApplicationContext(), PreferenceUtil.TOKEN, dataLogin.getToken());
                             PreferenceUtil.savePreferences(getApplicationContext(), PreferenceUtil.LOGIN_SUCCESS, true);
                             PreferenceUtil.savePreferences(getApplicationContext(), PreferenceUtil.USER_APP, dataLogin.getUserApp().toJson());
+                            PreferenceUtil.savePreferences(getApplicationContext(), PreferenceUtil.POSITION_ID, dataLogin.getUserApp().getPositionID());
                             startActivity(MainActivity.class, null, true);
                             finish();
                         }
@@ -178,8 +177,15 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener
                     }
 
                     @Override
-                    public void onFailure(Call<ResponseLogin> call, Throwable t) {
+                    public void onFailure(Call<ResponseLogin> call, Throwable t)
+                    {
                         LogManager.tagDefault().error(t.getMessage());
+                        if (!Manager.isNetworkAvailable(getBaseContext()))
+                        {
+                            showToast("Xem lại kết nối mạng trên điện thoại của bạn", GlobalVariables.TOAST_ERRO);
+                        }
+
+                        hideLoadingDialog();
                     }
                 });
 

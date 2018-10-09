@@ -6,9 +6,18 @@ import android.view.Menu;
 
 import com.ngo.ducquang.appspa.R;
 import com.ngo.ducquang.appspa.base.BaseActivity;
+import com.ngo.ducquang.appspa.base.PreferenceUtil;
+import com.ngo.ducquang.appspa.base.api.ApiService;
+import com.ngo.ducquang.appspa.notification.model.Notification;
+import com.ngo.ducquang.appspa.notification.model.ResponseNotification;
 import com.ngo.ducquang.appspa.storageList.StorageAdapter;
 
+import java.util.List;
+
 import butterknife.BindView;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by ducqu on 9/21/2018.
@@ -30,12 +39,29 @@ public class NotificationActivity extends BaseActivity
         showIconBack();
         title.setText("Thông báo");
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
-        adapter = new NotificationAdapter();
-        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setAdapter(adapter);
+        String token = PreferenceUtil.getPreferences(getApplicationContext(), PreferenceUtil.TOKEN, "");
+        ApiService.Factory.getInstance().getListNotification(token).enqueue(new Callback<ResponseNotification>()
+        {
+            @Override
+            public void onResponse(Call<ResponseNotification> call, Response<ResponseNotification> response)
+            {
+                if (response.body().getStatus() == 1)
+                {
+                    List<Notification> notifications = response.body().getData().getNotifications();
+                    LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+                    adapter = new NotificationAdapter(NotificationActivity.this, notifications);
+                    layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+                    recyclerView.setLayoutManager(layoutManager);
+                    recyclerView.setHasFixedSize(true);
+                    recyclerView.setAdapter(adapter);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseNotification> call, Throwable t) {
+
+            }
+        });
     }
 
     @Override

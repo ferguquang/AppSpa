@@ -96,30 +96,22 @@ public class DialogConfirmRate extends BaseDialog implements View.OnClickListene
                     @Override
                     public void onResponse(Call<ResponseRate> call, Response<ResponseRate> response)
                     {
-                        try
+                        Message message = response.body().getMessages().get(0);
+                        if (response.body().getStatus() == 1)
                         {
-                            Message message = response.body().getMessages().get(0);
-                            if (response.body().getStatus() == 1)
-                            {
-                                sendListRating.sendList(response.body().getData());
-                                showToast(message.getText(), GlobalVariables.TOAST_SUCCESS);
-                            }
-                            else
-                                showToast(message.getText(), GlobalVariables.TOAST_ERRO);
-
-                            hideLoadingDialog();
-
-                            dismiss();
+                            sendListRating.sendList(response.body().getData());
+                            showToast(message.getText(), GlobalVariables.TOAST_SUCCESS);
                         }
-                        catch (Exception e)
-                        {
-                            LogManager.tagDefault().error(e.toString());
-                        }
+                        else
+                            showToast(message.getText(), GlobalVariables.TOAST_ERRO);
+
+                        hideLoadingDialog();
+                        dismiss();
                     }
 
                     @Override
                     public void onFailure(Call<ResponseRate> call, Throwable t) {
-                        LogManager.tagDefault().error(t.getMessage());
+                        hideLoadingDialog();
                     }
                 });
                 break;
@@ -127,6 +119,7 @@ public class DialogConfirmRate extends BaseDialog implements View.OnClickListene
             case R.id.dialogCancel:
             {
                 hideLoadingDialog();
+                sendOldRate.sendOldRate(ratingOld);
                 dismiss();
                 break;
             }
@@ -136,7 +129,6 @@ public class DialogConfirmRate extends BaseDialog implements View.OnClickListene
     @Override
     public void dismiss() {
         super.dismiss();
-        sendOldRate.sendOldRate(ratingOld);
     }
 
     public interface SendListRating

@@ -9,6 +9,7 @@ import android.view.View;
 import com.ngo.ducquang.appspa.R;
 import com.ngo.ducquang.appspa.base.BaseActivity;
 import com.ngo.ducquang.appspa.base.EventBusManager;
+import com.ngo.ducquang.appspa.base.GlobalVariables;
 import com.ngo.ducquang.appspa.base.LogManager;
 import com.ngo.ducquang.appspa.base.PreferenceUtil;
 import com.ngo.ducquang.appspa.base.Share;
@@ -74,6 +75,12 @@ public class StoreActivity extends BaseActivity implements View.OnClickListener,
         showIconBack();
 
         title.setText("Danh sách cửa hàng");
+
+        int positionID = PreferenceUtil.getPreferences(getApplicationContext(), PreferenceUtil.POSITION_ID, -1);
+        if (positionID == GlobalVariables.IS_ADMIN)
+            fab.setVisibility(View.VISIBLE);
+        else
+            fab.setVisibility(View.GONE);
 
         fab.setOnClickListener(this);
 

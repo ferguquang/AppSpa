@@ -4,6 +4,8 @@ import com.ngo.ducquang.appspa.base.GlobalVariables;
 import com.ngo.ducquang.appspa.base.getAddress.ResponseGetAddress;
 import com.ngo.ducquang.appspa.base.reponseMessage.ResponseMessage;
 import com.ngo.ducquang.appspa.modelStore.ResponseGetStore;
+import com.ngo.ducquang.appspa.notification.model.ResponseNotification;
+import com.ngo.ducquang.appspa.oder.model.ResponseDetailOrder;
 import com.ngo.ducquang.appspa.oder.model.ResponseListOder;
 import com.ngo.ducquang.appspa.login.modelLogin.ResponseLogin;
 import com.ngo.ducquang.appspa.login.modelRegister.ResponseRegister;
@@ -20,6 +22,7 @@ import com.ngo.ducquang.appspa.userList.model.ResponseGetListUser;
 import com.ngo.ducquang.appspa.userList.model.ResponseUserDetail;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -145,6 +148,37 @@ public interface ApiService
     Call<ResponseGetStore> getStore(@Query("Token") String token,
                                     @Query("IDCategory") String idCategory);
 
+    @POST("order/Approved")
+    @FormUrlEncoded
+    Call<ResponseMessage> approvedOrder(@Field("Token") String token,
+                                       @Field("ID") int idOrder);
+
+    @POST("order/Rejected")
+    @FormUrlEncoded
+    Call<ResponseMessage> rejectOrder(@Field("Token") String token,
+                                        @Field("ID") int idOrder);
+
+    @POST("order/Cancel")
+    @FormUrlEncoded
+    Call<ResponseMessage> cancelOrder(@Field("Token") String token,
+                                        @Field("ID") int idOrder);
+
+    @POST("order/Done")
+    @FormUrlEncoded
+    Call<ResponseMessage> doneOrder(@Field("Token") String token,
+                                        @Field("ID") int idOrder);
+
+    @POST("order/detail")
+    @FormUrlEncoded
+    Call<ResponseDetailOrder> detailOrder(@FieldMap HashMap<String, String> params);
+
+    // thông báo:
+    @GET("notification/getnoti")
+    Call<ResponseNotification> getNotificationInTop(@Query("Token") String token);
+
+    @POST("notification/index")
+    @FormUrlEncoded
+    Call<ResponseNotification> getListNotification(@Field("Token") String token);
 
     class Factory
     {

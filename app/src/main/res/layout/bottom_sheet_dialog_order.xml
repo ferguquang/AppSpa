@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:padding="@dimen/padding_bottom_sheet_option"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            app:srcCompat="@drawable/icon_asset_info"
+            android:layout_width="@dimen/sizeOption"
+            android:layout_height="@dimen/sizeOption" />
+
+        <TextView
+            android:layout_marginLeft="@dimen/padding_bottom_sheet_option"
+            android:text="tên"
+            android:textSize="18sp"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:layout_gravity="center"
+            android:id="@+id/nameOption"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <View
+        android:background="@color/disable"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+
+    <LinearLayout
+        android:id="@+id/editOption"
+        android:padding="@dimen/padding_bottom_sheet_option"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/imgAssetEdit"
+            app:srcCompat="@drawable/icon_asset_edit_underline_24dp"
+            android:layout_width="@dimen/sizeOption"
+            android:layout_height="@dimen/sizeOption" />
+
+        <TextView
+            android:textColor="@color/black"
+            android:textSize="@dimen/textSize"
+            android:text="Chỉnh sửa"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/padding_bottom_sheet_option"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/approvedOption"
+        android:padding="@dimen/padding_bottom_sheet_option"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            app:srcCompat="@drawable/icon_asset_edit_underline_24dp"
+            android:layout_width="@dimen/sizeOption"
+            android:layout_height="@dimen/sizeOption" />
+
+        <TextView
+            android:textColor="@color/black"
+            android:textSize="@dimen/textSize"
+            android:text="Chấp nhận"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/padding_bottom_sheet_option"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/rejectOption"
+        android:padding="@dimen/padding_bottom_sheet_option"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            app:srcCompat="@drawable/icon_asset_edit_underline_24dp"
+            android:layout_width="@dimen/sizeOption"
+            android:layout_height="@dimen/sizeOption" />
+
+        <TextView
+            android:textColor="@color/black"
+            android:textSize="@dimen/textSize"
+            android:text="Từ chối"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/padding_bottom_sheet_option"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/cancelOption"
+        android:padding="@dimen/padding_bottom_sheet_option"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            app:srcCompat="@drawable/icon_asset_edit_underline_24dp"
+            android:layout_width="@dimen/sizeOption"
+            android:layout_height="@dimen/sizeOption" />
+
+        <TextView
+            android:textColor="@color/black"
+            android:textSize="@dimen/textSize"
+            android:text="Hủy lịch"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/padding_bottom_sheet_option"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/doneOption"
+        android:padding="@dimen/padding_bottom_sheet_option"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            app:srcCompat="@drawable/icon_asset_edit_underline_24dp"
+            android:layout_width="@dimen/sizeOption"
+            android:layout_height="@dimen/sizeOption" />
+
+        <TextView
+            android:textColor="@color/black"
+            android:textSize="@dimen/textSize"
+            android:text="Hoàn thành"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/padding_bottom_sheet_option"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/deleteOption"
+        android:padding="@dimen/padding_bottom_sheet_option"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            app:srcCompat="@drawable/icon_asset_edit_underline_24dp"
+            android:layout_width="@dimen/sizeOption"
+            android:layout_height="@dimen/sizeOption" />
+
+        <TextView
+            android:textColor="@color/black"
+            android:textSize="@dimen/textSize"
+            android:text="Xóa"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/padding_bottom_sheet_option"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+
+</LinearLayout>

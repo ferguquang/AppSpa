@@ -9,6 +9,11 @@ public class SpinnerModel {
     private String name;
     private String code;
 
+    public SpinnerModel(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     public SpinnerModel(int id, String name, String code) {
         this.id = id;
         this.name = name;

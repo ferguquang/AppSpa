@@ -14,4 +14,8 @@ public class GlobalVariables
     public static final int TOAST_NORMAL = 4;
     public static final int TOAST_WARNING = 5;
     public static final String COLOR_PRIMARY = "#a0244f";
+
+    public static final int IS_ADMIN = 1;
+    public static final int IS_STORE = 2;
+    public static final int IS_USER = 3;
 }

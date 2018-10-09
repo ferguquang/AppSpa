@@ -15,16 +15,32 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/name"
-            android:text="Tên lịch đặt"
-            android:layout_marginTop="@dimen/margin_8dp"
-            android:textSize="20sp"
-            android:gravity="center"
-            android:textStyle="bold"
-            android:textColor="@color/black"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_toLeftOf="@+id/imgOption"
+                android:layout_marginBottom="@dimen/margin_8dp"
+                android:id="@+id/name"
+                android:text="Tên lịch đặt"
+                android:layout_marginTop="@dimen/margin_8dp"
+                android:textSize="20sp"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <ImageView
+                android:id="@+id/imgOption"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                app:srcCompat="@drawable/icon_option"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </RelativeLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -72,13 +88,12 @@
                     android:textSize="@dimen/textSize"
                     android:textColor="@color/black"
                     android:text="ngày tháng"
-                    android:layout_marginLeft="@dimen/margin_8dp"
+                    android:layout_marginLeft="@dimen/margin_4dp"
                     android:id="@+id/dateTime"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
             </LinearLayout>
-
 
             <android.support.v7.widget.CardView
                 android:layout_centerVertical="true"
@@ -109,7 +124,6 @@
         </RelativeLayout>
 
         <LinearLayout
-            android:layout_marginTop="@dimen/margin_8dp"
             android:layout_marginBottom="@dimen/margin_8dp"
             android:gravity="center_vertical"
             android:orientation="horizontal"
@@ -125,8 +139,26 @@
                 android:text="mô tả"
                 android:textSize="@dimen/textSize"
                 android:textColor="@color/black"
-                android:layout_marginLeft="@dimen/margin_8dp"
+                android:layout_marginLeft="@dimen/margin_4dp"
                 android:id="@+id/describe"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginBottom="@dimen/margin_8dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:text="Ngày phản hồi"
+                android:textSize="@dimen/textSize"
+                android:textColor="@color/black"
+                android:layout_marginLeft="@dimen/margin_4dp"
+                android:id="@+id/reponseTime"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -160,7 +192,7 @@
                     android:textColor="@color/black"
                     android:textSize="@dimen/textSize"
                     android:text="khách hàng"
-                    android:layout_marginLeft="@dimen/margin_8dp"
+                    android:layout_marginLeft="@dimen/margin_4dp"
                     android:id="@+id/userName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
@@ -182,7 +214,7 @@
                     android:textSize="@dimen/textSize"
                     android:textColor="@color/black"
                     android:text="địa chỉ"
-                    android:layout_marginLeft="@dimen/margin_8dp"
+                    android:layout_marginLeft="@dimen/margin_4dp"
                     android:id="@+id/userAddress"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
@@ -204,7 +236,7 @@
                     android:textSize="@dimen/textSize"
                     android:textColor="@color/black"
                     android:text="0324234"
-                    android:layout_marginLeft="@dimen/margin_8dp"
+                    android:layout_marginLeft="@dimen/margin_4dp"
                     android:id="@+id/userPhone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
@@ -226,7 +258,7 @@
                     android:textColor="@color/black"
                     android:textSize="@dimen/textSize"
                     android:text="khách hàng"
-                    android:layout_marginLeft="@dimen/margin_8dp"
+                    android:layout_marginLeft="@dimen/margin_4dp"
                     android:id="@+id/userEmail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />

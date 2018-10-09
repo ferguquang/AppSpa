@@ -379,7 +379,7 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
             {
                 final String[] array = {"Nam", "Nữ"};
                 AddingArrayDialog addingArrayDialog = AddingArrayDialog.initialize("Chọn giới tính", array, (position, value) -> {
-                    valueGender = position;
+                    valueGender = position + 1;
                     switch (position)
                     {
                         case 0:

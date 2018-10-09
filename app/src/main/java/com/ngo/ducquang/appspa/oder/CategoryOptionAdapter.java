@@ -67,10 +67,15 @@ public class CategoryOptionAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             super(itemView);
             ButterKnife.bind(this, itemView);
 
-            checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
+            {
                 @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    sendListCheckedCheckBox.sendList();
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
+                {
+                    if (sendListCheckedCheckBox != null)
+                    {
+                        sendListCheckedCheckBox.sendList();
+                    }
                 }
             });
         }

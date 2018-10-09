@@ -23,6 +23,7 @@ import com.ngo.ducquang.appspa.R;
 import com.ngo.ducquang.appspa.base.BaseFragment;
 import com.ngo.ducquang.appspa.base.GlobalVariables;
 import com.ngo.ducquang.appspa.base.LogManager;
+import com.ngo.ducquang.appspa.base.ManagerTime;
 import com.ngo.ducquang.appspa.base.Message;
 import com.ngo.ducquang.appspa.base.PreferenceUtil;
 import com.ngo.ducquang.appspa.base.Share;
@@ -61,6 +62,8 @@ public class OrderFragment extends BaseFragment implements View.OnClickListener,
     public static final String TYPE = "type";
     public static final String WHERE = "where";
     public static final String NAME_STORE = "nameStore";
+    public static final String ORDER_MODEL_STRING = "ordermodelstring";
+    public static final String UPDATE = "update";
 
     public static final int ORDER_NORMAL = 1;
     public static final int ORDER_AT_HOME = 2;
@@ -79,7 +82,7 @@ public class OrderFragment extends BaseFragment implements View.OnClickListener,
     @BindView(R.id.nameEdt) EditText nameEdt;
 
     @BindView(R.id.nameStore) TextView nameStore;
-    @BindView(R.id.storeLayout) LinearLayout storeLayout;
+    @BindView(R.id.layoutStore) LinearLayout layoutStore;
 
     private CategoryOptionAdapter adapter;
 
@@ -87,6 +90,10 @@ public class OrderFragment extends BaseFragment implements View.OnClickListener,
 
     private int idStore;
     private String idCategories = "";
+
+    private boolean isUpdate = false;
+    private String orderModelString = "";
+    private Order order;
 
     private GridLayoutManager gridLayoutManager;
 
@@ -119,6 +126,8 @@ public class OrderFragment extends BaseFragment implements View.OnClickListener,
             isInDetail = bundle.getBoolean(WHERE, false);
             nameStoreInDetail = bundle.getString(NAME_STORE, "Chọn cửa hàng");
             idStore = bundle.getInt(IDSTORE, 0);
+            orderModelString = bundle.getString(ORDER_MODEL_STRING, "");
+            isUpdate = bundle.getBoolean(UPDATE, false);
 
             nameStore.setText(nameStoreInDetail);
 
@@ -128,12 +137,18 @@ public class OrderFragment extends BaseFragment implements View.OnClickListener,
             }
             else if (type == ORDER_AT_HOME)
             {
-                storeLayout.setVisibility(View.GONE);
+                layoutStore.setVisibility(View.GONE);
+                title.setText("Đặt lịch tại nhà");
             }
 
             if (isInDetail)
             {
                 nameStore.setOnClickListener(null);
+            }
+
+            if (!StringUtilities.isEmpty(orderModelString))
+            {
+                order = Order.initialize(orderModelString);
             }
         }
 
@@ -142,7 +157,19 @@ public class OrderFragment extends BaseFragment implements View.OnClickListener,
         showLoadingDialog();
         ApiService.Factory.getInstance().getStore(token, idCategories).enqueue(callbackGetStore());
         showLoadingDialog();
+        if (order != null)
+        {
+            idStore = order.getStoreID();
+        }
         ApiService.Factory.getInstance().getListServiceAdmin(token, idStore).enqueue(callbackGetService());
+
+        if (isUpdate)
+        {
+            nameEdt.setText(order.getName());
+            nameStore.setText(order.getStoreName());
+            startDate.setText(ManagerTime.convertToMonthDayYearHourMinuteFormat(order.getOnDate()));
+            noteEdt.setText(order.getDescribe());
+        }
     }
 
     private Callback<ResponseServiceAdmin> callbackGetService()
@@ -168,6 +195,21 @@ public class OrderFragment extends BaseFragment implements View.OnClickListener,
                     }
                     else
                     {
+                        adapter.refreshData(categories);
+                    }
+
+                    // setCheck:
+                    if (isUpdate)
+                    {
+                        for (int i = 0; i < order.getCategories().size(); i++)
+                        {
+                            Category category = order.getCategories().get(i);
+                            if (category.getiD() == order.getCategories().get(i).getiD())
+                            {
+                                categories.get(i).setChecked(true);
+                            }
+                        }
+
                         adapter.refreshData(categories);
                     }
                 }
@@ -212,6 +254,8 @@ public class OrderFragment extends BaseFragment implements View.OnClickListener,
         {
             case R.id.book:
             {
+                book.setEnabled(false);
+
                 String name = nameEdt.getText().toString();
                 String date = startDate.getText().toString();
                 String describe = noteEdt.getText().toString();
@@ -247,6 +291,7 @@ public class OrderFragment extends BaseFragment implements View.OnClickListener,
                 params.put("OnDate", date);
                 params.put("IDCategory", iDCategory);
 
+                showLoadingDialog();
                 ApiService.Factory.getInstance().orderCreate(params).enqueue(new Callback<ResponseOrder>()
                 {
                     @Override
@@ -256,8 +301,9 @@ public class OrderFragment extends BaseFragment implements View.OnClickListener,
                         if (response.body().getStatus() == 1)
                         {
                             showToast(message.getText(), GlobalVariables.TOAST_SUCCESS);
-                            Order order = response.body().getData().getOrder();
 
+                            getActivity().onBackPressed();
+                            Order order = response.body().getData().getOrder();
                             Bundle bundle = new Bundle();
                             bundle.putString(OrderDetailActivity.ORDER_MODEL, order.toJson());
                             startActivity(OrderDetailActivity.class, bundle, false);
@@ -265,19 +311,23 @@ public class OrderFragment extends BaseFragment implements View.OnClickListener,
                         else
                         {
                             showToast(message.getText(), GlobalVariables.TOAST_ERRO);
+                            book.setEnabled(true);
                         }
+
+                        hideLoadingDialog();
                     }
 
                     @Override
                     public void onFailure(Call<ResponseOrder> call, Throwable t) {
-
+                        book.setEnabled(true);
+                        hideLoadingDialog();
                     }
                 });
                 break;
             }
             case R.id.llStartDate:
             {
-                SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+                SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm");
                 new SlideDateTimePicker.Builder(getFragmentManager())
                         .setListener(new SlideDateTimeListener() {
                             @Override

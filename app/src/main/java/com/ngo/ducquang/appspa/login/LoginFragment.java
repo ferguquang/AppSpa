@@ -2,25 +2,19 @@ package com.ngo.ducquang.appspa.login;
 
 import android.support.v7.widget.CardView;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 
 import com.ngo.ducquang.appspa.BuildConfig;
-import com.ngo.ducquang.appspa.MainActivity;
 import com.ngo.ducquang.appspa.R;
-import com.ngo.ducquang.appspa.alarmService.AlarmSend;
 import com.ngo.ducquang.appspa.base.BaseFragment;
 import com.ngo.ducquang.appspa.base.EventBusManager;
 import com.ngo.ducquang.appspa.base.LogManager;
-import com.ngo.ducquang.appspa.base.Manager;
 import com.ngo.ducquang.appspa.base.Message;
 import com.ngo.ducquang.appspa.base.PreferenceUtil;
 import com.ngo.ducquang.appspa.base.api.ApiService;
-import com.ngo.ducquang.appspa.base.database.DatabaseRoom;
 import com.ngo.ducquang.appspa.login.modelLogin.DataLogin;
 import com.ngo.ducquang.appspa.login.modelLogin.ResponseLogin;
-import com.ngo.ducquang.appspa.login.modelLogin.UserApp;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;

@@ -6,6 +6,7 @@ import android.view.View;
 
 import com.ngo.ducquang.appspa.R;
 import com.ngo.ducquang.appspa.base.BaseFragment;
+import com.ngo.ducquang.appspa.oder.OrderListActivity;
 import com.ngo.ducquang.appspa.oder.OrderListAdapter;
 import com.ngo.ducquang.appspa.oder.model.DataListOrder;
 
@@ -36,7 +37,7 @@ public class DoneFragment extends BaseFragment
         if (adapter == null)
         {
             LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-            adapter = new OrderListAdapter(getContext(), dataListOrder.getOrders());
+            adapter = new OrderListAdapter((OrderListActivity) getActivity(), dataListOrder.getOrders(), getFragmentManager());
             layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
             recyclerView.setLayoutManager(layoutManager);
             recyclerView.setHasFixedSize(true);

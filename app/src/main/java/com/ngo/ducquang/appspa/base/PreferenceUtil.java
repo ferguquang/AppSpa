@@ -13,6 +13,7 @@ public class PreferenceUtil
     public static final String ALARM_NOTIFICATION = "alarmnotification";
     public static final String TOKEN = "token";
     public static final String USER_APP = "userapp";
+    public static final String POSITION_ID = "positionid";
 
     private static final String PREF_ACCOUNT = "account_id";
 

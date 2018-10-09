@@ -5,6 +5,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -44,6 +45,8 @@ public class StoreDetailActivity extends BaseActivity implements View.OnClickLis
     @BindView(R.id.address) TextView address;
     @BindView(R.id.phone) TextView phone;
 
+    @BindView(R.id.llContent) LinearLayout llContent;
+
     @BindView(R.id.bookCalendar) TextView bookCalendar;
     @BindView(R.id.ratingBar) RatingBar ratingBar;
     @BindView(R.id.ratingMe) RatingBar ratingMe;
@@ -74,6 +77,7 @@ public class StoreDetailActivity extends BaseActivity implements View.OnClickLis
         params.put("ID", iDStore + "");
 
         showLoadingDialog();
+        llContent.setVisibility(View.GONE);
         ApiService.Factory.getInstance().storeDetail(params).enqueue(new Callback<ResponseStoreDetail>()
         {
             @Override
@@ -86,6 +90,7 @@ public class StoreDetailActivity extends BaseActivity implements View.OnClickLis
                 }
 
                 hideLoadingDialog();
+                llContent.setVisibility(View.VISIBLE);
             }
 
             @Override
@@ -133,24 +138,26 @@ public class StoreDetailActivity extends BaseActivity implements View.OnClickLis
         ratingMe.setIsIndicator(!dataStoreDetail.isRating());
         ratingBar.setIsIndicator(true);
 
-        ratingMe.setOnRatingBarChangeListener((ratingBar, rating, fromUser) -> {
+        ratingMe.setOnRatingBarChangeListener((ratingBar, rating, fromUser) ->
+        {
             if (fromUser)
             {
                 DialogConfirmRate dialogConfirmRate = new DialogConfirmRate();
                 dialogConfirmRate.setRatingSelect(rating);
                 dialogConfirmRate.setIdStore(iDStore);
-//            dialogConfirmRate.setRatingOld(dataStoreDetail.getRating());
-
                 dialogConfirmRate.show(getSupportFragmentManager(), dialogConfirmRate.getTag());
             }
         });
+
+        ratingMe.setRating(dataStoreDetail.getRating());
     }
 
     @Override
     protected void initMenu(Menu menu) {}
 
     @Override
-    public void onClick(View v) {
+    public void onClick(View v)
+    {
         switch (v.getId())
         {
             case R.id.bookCalendar:
@@ -167,16 +174,21 @@ public class StoreDetailActivity extends BaseActivity implements View.OnClickLis
     }
 
     @Override
-    public void sendList(DataRate dataRate) {
+    public void sendList(DataRate dataRate)
+    {
         viewPager.setCurrentItem(2);
         rateFragment.updateData(dataRate.getRatings());
+
+        storeDetail.setRating(dataRate.getRating());
+        storeDetail.setRatingAverage(dataRate.getRatingAverage());
 
         ratingMe.setRating(dataRate.getRating());
         ratingBar.setRating(dataRate.getRatingAverage());
     }
 
     @Override
-    public void sendOldRate(float ratingOld) {
+    public void sendOldRate(float ratingOld)
+    {
         ratingMe.setRating(storeDetail.getRating());
         ratingBar.setRating(storeDetail.getRatingAverage());
     }

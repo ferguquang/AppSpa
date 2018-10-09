@@ -14,80 +14,56 @@ import java.io.Serializable;
  * Created by ducqu on 9/23/2018.
  */
 
-@Entity(tableName = "UserApp")
 public class UserApp
 {
-    @PrimaryKey(autoGenerate = true)
-    private int id;
-
     @SerializedName("IDUser")
     @Expose
-    @ColumnInfo(name = "IDUser")
-    int iDUser;
+    private int iDUser;
+    @SerializedName("Username")
+    @Expose
+    private String username;
     @SerializedName("Name")
     @Expose
-    @ColumnInfo(name = "Name")
     private String name;
     @SerializedName("PositionID")
     @Expose
-    @ColumnInfo(name = "PositionID")
     private int positionID;
     @SerializedName("PositionName")
     @Expose
-    @ColumnInfo(name = "PositionName")
     private String positionName;
     @SerializedName("ProvinceID")
     @Expose
-    @ColumnInfo(name = "ProvinceID")
     private int provinceID;
     @SerializedName("ProvinceName")
     @Expose
-    @ColumnInfo(name = "ProvinceName")
     private String provinceName;
     @SerializedName("DistrictID")
     @Expose
-    @ColumnInfo(name = "DistrictID")
     private int districtID;
     @SerializedName("DistrictName")
     @Expose
-    @ColumnInfo(name = "DistrictName")
     private String districtName;
     @SerializedName("Address")
     @Expose
-    @ColumnInfo(name = "Address")
     private String address;
     @SerializedName("Gender")
     @Expose
-    @ColumnInfo(name = "Gender")
     private int gender;
     @SerializedName("Avatar")
     @Expose
-    @ColumnInfo(name = "Avatar")
     private String avatar;
     @SerializedName("Email")
     @Expose
-    @ColumnInfo(name = "Email")
     private String email;
     @SerializedName("Birthday")
     @Expose
-    @ColumnInfo(name = "Birthday")
     private long birthday;
     @SerializedName("Phone")
     @Expose
-    @ColumnInfo(name = "Phone")
     private String phone;
     @SerializedName("Status")
     @Expose
-    @ColumnInfo(name = "Status")
     private int status;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public int getiDUser() {
         return iDUser;
@@ -95,6 +71,14 @@ public class UserApp
 
     public void setiDUser(int iDUser) {
         this.iDUser = iDUser;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getName() {

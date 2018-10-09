@@ -72,6 +72,7 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
     @BindView(R.id.phoneEdt) EditText phoneEdt;
     @BindView(R.id.describeEdt) EditText describeEdt;
     @BindView(R.id.genderEdt) TextView genderEdt;
+    private int valueGender;
 
     @BindView(R.id.recyclerView) RecyclerView recyclerView;
     @BindView(R.id.categorylayout) LinearLayout categorylayout;
@@ -99,8 +100,8 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
     private int idProvince = -1, idDistrict = -1;
     private String codeProvince = "";
 
-    List<District> districts = Share.getInstance().districts;
-    List<Province> provinces = Share.getInstance().provinces;
+    private List<District> districts = Share.getInstance().districts;
+    private List<Province> provinces = Share.getInstance().provinces;
 
 
     private ListPopupWindow popupProvince;
@@ -199,6 +200,13 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
         }
 
         setListPopupWindow();
+
+        if (genderEdt.getText().toString().equals("Nam"))
+        {
+            valueGender = 1;
+        }
+        else
+            valueGender = 2;
     }
 
     private void setListPopupWindow()
@@ -321,11 +329,10 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
                 params.put("Phone", phone);
                 params.put("Address", address);
                 params.put("Email", email);
-                params.put("Gender", gender);
+                params.put("Gender", valueGender + "");
                 params.put("Birthday", birthday);
                 params.put("IDProvince", idProvince + "");
                 params.put("IDDistrict", idDistrict + "");
-
 
                 if (cbChangePassword.isChecked())
                 {
@@ -447,7 +454,9 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
             case R.id.genderEdt:
             {
                 final String[] array = {"Nam", "Nữ"};
-                AddingArrayDialog addingArrayDialog = AddingArrayDialog.initialize("Chọn giới tính", array, (position, value) -> {
+                AddingArrayDialog addingArrayDialog = AddingArrayDialog.initialize("Chọn giới tính", array, (position, value) ->
+                {
+                    valueGender = position + 1;
                     switch (position)
                     {
                         case 0:
