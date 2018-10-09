@@ -1,5 +1,6 @@
 package com.ngo.ducquang.appspa.report.byStore;
 
+import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -9,12 +10,14 @@ import com.ngo.ducquang.appspa.base.BaseFragment;
 import com.ngo.ducquang.appspa.base.GlobalVariables;
 import com.ngo.ducquang.appspa.base.PreferenceUtil;
 import com.ngo.ducquang.appspa.base.api.ApiService;
+import com.ngo.ducquang.appspa.modelStore.Store;
 import com.ngo.ducquang.appspa.report.model.DataReportByStore;
 import com.ngo.ducquang.appspa.report.model.ResponseReportByStore;
 import com.ngo.ducquang.appspa.storageList.StorageAdapter;
 import com.ngo.ducquang.appspa.storageList.StoreActivity;
 
 import java.util.HashMap;
+import java.util.List;
 
 import butterknife.BindView;
 import retrofit2.Call;
@@ -30,7 +33,21 @@ public class ByStoreReportFragment extends BaseFragment
     @BindView(R.id.recyclerView) RecyclerView recyclerView;
 
     private ByStoreReportAdapter adapter;
-    private String iDs = "";
+
+    private HashMap<String, String> params = new HashMap<>();
+    private SendStoreList sendStoreList;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        sendStoreList = (SendStoreList) context;
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        sendStoreList = null;
+    }
 
     @Override
     protected int getContentView() {
@@ -41,25 +58,37 @@ public class ByStoreReportFragment extends BaseFragment
     protected void initView(View view)
     {
         String token = PreferenceUtil.getPreferences(getContext(), PreferenceUtil.TOKEN, "");
-        HashMap<String, String> params = new HashMap<>();
         params.put("Token", token);
-        params.put("IDs", iDs);
+        params.put("IDStore", "");
         showLoadingDialog();
-        ApiService.Factory.getInstance().reportByStore(params).enqueue(new Callback<ResponseReportByStore>()
+        ApiService.Factory.getInstance().reportByStore(params).enqueue(callbackReport());
+    }
+
+    private Callback<ResponseReportByStore> callbackReport()
+    {
+        return new Callback<ResponseReportByStore>()
         {
             @Override
-            public void onResponse(Call<ResponseReportByStore> call, Response<ResponseReportByStore> response)
-            {
+            public void onResponse(Call<ResponseReportByStore> call, Response<ResponseReportByStore> response) {
                 if (response.body().getStatus() == 1)
                 {
                     DataReportByStore dataReportByStore = response.body().getData();
 
-                    LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-                    adapter = new ByStoreReportAdapter(getContext(), dataReportByStore);
-                    layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-                    recyclerView.setLayoutManager(layoutManager);
-                    recyclerView.setHasFixedSize(true);
-                    recyclerView.setAdapter(adapter);
+                    if (adapter == null)
+                    {
+                        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+                        adapter = new ByStoreReportAdapter(getContext(), dataReportByStore);
+                        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+                        recyclerView.setLayoutManager(layoutManager);
+                        recyclerView.setHasFixedSize(true);
+                        recyclerView.setAdapter(adapter);
+                    }
+                    else
+                    {
+                        adapter.updateData(dataReportByStore);
+                    }
+
+                    sendStoreList.sendStoreList(dataReportByStore.getStore());
                 }
 
                 hideLoadingDialog();
@@ -70,6 +99,21 @@ public class ByStoreReportFragment extends BaseFragment
                 hideLoadingDialog();
                 showToast(t.getMessage(), GlobalVariables.TOAST_ERRO);
             }
-        });
+        };
+    }
+
+    public void sendRequestFilter(String idSelected)
+    {
+        String token = PreferenceUtil.getPreferences(getContext(), PreferenceUtil.TOKEN, "");
+        params.clear();
+        params.put("Token", token);
+        params.put("IDStore", idSelected);
+        showLoadingDialog();
+        ApiService.Factory.getInstance().reportByStore(params).enqueue(callbackReport());
+    }
+
+    public interface SendStoreList
+    {
+        void sendStoreList(List<Store> stores);
     }
 }

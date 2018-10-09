@@ -33,6 +33,16 @@ public class Store {
     @Expose
     private long birthday;
 
+    private boolean selected;
+
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
+    }
+
     public String getName() {
         return name;
     }

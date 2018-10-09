@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="@color/white"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/colorPrimary">
+
+        <TextView
+            android:id="@+id/titleAdd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:text="Lọc theo địa chỉ"
+            android:textColor="@color/white"
+            android:textSize="18sp"/>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:paddingRight="@dimen/padding_16dp"
+        android:paddingLeft="@dimen/padding_16dp"
+        android:paddingBottom="@dimen/padding_8dp"
+        android:paddingTop="@dimen/padding_8dp"
+        android:gravity="center_vertical"
+        android:background="@drawable/edt_bg_selector"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:textSize="@dimen/textSize"
+                android:textColor="@color/black"
+                android:text="Tỉnh/Thành phố:"
+                android:layout_width="@dimen/profileWidth"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:padding="@dimen/padding_16dp"
+                android:text="Chọn Tỉnh/Thành phố"
+                android:textSize="@dimen/textSize"
+                android:textColor="@color/black"
+                android:id="@+id/valueProvince"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:paddingRight="@dimen/padding_16dp"
+        android:paddingLeft="@dimen/padding_16dp"
+        android:paddingBottom="@dimen/padding_8dp"
+        android:paddingTop="@dimen/padding_8dp"
+        android:gravity="center_vertical"
+        android:background="@drawable/edt_bg_selector"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:textSize="@dimen/textSize"
+                android:textColor="@color/black"
+                android:text="Quận/Huyện:"
+                android:layout_width="@dimen/profileWidth"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:text="Chọn Quận/Huyện"
+                android:textSize="@dimen/textSize"
+                android:padding="@dimen/padding_16dp"
+                android:textColor="@color/black"
+                android:id="@+id/valueDistrict"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <Button
+        android:text="ĐỒNG Ý"
+        android:id="@+id/btnOK"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:background="@color/colorAccent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

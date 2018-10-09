@@ -127,4 +127,10 @@ public class ByStoreReportAdapter extends RecyclerView.Adapter<RecyclerView.View
                 itemReportStore.setBackgroundColor(context.getResources().getColor(R.color.white));
         }
     }
+
+    public void updateData(DataReportByStore data)
+    {
+        this.dataReportByStore = data;
+        notifyDataSetChanged();
+    }
 }
