@@ -13,6 +13,8 @@ import com.ngo.ducquang.appspa.base.Message;
 import com.ngo.ducquang.appspa.base.PreferenceUtil;
 import com.ngo.ducquang.appspa.base.api.ApiService;
 import com.ngo.ducquang.appspa.base.reponseMessage.ResponseMessage;
+import com.ngo.ducquang.appspa.base.view.ConfirmDialog;
+import com.ngo.ducquang.appspa.base.view.OnConfirmDialogAction;
 import com.ngo.ducquang.appspa.oder.model.Order;
 
 import butterknife.BindView;
@@ -41,9 +43,18 @@ public class BottomSheetOrder extends BaseBottomSheetDialogFragment implements V
     private CallBackActionOrder callBackActionOrder;
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(Context context)
+    {
         super.onAttach(context);
-        callBackActionOrder = (CallBackActionOrder) context;
+        if (getActivity() instanceof OrderListActivity)
+        {
+            callBackActionOrder = (CallBackActionOrder) context;
+        }
+
+        if (getActivity() instanceof OrderDetailActivity)
+        {
+            callBackActionOrder = (CallBackActionOrder) context;
+        }
     }
 
     @Override
@@ -54,7 +65,7 @@ public class BottomSheetOrder extends BaseBottomSheetDialogFragment implements V
     @Override
     protected void initView(View view)
     {
-        nameOption.setText(order.getName());
+        nameOption.setText(order.getUser().getName());
         idOrder = order.getiD();
         token = PreferenceUtil.getPreferences(getContext(), PreferenceUtil.TOKEN, "");
 
@@ -90,14 +101,35 @@ public class BottomSheetOrder extends BaseBottomSheetDialogFragment implements V
             }
             case R.id.rejectOption:
             {
-                showLoadingDialog();
-                ApiService.Factory.getInstance().rejectOrder(token, idOrder).enqueue(responseMessage());
+                ConfirmDialog.initialize("Bạn muốn có chắc chắn muốn từ chối lịch đặt này không?", new OnConfirmDialogAction()
+                {
+                    @Override
+                    public void onCancel() {}
+
+                    @Override
+                    public void onAccept()
+                    {
+                        showLoadingDialog();
+                        ApiService.Factory.getInstance().rejectOrder(token, idOrder).enqueue(responseMessage());
+                    }
+                }).show(getFragmentManager(), "");
                 break;
             }
             case R.id.cancelOption:
             {
-                showLoadingDialog();
-                ApiService.Factory.getInstance().cancelOrder(token, idOrder).enqueue(responseMessage());
+                ConfirmDialog.initialize("Bạn muốn có chắc chắn muốn hủy lịch đặt này không?", new OnConfirmDialogAction()
+                {
+                    @Override
+                    public void onCancel() {}
+
+                    @Override
+                    public void onAccept()
+                    {
+                        showLoadingDialog();
+                        ApiService.Factory.getInstance().cancelOrder(token, idOrder).enqueue(responseMessage());
+                    }
+                }).show(getFragmentManager(), "");
+
                 break;
             }
             case R.id.doneOption:

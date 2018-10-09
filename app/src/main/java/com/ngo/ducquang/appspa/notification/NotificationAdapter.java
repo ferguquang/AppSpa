@@ -8,6 +8,8 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ngo.ducquang.appspa.R;
@@ -110,8 +112,12 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         @BindView(R.id.address) TextView address;
 
         @BindView(R.id.cvGroup) CardView cvGroup;
+        @BindView(R.id.cardViewStatus) CardView cardViewStatus;
+        @BindView(R.id.llAddress) LinearLayout llAddress;
+        @BindView(R.id.imgOption) ImageView imgOption;
 
-        public ItemHolder(View itemView) {
+        public ItemHolder(View itemView)
+        {
             super(itemView);
 
             ButterKnife.bind(this, itemView);
@@ -119,15 +125,21 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             cvGroup.setOnClickListener(v ->
             {
                 dataList.get(getAdapterPosition()).setView(true);
+                notifyItemChanged(getAdapterPosition());
                 Bundle bundle = new Bundle();
                 bundle.putInt(OrderDetailActivity.ID_NOTI, dataList.get(getAdapterPosition()).getId());
                 bundle.putInt(OrderDetailActivity.ID_ORDER, dataList.get(getAdapterPosition()).getiDOrder());
+                bundle.putBoolean(OrderDetailActivity.FROM_NOTIFICATION_ACTIVITY, true);
                 notificationActivity.startActivity(OrderDetailActivity.class, bundle, false);
             });
         }
 
         public void binding(Notification model)
         {
+            cardViewStatus.setVisibility(View.GONE);
+            llAddress.setVisibility(View.GONE);
+            imgOption.setVisibility(View.GONE);
+
             name.setText(model.getTitle());
             dateTime.setText(ManagerTime.convertToMonthDayYearHourMinuteFormat(model.getCreated()));
             List<String> categoriesString = new ArrayList<>();

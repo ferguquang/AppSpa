@@ -1,6 +1,8 @@
 package com.ngo.ducquang.appspa.report;
 
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.View;
@@ -9,8 +11,12 @@ import android.widget.Spinner;
 
 import com.ngo.ducquang.appspa.R;
 import com.ngo.ducquang.appspa.base.BaseActivity;
+import com.ngo.ducquang.appspa.base.view.TabPagerAdapter;
+import com.ngo.ducquang.appspa.base.view.TransformerFadeViewPager;
 import com.ngo.ducquang.appspa.base.view.spinner.AdapterSpinner;
 import com.ngo.ducquang.appspa.base.view.spinner.SpinnerModel;
+import com.ngo.ducquang.appspa.report.byAddress.ByAddressReportFragment;
+import com.ngo.ducquang.appspa.report.byStore.ByStoreReportFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,10 +30,9 @@ import butterknife.ButterKnife;
 
 public class ReportActivity extends BaseActivity
 {
-    @BindView(R.id.spinner) Spinner spinner;
-    @BindView(R.id.recyclerView) RecyclerView recyclerView;
-
-    private List<SpinnerModel> dataSpinner;
+    @BindView(R.id.tabLayout) TabLayout tabLayout;
+    @BindView(R.id.viewPager) ViewPager viewPager;
+    private TabPagerAdapter adapter;
 
     @Override
     protected int getContentView() {
@@ -35,31 +40,21 @@ public class ReportActivity extends BaseActivity
     }
 
     @Override
-    protected void initView() {
+    protected void initView()
+    {
+        hideMenu();
+        showIconBack();
+
         title.setText("Thống kê");
 
-        dataSpinner = new ArrayList<>();
-        dataSpinner.add(new SpinnerModel(1, "Thống kê theo cửa hàng"));
-        dataSpinner.add(new SpinnerModel(2, "Thống kê theo địa chỉ khách hàng"));
+        adapter = new TabPagerAdapter(getSupportFragmentManager());
+        adapter.addFragment(new ByStoreReportFragment(), "Theo cửa hàng");
+        adapter.addFragment(new ByAddressReportFragment(), "Theo địa chỉ");
 
-        AdapterSpinner adapterSpinner = new AdapterSpinner(this, R.layout.item_dialog_spinner, dataSpinner);
-        adapterSpinner.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
-        spinner.setAdapter(adapterSpinner);
-
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
-        {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
-            {
-                int idSelected = dataSpinner.get(position).getId();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent)
-            {
-
-            }
-        });
+        viewPager.setPageTransformer(false, new TransformerFadeViewPager());
+        viewPager.setAdapter(adapter);
+        tabLayout.setupWithViewPager(viewPager);
+        viewPager.setOffscreenPageLimit(adapter.getCount());
     }
 
     @Override

@@ -6,6 +6,7 @@ import android.view.Menu;
 
 import com.ngo.ducquang.appspa.R;
 import com.ngo.ducquang.appspa.base.BaseActivity;
+import com.ngo.ducquang.appspa.base.LogManager;
 import com.ngo.ducquang.appspa.base.PreferenceUtil;
 import com.ngo.ducquang.appspa.base.api.ApiService;
 import com.ngo.ducquang.appspa.notification.model.Notification;
@@ -45,21 +46,27 @@ public class NotificationActivity extends BaseActivity
             @Override
             public void onResponse(Call<ResponseNotification> call, Response<ResponseNotification> response)
             {
-                if (response.body().getStatus() == 1)
+                try {
+                    if (response.body().getStatus() == 1)
+                    {
+                        List<Notification> notifications = response.body().getData().getNotifications();
+                        LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+                        adapter = new NotificationAdapter(NotificationActivity.this, notifications);
+                        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+                        recyclerView.setLayoutManager(layoutManager);
+                        recyclerView.setHasFixedSize(true);
+                        recyclerView.setAdapter(adapter);
+                    }
+                }
+                catch (Exception e)
                 {
-                    List<Notification> notifications = response.body().getData().getNotifications();
-                    LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
-                    adapter = new NotificationAdapter(NotificationActivity.this, notifications);
-                    layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-                    recyclerView.setLayoutManager(layoutManager);
-                    recyclerView.setHasFixedSize(true);
-                    recyclerView.setAdapter(adapter);
+                    LogManager.tagDefault().error(e.toString());
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseNotification> call, Throwable t) {
-
+                LogManager.tagDefault().error(t.getMessage());
             }
         });
     }

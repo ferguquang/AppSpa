@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.ngo.ducquang.appspa.oder.OrderFragment;
 import com.ngo.ducquang.appspa.notification.NotificationActivity;
 import com.ngo.ducquang.appspa.oder.OrderListActivity;
+import com.ngo.ducquang.appspa.report.ReportActivity;
 import com.ngo.ducquang.appspa.service.ServiceAdminActivity;
 import com.ngo.ducquang.appspa.storageList.StoreActivity;
 import com.ngo.ducquang.appspa.userList.UserListActivity;
@@ -127,7 +128,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 }
                 case MainActivity.REPORT:
                 {
-
+                    context.startActivity(ReportActivity.class, null, false);
                     break;
                 }
             }

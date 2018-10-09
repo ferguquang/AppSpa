@@ -1,5 +1,6 @@
 package com.ngo.ducquang.appspa.storageList;
 
+import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,6 +20,7 @@ import com.ngo.ducquang.appspa.storageList.createStore.CreateStoreFragment;
 import com.ngo.ducquang.appspa.storageList.model.DataStoreList;
 import com.ngo.ducquang.appspa.storageList.model.ResponseStoreList;
 import com.ngo.ducquang.appspa.storageList.model.UserStore;
+import com.ngo.ducquang.appspa.storageList.storeDetail.StoreDetailActivity;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -103,6 +105,15 @@ public class StoreActivity extends BaseActivity implements View.OnClickListener,
                     hideLoadingDialog();
 
                     Share.getInstance().categoryList = response.body().getData().getCategories();
+
+                    if (dataStoreList.getUserStores().size() == 1)
+                    {
+                        finish();
+                        UserStore userStore = dataStoreList.getUserStores().get(0);
+                        Bundle bundle = new Bundle();
+                        bundle.putInt(StorageAdapter.ID_STORE, userStore.getiDUser());
+                        startActivity(StoreDetailActivity.class, bundle, false);
+                    }
                 }
             }
 

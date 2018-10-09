@@ -26,15 +26,9 @@ public class Order implements Serializable {
     @SerializedName("StatusColor")
     @Expose
     private String statusColor;
-    @SerializedName("Name")
-    @Expose
-    private String name;
     @SerializedName("Type")
     @Expose
     private int type;
-    @SerializedName("Priority")
-    @Expose
-    private int priority;
     @SerializedName("Describe")
     @Expose
     private String describe;
@@ -116,28 +110,12 @@ public class Order implements Serializable {
         this.statusColor = statusColor;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public int getType() {
         return type;
     }
 
     public void setType(int type) {
         this.type = type;
-    }
-
-    public int getPriority() {
-        return priority;
-    }
-
-    public void setPriority(int priority) {
-        this.priority = priority;
     }
 
     public String getDescribe() {

@@ -10,6 +10,8 @@ import com.ngo.ducquang.appspa.oder.model.ResponseListOder;
 import com.ngo.ducquang.appspa.login.modelLogin.ResponseLogin;
 import com.ngo.ducquang.appspa.login.modelRegister.ResponseRegister;
 import com.ngo.ducquang.appspa.oder.model.ResponseOrder;
+import com.ngo.ducquang.appspa.report.model.ResponseReportByAddress;
+import com.ngo.ducquang.appspa.report.model.ResponseReportByStore;
 import com.ngo.ducquang.appspa.service.model.ResponseCreateService;
 import com.ngo.ducquang.appspa.service.model.ResponseServiceAdmin;
 import com.ngo.ducquang.appspa.slideMenu.logout.ResponseLogout;
@@ -143,6 +145,10 @@ public interface ApiService
     @FormUrlEncoded
     Call<ResponseOrder> orderCreate(@FieldMap Map<String, String> params);
 
+    @POST("order/update")
+    @FormUrlEncoded
+    Call<ResponseOrder> orderUpdate(@FieldMap Map<String, String> params);
+
     // get store:
     @GET("account/getstores")
     Call<ResponseGetStore> getStore(@Query("Token") String token,
@@ -179,6 +185,15 @@ public interface ApiService
     @POST("notification/index")
     @FormUrlEncoded
     Call<ResponseNotification> getListNotification(@Field("Token") String token);
+
+    // thống kê
+    @POST("manager/reportByStore")
+    @FormUrlEncoded
+    Call<ResponseReportByStore> reportByStore(@FieldMap HashMap<String, String> params);
+
+    @POST("manager/reportbyaddress")
+    @FormUrlEncoded
+    Call<ResponseReportByAddress> reportByAddress(@FieldMap HashMap<String, String> params);
 
     class Factory
     {

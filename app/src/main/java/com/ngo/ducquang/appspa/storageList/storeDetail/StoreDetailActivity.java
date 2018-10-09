@@ -3,6 +3,7 @@ package com.ngo.ducquang.appspa.storageList.storeDetail;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.CardView;
 import android.view.Menu;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 
 import com.ngo.ducquang.appspa.R;
 import com.ngo.ducquang.appspa.base.BaseActivity;
+import com.ngo.ducquang.appspa.base.GlobalVariables;
 import com.ngo.ducquang.appspa.base.LogManager;
 import com.ngo.ducquang.appspa.base.PreferenceUtil;
 import com.ngo.ducquang.appspa.base.api.ApiService;
@@ -44,8 +46,12 @@ public class StoreDetailActivity extends BaseActivity implements View.OnClickLis
     @BindView(R.id.name) TextView name;
     @BindView(R.id.address) TextView address;
     @BindView(R.id.phone) TextView phone;
+    @BindView(R.id.textMyRate) TextView textMyRate;
+    @BindView(R.id.textRateAverage) TextView textRateAverage;
 
     @BindView(R.id.llContent) LinearLayout llContent;
+    @BindView(R.id.myRateLayout) LinearLayout myRateLayout;
+    @BindView(R.id.cvBook) CardView cvBook;
 
     @BindView(R.id.bookCalendar) TextView bookCalendar;
     @BindView(R.id.ratingBar) RatingBar ratingBar;
@@ -66,9 +72,22 @@ public class StoreDetailActivity extends BaseActivity implements View.OnClickLis
     }
 
     @Override
-    protected void initView() {
+    protected void initView()
+    {
         showIconBack();
         title.setText("Chi tiết cửa hàng");
+
+        int positionID = PreferenceUtil.getPreferences(getApplicationContext(), PreferenceUtil.POSITION_ID, 0);
+        if (positionID == GlobalVariables.IS_USER)
+        {
+            myRateLayout.setVisibility(View.VISIBLE);
+            cvBook.setVisibility(View.VISIBLE);
+        }
+        else
+        {
+            myRateLayout.setVisibility(View.GONE);
+            cvBook.setVisibility(View.GONE);
+        }
 
         Bundle bundle = getIntent().getExtras();
         iDStore = bundle.getInt(StorageAdapter.ID_STORE);
@@ -110,6 +129,8 @@ public class StoreDetailActivity extends BaseActivity implements View.OnClickLis
         address.setText("Địa chỉ: " + userStore.getAddress() + " - " + userStore.getDistrictName() + " - " + userStore.getProvinceName());
         phone.setText("Số điện thoại: " + userStore.getPhone());
 
+        textMyRate.setText("Đánh giá của tôi: " + dataStoreDetail.getRating() + "/5");
+        textRateAverage.setText("Đánh giá: " + dataStoreDetail.getRatingAverage() + "/5");
         ratingBar.setRating(dataStoreDetail.getRatingAverage());
 
         categoriesFragment = new CategoriesFragment();

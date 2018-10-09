@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:weightSum="10"
+    android:id="@+id/itemReportStore"
+    android:gravity="center_vertical"
+    android:paddingRight="@dimen/padding_16dp"
+    android:paddingLeft="@dimen/padding_16dp"
+    android:paddingBottom="@dimen/padding_8dp"
+    android:paddingTop="@dimen/padding_8dp"
+    android:background="@color/colorBackground"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/name"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:layout_weight="3"
+        android:text="tên cửa hàng"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:gravity="center"
+        android:id="@+id/totalUser"
+        android:text="2"
+        android:layout_weight="1.4"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/totalDone"
+        android:gravity="center"
+        android:text="2"
+        android:textColor="@color/complate_tab_job"
+        android:layout_weight="1.4"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:gravity="center"
+        android:id="@+id/totalInProcess"
+        android:text="2"
+        android:layout_weight="1.4"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/totalNotDone"
+        android:text="2"
+        android:gravity="center"
+        android:textColor="@color/redCus"
+        android:layout_weight="1.4"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/totalOrder"
+        android:text="3"
+        android:textColor="@color/colorPrimary"
+        android:gravity="center"
+        android:layout_weight="1.4"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

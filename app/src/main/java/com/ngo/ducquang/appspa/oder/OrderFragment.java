@@ -2,13 +2,12 @@ package com.ngo.ducquang.appspa.oder;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -26,7 +25,6 @@ import com.ngo.ducquang.appspa.base.LogManager;
 import com.ngo.ducquang.appspa.base.ManagerTime;
 import com.ngo.ducquang.appspa.base.Message;
 import com.ngo.ducquang.appspa.base.PreferenceUtil;
-import com.ngo.ducquang.appspa.base.Share;
 import com.ngo.ducquang.appspa.base.StringUtilities;
 import com.ngo.ducquang.appspa.base.api.ApiService;
 import com.ngo.ducquang.appspa.base.view.popupWindow.ItemPopupMenu;
@@ -35,11 +33,9 @@ import com.ngo.ducquang.appspa.modelStore.ResponseGetStore;
 import com.ngo.ducquang.appspa.modelStore.Store;
 import com.ngo.ducquang.appspa.oder.model.Order;
 import com.ngo.ducquang.appspa.oder.model.ResponseOrder;
-import com.ngo.ducquang.appspa.service.ServiceAdminAdapter;
 import com.ngo.ducquang.appspa.service.model.ResponseServiceAdmin;
 import com.ngo.ducquang.appspa.storageList.model.Category;
 
-import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -47,7 +43,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -79,7 +74,6 @@ public class OrderFragment extends BaseFragment implements View.OnClickListener,
     @BindView(R.id.llStartDate) LinearLayout llStartDate;
     @BindView(R.id.startDate) TextView startDate;
     @BindView(R.id.noteEdt) EditText noteEdt;
-    @BindView(R.id.nameEdt) EditText nameEdt;
 
     @BindView(R.id.nameStore) TextView nameStore;
     @BindView(R.id.layoutStore) LinearLayout layoutStore;
@@ -165,10 +159,11 @@ public class OrderFragment extends BaseFragment implements View.OnClickListener,
 
         if (isUpdate)
         {
-            nameEdt.setText(order.getName());
             nameStore.setText(order.getStoreName());
             startDate.setText(ManagerTime.convertToMonthDayYearHourMinuteFormat(order.getOnDate()));
             noteEdt.setText(order.getDescribe());
+
+            title.setText("Chỉnh sửa lịch đặt");
         }
     }
 
@@ -177,7 +172,7 @@ public class OrderFragment extends BaseFragment implements View.OnClickListener,
         return new Callback<ResponseServiceAdmin>()
         {
             @Override
-            public void onResponse(Call<ResponseServiceAdmin> call, Response<ResponseServiceAdmin> response)
+            public void onResponse(@NonNull Call<ResponseServiceAdmin> call, @NonNull Response<ResponseServiceAdmin> response)
             {
                 if (response.body().getStatus() == 1)
                 {
@@ -256,7 +251,6 @@ public class OrderFragment extends BaseFragment implements View.OnClickListener,
             {
                 book.setEnabled(false);
 
-                String name = nameEdt.getText().toString();
                 String date = startDate.getText().toString();
                 String describe = noteEdt.getText().toString();
 
@@ -286,43 +280,82 @@ public class OrderFragment extends BaseFragment implements View.OnClickListener,
                     params.put("IDStore", idStore + "");
                 }
                 params.put("Type", type + "");
-                params.put("Name", name);
                 params.put("Describe", describe);
                 params.put("OnDate", date);
                 params.put("IDCategory", iDCategory);
 
                 showLoadingDialog();
-                ApiService.Factory.getInstance().orderCreate(params).enqueue(new Callback<ResponseOrder>()
+
+                if (isUpdate)
                 {
-                    @Override
-                    public void onResponse(Call<ResponseOrder> call, Response<ResponseOrder> response)
+                    params.put("ID", order.getiD() + "");
+                    ApiService.Factory.getInstance().orderUpdate(params).enqueue(new Callback<ResponseOrder>()
                     {
-                        Message message = response.body().getMessages().get(0);
-                        if (response.body().getStatus() == 1)
+                        @Override
+                        public void onResponse(Call<ResponseOrder> call, Response<ResponseOrder> response)
                         {
-                            showToast(message.getText(), GlobalVariables.TOAST_SUCCESS);
+                            Message message = response.body().getMessages().get(0);
+                            if (response.body().getStatus() == 1)
+                            {
+                                showToast(message.getText(), GlobalVariables.TOAST_SUCCESS);
 
-                            getActivity().onBackPressed();
-                            Order order = response.body().getData().getOrder();
-                            Bundle bundle = new Bundle();
-                            bundle.putString(OrderDetailActivity.ORDER_MODEL, order.toJson());
-                            startActivity(OrderDetailActivity.class, bundle, false);
+                                getActivity().onBackPressed();
+                                Order order = response.body().getData().getOrder();
+                                Bundle bundle = new Bundle();
+                                bundle.putString(OrderDetailActivity.ORDER_MODEL, order.toJson());
+                                startActivity(OrderDetailActivity.class, bundle, false);
+                            }
+                            else
+                            {
+                                showToast(message.getText(), GlobalVariables.TOAST_ERRO);
+                                book.setEnabled(true);
+                            }
+
+                            hideLoadingDialog();
                         }
-                        else
-                        {
-                            showToast(message.getText(), GlobalVariables.TOAST_ERRO);
+
+                        @Override
+                        public void onFailure(Call<ResponseOrder> call, Throwable t) {
                             book.setEnabled(true);
+                            hideLoadingDialog();
+                        }
+                    });
+                }
+                else
+                {
+                    ApiService.Factory.getInstance().orderCreate(params).enqueue(new Callback<ResponseOrder>()
+                    {
+                        @Override
+                        public void onResponse(Call<ResponseOrder> call, Response<ResponseOrder> response)
+                        {
+                            Message message = response.body().getMessages().get(0);
+                            if (response.body().getStatus() == 1)
+                            {
+                                showToast(message.getText(), GlobalVariables.TOAST_SUCCESS);
+
+                                getActivity().onBackPressed();
+                                Order order = response.body().getData().getOrder();
+                                Bundle bundle = new Bundle();
+                                bundle.putString(OrderDetailActivity.ORDER_MODEL, order.toJson());
+                                startActivity(OrderDetailActivity.class, bundle, false);
+                            }
+                            else
+                            {
+                                showToast(message.getText(), GlobalVariables.TOAST_ERRO);
+                                book.setEnabled(true);
+                            }
+
+                            hideLoadingDialog();
                         }
 
-                        hideLoadingDialog();
-                    }
+                        @Override
+                        public void onFailure(Call<ResponseOrder> call, Throwable t) {
+                            book.setEnabled(true);
+                            hideLoadingDialog();
+                        }
+                    });
+                }
 
-                    @Override
-                    public void onFailure(Call<ResponseOrder> call, Throwable t) {
-                        book.setEnabled(true);
-                        hideLoadingDialog();
-                    }
-                });
                 break;
             }
             case R.id.llStartDate:
@@ -381,6 +414,10 @@ public class OrderFragment extends BaseFragment implements View.OnClickListener,
         for (int i = 0; i < categories.size(); i++)
         {
             RecyclerView.ViewHolder viewMain = recyclerView.findViewHolderForAdapterPosition(i);
+            if (viewMain == null)
+            {
+                return;
+            }
             CheckBox checkBox = viewMain.itemView.findViewById(R.id.checkbox);
             if (checkBox.isChecked())
             {
@@ -396,7 +433,8 @@ public class OrderFragment extends BaseFragment implements View.OnClickListener,
     }
 
     @Override
-    public void onStop() {
+    public void onStop()
+    {
         super.onStop();
         if (listPopupWindow != null)
         {

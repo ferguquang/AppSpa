@@ -10,6 +10,7 @@ import android.graphics.BitmapFactory;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.text.TextUtils;
 
@@ -18,6 +19,7 @@ import com.ngo.ducquang.appspa.base.LogManager;
 import com.ngo.ducquang.appspa.base.Manager;
 import com.ngo.ducquang.appspa.base.ManagerTime;
 import com.ngo.ducquang.appspa.notification.NotificationActivity;
+import com.ngo.ducquang.appspa.oder.OrderDetailActivity;
 import com.ngo.ducquang.appspa.storageList.model.Category;
 
 import java.util.ArrayList;
@@ -30,15 +32,21 @@ import java.util.List;
 public class NotificationMessage
 {
     private final static long[] VIBRATE = new long[]{0, 500, 1000, 1500, 1500};
-    private final static Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+    private final static Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
     public static void notificationAlarmService(Context context, com.ngo.ducquang.appspa.notification.model.Notification model)
     {
-        Intent intent = new Intent(context, NotificationActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putInt(OrderDetailActivity.ID_NOTI, model.getId());
+        bundle.putInt(OrderDetailActivity.ID_ORDER, model.getiDOrder());
+        bundle.putBoolean(OrderDetailActivity.FROM_NOTIFICATION_ACTIVITY, true);
+
+        Intent intent = new Intent(context, OrderDetailActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtras(bundle);
 
-//        int id = model.getID();
+        int id = model.getId();
         String title = model.getTitle();
         List<String> categoriesString = new ArrayList<>();
         List<Category> categories = model.getCategories();
@@ -68,10 +76,12 @@ public class NotificationMessage
                     .setDefaults(Notification.DEFAULT_ALL)
                     .setAutoCancel(true)
                     .setBadgeIconType(R.mipmap.ic_launcher)
+                    .setVibrate(VIBRATE)
+                    .setPriority(Notification.PRIORITY_MAX)
                     .setContentIntent(pendingIntent)
-                    .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
+                    .setSound(alarmSound);
             Notification notification = builder.build();
-            notifManager.notify(0, notification);
+            notifManager.notify(id, notification);
         }
         else
         {
@@ -84,14 +94,14 @@ public class NotificationMessage
                     .setContentIntent(pendingIntent)
                     .setWhen(System.currentTimeMillis())
                     .setSound(alarmSound)
-                    .setPriority(Notification.PRIORITY_HIGH)
+                    .setPriority(Notification.PRIORITY_MAX)
                     .setVibrate(VIBRATE)
                     .getNotification();
 
             notify.flags |= Notification.FLAG_AUTO_CANCEL;
 
             NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-            notificationManager.notify((int) System.currentTimeMillis(), notify);
+            notificationManager.notify(id, notify);
         }
     }
 

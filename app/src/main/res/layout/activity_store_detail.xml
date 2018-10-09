@@ -41,15 +41,47 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
 
-                    <LinearLayout
-                        android:layout_marginTop="@dimen/margin_16dp"
-                        android:gravity="center"
-                        android:orientation="horizontal"
+                    <android.support.v7.widget.CardView
+                        android:id="@+id/cvBook"
+                        app:cardCornerRadius="16dp"
+                        android:layout_marginTop="@dimen/margin_8dp"
+                        android:layout_marginRight="48dp"
+                        android:layout_marginLeft="48dp"
+                        app:cardBackgroundColor="@color/colorPrimary"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
                         <TextView
-                            android:text="Đánh giá của cửa hàng: "
+                            android:id="@+id/bookCalendar"
+                            android:gravity="center"
+                            android:paddingTop="@dimen/padding_8dp"
+                            android:paddingBottom="@dimen/padding_8dp"
+                            android:text="ĐẶT LỊCH NGAY"
+                            android:textStyle="bold"
+                            android:textColor="@color/white"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+
+                    </android.support.v7.widget.CardView>
+
+                    <LinearLayout
+                        android:layout_marginTop="@dimen/margin_16dp"
+                        android:gravity="center_vertical"
+                        android:paddingRight="@dimen/padding_16dp"
+                        android:paddingLeft="@dimen/padding_16dp"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            app:srcCompat="@drawable/icon_asset_star"
+                            android:layout_marginRight="@dimen/margin_4dp"
+                            android:layout_width="16dp"
+                            android:layout_height="16dp" />
+
+                        <TextView
+                            android:id="@+id/textRateAverage"
+                            android:text="Đánh giá: "
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content" />
 
@@ -78,56 +110,73 @@
 
                     </LinearLayout>
 
-                    <TextView
-                        android:id="@+id/address"
-                        android:paddingRight="@dimen/padding_16dp"
-                        android:paddingLeft="@dimen/padding_16dp"
-                        android:paddingTop="@dimen/padding_8dp"
-                        android:textSize="@dimen/textSize"
-                        android:textColor="@color/black"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-
-                    <TextView
-                        android:id="@+id/phone"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/textSize"
-                        android:paddingRight="@dimen/padding_16dp"
-                        android:paddingLeft="@dimen/padding_16dp"
-                        android:paddingBottom="@dimen/padding_8dp"
-                        android:paddingTop="@dimen/padding_8dp"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-
-                    <android.support.v7.widget.CardView
-                        app:cardCornerRadius="16dp"
-                        android:layout_marginRight="48dp"
-                        android:layout_marginLeft="48dp"
-                        app:cardBackgroundColor="@color/colorPrimary"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <TextView
-                            android:id="@+id/bookCalendar"
-                            android:gravity="center"
-                            android:paddingTop="@dimen/padding_8dp"
-                            android:paddingBottom="@dimen/padding_8dp"
-                            android:text="ĐẶT LỊCH NGAY"
-                            android:textStyle="bold"
-                            android:textColor="@color/white"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
-
-                    </android.support.v7.widget.CardView>
-
                     <LinearLayout
-                        android:layout_marginTop="@dimen/padding_8dp"
-                        android:gravity="center"
+                        android:layout_marginTop="@dimen/margin_4dp"
+                        android:layout_marginBottom="@dimen/margin_4dp"
+                        android:paddingRight="@dimen/padding_16dp"
+                        android:paddingLeft="@dimen/padding_16dp"
+                        android:gravity="center_vertical"
                         android:orientation="horizontal"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
+                        <ImageView
+                            android:layout_marginRight="@dimen/margin_4dp"
+                            app:srcCompat="@drawable/icon_address"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
                         <TextView
+                            android:id="@+id/address"
+                            android:textSize="@dimen/textSize"
+                            android:textColor="@color/black"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+
+                    </LinearLayout>
+
+                   <LinearLayout
+                       android:paddingRight="@dimen/padding_16dp"
+                       android:paddingLeft="@dimen/padding_16dp"
+                       android:gravity="center_vertical"
+                       android:orientation="horizontal"
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content">
+
+                       <ImageView
+                           android:layout_marginRight="@dimen/margin_4dp"
+                           app:srcCompat="@drawable/icon_phone"
+                           android:layout_width="16dp"
+                           android:layout_height="16dp" />
+
+                       <TextView
+                           android:id="@+id/phone"
+                           android:textColor="@color/black"
+                           android:textSize="@dimen/textSize"
+                           android:layout_width="match_parent"
+                           android:layout_height="wrap_content" />
+
+                   </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/myRateLayout"
+                        android:paddingRight="@dimen/padding_16dp"
+                        android:paddingLeft="@dimen/padding_16dp"
+                        android:layout_marginTop="@dimen/margin_4dp"
+                        android:layout_marginBottom="@dimen/margin_4dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:layout_marginRight="@dimen/margin_4dp"
+                            app:srcCompat="@drawable/icon_asset_star"
+                            android:layout_width="16dp"
+                            android:layout_height="16dp" />
+
+                        <TextView
+                            android:id="@+id/textMyRate"
                             android:text="Đánh giá của tôi: "
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content" />
@@ -194,6 +243,11 @@
                 android:layout_below="@+id/tabLayout"/>
 
         </RelativeLayout>
+
+        <TextView
+            android:background="@color/colorBackground"
+            android:layout_width="match_parent"
+            android:layout_height="1dp" />
 
     </FrameLayout>
 

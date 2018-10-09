@@ -7,10 +7,12 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.telecom.ConnectionService;
 import android.widget.Toast;
 
+import com.ngo.ducquang.appspa.base.LogManager;
 import com.ngo.ducquang.appspa.base.PreferenceUtil;
 import com.ngo.ducquang.appspa.base.api.ApiService;
 import com.ngo.ducquang.appspa.notification.model.Notification;
@@ -47,32 +49,38 @@ public class ServiceManager extends Service
     @Override
     public void onStart(Intent intent, int startId)
     {
-        Toast.makeText(this, " MyService Started", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, " Call API SERVER - SERVICE START ", Toast.LENGTH_LONG).show();
 
         String token = PreferenceUtil.getPreferences(getApplicationContext(), PreferenceUtil.TOKEN, "");
         ApiService.Factory.getInstance().getNotificationInTop(token).enqueue(new Callback<ResponseNotification>()
         {
             @Override
-            public void onResponse(Call<ResponseNotification> call, Response<ResponseNotification> response)
+            public void onResponse(@NonNull Call<ResponseNotification> call, @NonNull Response<ResponseNotification> response)
             {
-                if (response.body().getStatus() == 1)
+                try
                 {
-                    List<Notification> notifications = response.body().getData().getNotifications();
-                    if (notifications.size() > 0)
+                    if (response.body().getStatus() == 1)
                     {
-                        for (int i = 0; i < notifications.size(); i++)
+                        List<Notification> notifications = response.body().getData().getNotifications();
+                        if (notifications.size() > 0)
                         {
-                            Notification notification = notifications.get(i);
-                            NotificationMessage.notificationAlarmService(getApplicationContext(), notification);
-
+                            for (int i = 0; i < notifications.size(); i++)
+                            {
+                                Notification notification = notifications.get(i);
+                                NotificationMessage.notificationAlarmService(getApplicationContext(), notification);
+                            }
                         }
                     }
+                }
+                catch (Exception e)
+                {
+                    LogManager.tagDefault().error(e.toString());
                 }
             }
 
             @Override
-            public void onFailure(Call<ResponseNotification> call, Throwable t) {
-
+            public void onFailure(@NonNull Call<ResponseNotification> call, @NonNull Throwable t) {
+                LogManager.tagDefault().error(t.getMessage());
             }
         });
 

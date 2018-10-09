@@ -140,7 +140,7 @@ public class MainActivity extends BaseActivity implements SlideMenuFragment.Even
             }
             case GlobalVariables.IS_STORE:
             {
-                dataList.add(new ModelItemMain(STORE_LIST, "danh sách cửa hàng", "Thông tin danh sách cửa hàng", R.drawable.icon_store));
+                dataList.add(new ModelItemMain(STORE_LIST, "cửa hàng của bạn", "Thông tin danh sách cửa hàng", R.drawable.icon_store));
                 dataList.add(new ModelItemMain(LIST_ORDER, "danh sách lịch đặt", "lịch đặt", R.drawable.icon_notification));
                 dataList.add(new ModelItemMain(LIST_USER, "danh sách khách hàng", "", R.drawable.icon_notification));
                 dataList.add(new ModelItemMain(NOTIFICATION, "thông báo", "Thông báo", R.drawable.icon_notification));
@@ -156,28 +156,6 @@ public class MainActivity extends BaseActivity implements SlideMenuFragment.Even
                 break;
             }
         }
-
-
-//        dataList.add(new ModelItemMain(STORE_LIST, "danh sách cửa hàng", "Thông tin danh sách cửa hàng", R.drawable.icon_store));
-//        if (positionID == GlobalVariables.IS_ADMIN)
-//        {
-//            dataList.add(new ModelItemMain(LIST_SERVICE, "danh sách dịch vụ", "dịch vụ", R.drawable.icon_notification));
-//        }
-//        dataList.add(new ModelItemMain(LIST_ORDER, "danh sách lịch đặt", "lịch đặt", R.drawable.icon_notification));
-//        if (positionID != GlobalVariables.IS_USER)
-//        {
-//            dataList.add(new ModelItemMain(LIST_USER, "danh sách khách hàng", "", R.drawable.icon_notification));
-//        }
-//        dataList.add(new ModelItemMain(NOTIFICATION, "thông báo", "Thông báo", R.drawable.icon_notification));
-//        if (positionID == GlobalVariables.IS_USER)
-//        {
-//            dataList.add(new ModelItemMain(BOOK, "đặt lịch", "Thông tin đặt lịch", R.drawable.icon_book_calendar));
-//            dataList.add(new ModelItemMain(BOOK_AT_HOME, "ĐẶT TẠI NHÀ", "Tại nhà", R.drawable.icon_notification));
-//        }
-//        if (positionID == GlobalVariables.IS_ADMIN)
-//        {
-//            dataList.add(new ModelItemMain(REPORT, "thống kê", "Thống kê theo khách hàng, cửa hàng", R.drawable.icon_notification));
-//        }
 
         title.setText("SPA");
 

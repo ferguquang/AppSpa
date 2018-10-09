@@ -10,7 +10,7 @@ import com.google.gson.annotations.SerializedName;
 public class Store {
     @SerializedName("ID")
     @Expose
-    private Integer iD;
+    private int iD;
     @SerializedName("Name")
     @Expose
     private String name;
@@ -20,14 +20,18 @@ public class Store {
     @SerializedName("Phone")
     @Expose
     private String phone;
-
-    public Integer getiD() {
-        return iD;
-    }
-
-    public void setiD(Integer iD) {
-        this.iD = iD;
-    }
+    @SerializedName("Gender")
+    @Expose
+    private int gender;
+    @SerializedName("Avatar")
+    @Expose
+    private String avatar;
+    @SerializedName("Email")
+    @Expose
+    private String email;
+    @SerializedName("Birthday")
+    @Expose
+    private long birthday;
 
     public String getName() {
         return name;
@@ -51,5 +55,45 @@ public class Store {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public int getiD() {
+        return iD;
+    }
+
+    public void setiD(int iD) {
+        this.iD = iD;
+    }
+
+    public int getGender() {
+        return gender;
+    }
+
+    public void setGender(int gender) {
+        this.gender = gender;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public long getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(long birthday) {
+        this.birthday = birthday;
     }
 }

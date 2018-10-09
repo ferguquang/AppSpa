@@ -2,6 +2,7 @@ package com.ngo.ducquang.appspa.oder;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.view.Menu;
 import android.view.View;
@@ -30,7 +31,7 @@ import retrofit2.Response;
  * Created by ducqu on 10/6/2018.
  */
 
-public class OrderDetailActivity extends BaseActivity implements View.OnClickListener
+public class OrderDetailActivity extends BaseActivity implements View.OnClickListener, BottomSheetOrder.CallBackActionOrder
 {
     public static final String ORDER_MODEL = "ordermodel";
     public static final String ID_ORDER = "idorder";
@@ -51,10 +52,12 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
     @BindView(R.id.reponseTime) TextView reponseTime;
     @BindView(R.id.imgOption) ImageView imgOption;
 
-    String orderJson = "";
-    int idOrder;
-    int idNoti;
+    private Order order = null;
+    private String orderJson = "";
+    private int idOrder;
+    private int idNoti;
     private boolean fromNotificationActivity = false;
+    private String token = "";
 
     @Override
     protected int getContentView() {
@@ -68,6 +71,9 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
         showIconBack();
         title.setText("Đăng kí chi tiết");
 
+        imgOption.setOnClickListener(this);
+        token = PreferenceUtil.getPreferences(getApplicationContext(), PreferenceUtil.TOKEN, "");
+
         Bundle bundle = getIntent().getExtras();
         if (bundle != null)
         {
@@ -79,15 +85,16 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
 
         if (!StringUtilities.isEmpty(orderJson))
         {
-            Order order = Order.initialize(orderJson);
+            order = Order.initialize(orderJson);
             if (order != null)
             {
                 setData(order);
             }
+
+            return;
         }
 
         showLoadingDialog();
-        String token = PreferenceUtil.getPreferences(getApplicationContext(), PreferenceUtil.TOKEN, "");
         HashMap<String, String> params = new HashMap<>();
         params.put("Token", token);
         params.put("ID", idOrder + "");
@@ -95,14 +102,22 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
         {
             params.put("IDNoti", idNoti + "");
         }
-        ApiService.Factory.getInstance().detailOrder(params).enqueue(new Callback<ResponseDetailOrder>()
+        ApiService.Factory.getInstance().detailOrder(params).enqueue(getDetailOrder());
+    }
+
+    @Override
+    protected void initMenu(Menu menu) {}
+
+    private Callback<ResponseDetailOrder> getDetailOrder()
+    {
+        return new Callback<ResponseDetailOrder>()
         {
             @Override
-            public void onResponse(Call<ResponseDetailOrder> call, Response<ResponseDetailOrder> response)
+            public void onResponse(@NonNull Call<ResponseDetailOrder> call, Response<ResponseDetailOrder> response)
             {
                 if (response.body().getStatus() == 1)
                 {
-                    Order order = response.body().getData().getOrder();
+                    order = response.body().getData().getOrder();
                     setData(order);
                 }
 
@@ -115,17 +130,12 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
                 showToast(t.getMessage(), GlobalVariables.TOAST_ERRO);
                 hideLoadingDialog();
             }
-        });
-
-        imgOption.setOnClickListener(this);
+        };
     }
-
-    @Override
-    protected void initMenu(Menu menu) {}
 
     private void setData(Order order)
     {
-        name.setText(order.getName());
+        name.setText(order.getStoreName());
         nameStore.setText(order.getStoreName());
         dateTime.setText(ManagerTime.convertToMonthDayYearHourMinuteFormatSlash(order.getOnDate()));
         status.setText(order.getStatusName());
@@ -145,8 +155,24 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
             case R.id.imgOption:
             {
                 BottomSheetOrder bottomSheetOrder = new BottomSheetOrder();
+                bottomSheetOrder.setOrder(order);
+                bottomSheetOrder.show(getSupportFragmentManager(), bottomSheetOrder.getTag());
                 break;
             }
         }
+    }
+
+    @Override
+    public void refreshOrder()
+    {
+        HashMap<String, String> params = new HashMap<>();
+        params.put("Token", token);
+        params.put("ID", idOrder + "");
+        if (fromNotificationActivity)
+        {
+            params.put("IDNoti", idNoti + "");
+        }
+
+        ApiService.Factory.getInstance().detailOrder(params).enqueue(getDetailOrder());
     }
 }

@@ -49,7 +49,7 @@
                     android:layout_marginRight="3dp"
                     android:layout_marginLeft="3dp"
                     android:textColor="@color/black"
-                    android:textSize="18sp" />
+                    android:textSize="@dimen/textTitleSizeBook" />
 
                 <ImageView
                     android:id="@+id/imgOption"
@@ -71,9 +71,10 @@
                 android:layout_marginRight="3dp"
                 android:layout_marginLeft="3dp"
                 android:textColor="@color/black"
-                android:textSize="18sp" />
+                android:textSize="@dimen/textTitleSizeBook" />
 
             <LinearLayout
+                android:id="@+id/llAddress"
                 android:gravity="center_vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -166,6 +167,7 @@
                         android:layout_gravity="center"
                         android:text="đã hoàn thanh"
                         android:id="@+id/status"
+                        android:textSize="@dimen/textSize"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
