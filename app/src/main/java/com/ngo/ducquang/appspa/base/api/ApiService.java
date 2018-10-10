@@ -95,7 +95,7 @@ public interface ApiService
 
     @POST("store/index")
     @FormUrlEncoded
-    Call<ResponseStoreList> getStoreList(@Field("Token") String token);
+    Call<ResponseStoreList> getStoreList(@FieldMap Map<String, String> params);
 
 
     @POST("store/detail")
@@ -184,7 +184,7 @@ public interface ApiService
 
     @POST("notification/index")
     @FormUrlEncoded
-    Call<ResponseNotification> getListNotification(@Field("Token") String token);
+    Call<ResponseNotification> getListNotification(@FieldMap HashMap<String, String> params);
 
     // thống kê
     @POST("manager/reportByStore")

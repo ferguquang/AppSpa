@@ -157,4 +157,10 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 cvGroup.setCardBackgroundColor(name.getContext().getResources().getColor(R.color.noread));
         }
     }
+
+    public void addDataNotification(List<Notification> data)
+    {
+        dataList.addAll(data);
+        notifyDataSetChanged();
+    }
 }

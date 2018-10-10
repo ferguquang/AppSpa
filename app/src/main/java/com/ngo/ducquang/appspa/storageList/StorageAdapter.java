@@ -19,6 +19,7 @@ import com.ngo.ducquang.appspa.R;
 import com.ngo.ducquang.appspa.base.EmptyViewHolder;
 import com.ngo.ducquang.appspa.base.FooterViewHolder;
 import com.ngo.ducquang.appspa.base.Manager;
+import com.ngo.ducquang.appspa.notification.model.Notification;
 import com.ngo.ducquang.appspa.storageList.createStore.CreateStoreFragment;
 import com.ngo.ducquang.appspa.storageList.model.UserStore;
 import com.ngo.ducquang.appspa.storageList.storeDetail.StoreDetailActivity;
@@ -159,6 +160,12 @@ public class StorageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 }
             }
         }
+    }
+
+    public void addDataList(List<UserStore> data)
+    {
+        dataList.addAll(data);
+        notifyDataSetChanged();
     }
 
     public void addStore(UserStore userStore)

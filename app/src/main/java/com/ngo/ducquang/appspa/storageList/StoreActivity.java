@@ -16,6 +16,8 @@ import com.ngo.ducquang.appspa.base.PreferenceUtil;
 import com.ngo.ducquang.appspa.base.Share;
 import com.ngo.ducquang.appspa.base.api.ApiService;
 import com.ngo.ducquang.appspa.login.RegisterFragment;
+import com.ngo.ducquang.appspa.notification.NotificationActivity;
+import com.ngo.ducquang.appspa.notification.NotificationAdapter;
 import com.ngo.ducquang.appspa.storageList.createStore.CreateStoreFragment;
 import com.ngo.ducquang.appspa.storageList.model.DataStoreList;
 import com.ngo.ducquang.appspa.storageList.model.ResponseStoreList;
@@ -24,6 +26,8 @@ import com.ngo.ducquang.appspa.storageList.storeDetail.StoreDetailActivity;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+
+import java.util.HashMap;
 
 import butterknife.BindView;
 import retrofit2.Call;
@@ -38,6 +42,12 @@ public class StoreActivity extends BaseActivity implements View.OnClickListener,
 {
     @BindView(R.id.recyclerView) RecyclerView recyclerView;
     @BindView(R.id.fab) FloatingActionButton fab;
+
+    private String token = "";
+    private LinearLayoutManager layoutManager;
+
+    private HashMap<String, String> params = new HashMap<>();
+    private int take = 5, skip = 1;
 
     private StorageAdapter adapter;
 
@@ -78,6 +88,10 @@ public class StoreActivity extends BaseActivity implements View.OnClickListener,
 
         title.setText("Danh sách cửa hàng");
 
+        layoutManager = new LinearLayoutManager(getApplicationContext());
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+
+        token = PreferenceUtil.getPreferences(getApplicationContext(), PreferenceUtil.TOKEN, "");
         int positionID = PreferenceUtil.getPreferences(getApplicationContext(), PreferenceUtil.POSITION_ID, -1);
         if (positionID == GlobalVariables.IS_ADMIN)
             fab.setVisibility(View.VISIBLE);
@@ -86,8 +100,38 @@ public class StoreActivity extends BaseActivity implements View.OnClickListener,
 
         fab.setOnClickListener(this);
 
+        params.put("Token", token);
+        params.put("Skip", skip + "");
+        params.put("Take", take + "");
         showLoadingDialog();
-        ApiService.Factory.getInstance().getStoreList(PreferenceUtil.getPreferences(getApplicationContext(), PreferenceUtil.TOKEN, "")).enqueue(new Callback<ResponseStoreList>()
+        ApiService.Factory.getInstance().getStoreList(params).enqueue(callbackStoreList());
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener()
+        {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState)
+            {
+                super.onScrollStateChanged(recyclerView, newState);
+                if (!recyclerView.canScrollVertically(1))
+                {
+                    loadMore();
+                }
+            }
+        });
+    }
+
+    private void loadMore() {
+        skip = skip + 1;
+        params.clear();
+        params.put("Token", token);
+        params.put("Skip", skip + "");
+        params.put("Take", take + "");
+        showLoadingDialog();
+        ApiService.Factory.getInstance().getStoreList(params).enqueue(callbackStoreList());
+    }
+
+    private Callback<ResponseStoreList> callbackStoreList()
+    {
+        return new Callback<ResponseStoreList>()
         {
             @Override
             public void onResponse(Call<ResponseStoreList> call, Response<ResponseStoreList> response)
@@ -95,24 +139,34 @@ public class StoreActivity extends BaseActivity implements View.OnClickListener,
                 if (response.body().getStatus() == 1)
                 {
                     DataStoreList dataStoreList = response.body().getData();
-                    LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
-                    adapter = new StorageAdapter(StoreActivity.this, dataStoreList.getUserStores(), getSupportFragmentManager(), dataStoreList.getAdmin());
-                    layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-                    recyclerView.setLayoutManager(layoutManager);
-                    recyclerView.setHasFixedSize(true);
-                    recyclerView.setAdapter(adapter);
-
-                    hideLoadingDialog();
+                    if (adapter == null)
+                    {
+                        adapter = new StorageAdapter(StoreActivity.this, dataStoreList.getUserStores(), getSupportFragmentManager(), dataStoreList.getAdmin());
+                        recyclerView.setLayoutManager(layoutManager);
+                        recyclerView.setHasFixedSize(true);
+                        recyclerView.setAdapter(adapter);
+                    }
+                    else
+                    {
+                        if (dataStoreList.getUserStores().size() > 0)
+                        {
+                            adapter.addDataList(dataStoreList.getUserStores());
+                        }
+                    }
 
                     Share.getInstance().categoryList = response.body().getData().getCategories();
 
-                    if (dataStoreList.getUserStores().size() == 1)
+                    int positionID = PreferenceUtil.getPreferences(getApplicationContext(), PreferenceUtil.POSITION_ID, -1);
+                    if (positionID == GlobalVariables.IS_STORE)
                     {
-                        finish();
-                        UserStore userStore = dataStoreList.getUserStores().get(0);
-                        Bundle bundle = new Bundle();
-                        bundle.putInt(StorageAdapter.ID_STORE, userStore.getiDUser());
-                        startActivity(StoreDetailActivity.class, bundle, false);
+                        if (dataStoreList.getUserStores().size() == 1)
+                        {
+                            finish();
+                            UserStore userStore = dataStoreList.getUserStores().get(0);
+                            Bundle bundle = new Bundle();
+                            bundle.putInt(StorageAdapter.ID_STORE, userStore.getiDUser());
+                            startActivity(StoreDetailActivity.class, bundle, false);
+                        }
                     }
                 }
             }
@@ -121,7 +175,7 @@ public class StoreActivity extends BaseActivity implements View.OnClickListener,
             public void onFailure(Call<ResponseStoreList> call, Throwable t) {
                 LogManager.tagDefault().error(t.getMessage());
             }
-        });
+        };
     }
 
     @Override

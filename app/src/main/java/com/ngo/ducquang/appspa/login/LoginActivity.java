@@ -174,6 +174,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener
                                 LogManager.tagDefault().error(e.toString());
                             }
                         }
+
+                        hideLoadingDialog();
                     }
 
                     @Override
