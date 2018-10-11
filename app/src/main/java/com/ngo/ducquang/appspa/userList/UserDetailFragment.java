@@ -29,6 +29,8 @@ import retrofit2.Response;
 public class UserDetailFragment extends BaseFragment
 {
     @BindView(R.id.layoutContentPass) LinearLayout layoutContentPass;
+    @BindView(R.id.categorylayout) LinearLayout categorylayout;
+    @BindView(R.id.llDescribe) LinearLayout llDescribe;
 
     @BindView(R.id.nameEdt) EditText nameEdt;
     @BindView(R.id.addressEdt) EditText addressEdt;
@@ -55,6 +57,9 @@ public class UserDetailFragment extends BaseFragment
         title.setText("Thông tin khách hàng");
         layoutContentPass.setVisibility(View.GONE);
         disableUpdate();
+
+        categorylayout.setVisibility(View.GONE);
+        llDescribe.setVisibility(View.GONE);
 
         Bundle bundle = getArguments();
         int idUser = bundle.getInt(UserListAdapter.ID_USER);
@@ -103,11 +108,11 @@ public class UserDetailFragment extends BaseFragment
     }
 
     private void setGender(int gender) {
-        if(gender == 0)
+        if(gender == 1)
         {
             genderEdt.setText("Nam");
         }
-        else if (gender == 1)
+        else if (gender == 2)
         {
             genderEdt.setText("Nữ");
         }

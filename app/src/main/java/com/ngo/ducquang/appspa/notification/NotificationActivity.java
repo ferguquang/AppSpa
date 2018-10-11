@@ -33,8 +33,10 @@ public class NotificationActivity extends BaseActivity
     private LinearLayoutManager layoutManager;
 
     private HashMap<String, String> params = new HashMap<>();
-    private int take = 5, skip = 1;
+    private int take = 10, skip = 1;
     private String token;
+
+    private boolean loadMore = true;
 
     @Override
     protected int getContentView() {
@@ -64,9 +66,12 @@ public class NotificationActivity extends BaseActivity
             public void onScrollStateChanged(RecyclerView recyclerView, int newState)
             {
                 super.onScrollStateChanged(recyclerView, newState);
-                if (!recyclerView.canScrollVertically(1))
+                if (loadMore)
                 {
-                    loadMore();
+                    if (!recyclerView.canScrollVertically(1))
+                    {
+                        loadMore();
+                    }
                 }
             }
         });
@@ -108,6 +113,10 @@ public class NotificationActivity extends BaseActivity
                             if (notifications.size() > 0)
                             {
                                 adapter.addDataNotification(notifications);
+                            }
+                            else
+                            {
+                                loadMore = false;
                             }
                         }
 

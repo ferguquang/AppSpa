@@ -34,7 +34,7 @@ import butterknife.ButterKnife;
  * Created by ducqu on 10/8/2018.
  */
 
-public class ReportActivity extends BaseActivity implements ByStoreReportFragment.SendStoreList, ByAddressReportFragment.SendListAddress, DialogFilterStore.SendIDStoreSelected, DialogFilterAddress.SendIDAddress
+public class ReportActivity extends BaseActivity implements DialogFilterStore.SendIDStoreSelected, DialogFilterAddress.SendIDAddress
 {
     @BindView(R.id.tabLayout) TabLayout tabLayout;
     @BindView(R.id.viewPager) ViewPager viewPager;
@@ -107,15 +107,12 @@ public class ReportActivity extends BaseActivity implements ByStoreReportFragmen
                     case 0:
                     {
                         DialogFilterStore dialogFilterStore = new DialogFilterStore();
-                        dialogFilterStore.setStores(stores);
                         dialogFilterStore.show(getSupportFragmentManager(), dialogFilterStore.getTag());
                         break;
                     }
                     case 1:
                     {
                         DialogFilterAddress dialogFilterAddress = new DialogFilterAddress();
-                        dialogFilterAddress.setProvinces(provinces);
-                        dialogFilterAddress.setDistricts(districts);
                         dialogFilterAddress.show(getSupportFragmentManager(), dialogFilterAddress.getTag());
                         break;
                     }
@@ -125,17 +122,6 @@ public class ReportActivity extends BaseActivity implements ByStoreReportFragmen
             }
         }
         return true;
-    }
-
-    @Override
-    public void sendStoreList(List<Store> stores) {
-        this.stores = stores;
-    }
-
-    @Override
-    public void sendLisAddress(List<Province> provinces, List<District> districts) {
-        this.provinces = provinces;
-        this.districts = districts;
     }
 
     @Override

@@ -31,6 +31,7 @@ import com.ngo.ducquang.appspa.base.PreferenceUtil;
 import com.ngo.ducquang.appspa.base.Share;
 import com.ngo.ducquang.appspa.base.api.ApiService;
 //import com.ngo.ducquang.appspa.base.database.DatabaseRoom;
+import com.ngo.ducquang.appspa.base.getAddress.DataGetAddress;
 import com.ngo.ducquang.appspa.base.getAddress.ResponseGetAddress;
 import com.ngo.ducquang.appspa.login.modelLogin.DataLogin;
 import com.ngo.ducquang.appspa.login.modelLogin.ResponseLogin;
@@ -90,17 +91,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener
             @Override
             public void onResponse(Call<ResponseGetAddress> call, Response<ResponseGetAddress> response)
             {
-                try
+                if (response.body().getStatus() == 1)
                 {
-                    Share.getInstance().provinces.clear();
-                    Share.getInstance().districts.clear();
-                    
-                    Share.getInstance().provinces = response.body().getData().getProvinces();
-                    Share.getInstance().districts = response.body().getData().getDistricts();
-                }
-                catch (Exception e)
-                {
-                    LogManager.tagDefault().error(e.toString());
+                    DataGetAddress dataGetAddress = response.body().getData();
+                    PreferenceUtil.savePreferences(getApplicationContext(), PreferenceUtil.DATA_GET_ADDRESS, dataGetAddress.toJson());
                 }
             }
 
@@ -110,8 +104,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener
             }
         });
 
-//        DrawableHelper.withContext(getBaseContext()).withColor(R.color.white).withDrawable(R.drawable.icon_account).applyTo(imgAccount);
-//        DrawableHelper.withContext(getBaseContext()).withColor(R.color.white).withDrawable(R.drawable.icon_lock).applyTo(lock);
+        DrawableHelper.withContext(getBaseContext()).withColor(R.color.white).withDrawable(R.drawable.icon_account).tint().applyTo(imgAccount);
+        DrawableHelper.withContext(getBaseContext()).withColor(R.color.white).withDrawable(R.drawable.icon_lock).tint().applyTo(lock);
     }
 
     @Override

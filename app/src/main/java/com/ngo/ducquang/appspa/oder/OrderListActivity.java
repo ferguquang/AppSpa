@@ -37,10 +37,8 @@ public class OrderListActivity extends BaseActivity implements BottomSheetOrder.
 
     private int status = 1;
 
-//    @BindView(R.id.recyclerView) RecyclerView recyclerView;
-//    private OrderListAdapter adapter;
-
     private HashMap<String, String> params = new HashMap<>();
+    private int take = 10, skip = 1;
 
     private PendingApproveFragment pendingApproveFragment;
     private ApprovedFragment approvedFragment;
@@ -82,6 +80,9 @@ public class OrderListActivity extends BaseActivity implements BottomSheetOrder.
 
         params.put("Token", token);
         params.put("Status", 1 + "");
+//        params.put("Skip", skip + "");
+//        params.put("Take", take + "");
+
         showLoadingDialog();
         ApiService.Factory.getInstance().getListOrder(params).enqueue(callbackListOrder());
 
@@ -174,8 +175,8 @@ public class OrderListActivity extends BaseActivity implements BottomSheetOrder.
         ApiService.Factory.getInstance().getListOrder(params).enqueue(callbackListOrder());
     }
 
-    public OrderListActivity getActivityMain()
-    {
-        return OrderListActivity.this;
-    }
+//    public interface LoadMoreInterface
+//    {
+//        void loadMore(int skip, int take)
+//    }
 }

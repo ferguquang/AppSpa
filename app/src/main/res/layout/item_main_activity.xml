@@ -42,6 +42,7 @@
                     android:id="@+id/name"
                     android:textSize="18sp"
                     android:textStyle="bold"
+                    android:maxLines="1"
                     android:textColor="@color/colorPrimary"
                     android:text="ĐẦU TƯ THÊM"
                     android:layout_width="wrap_content"
@@ -49,6 +50,7 @@
 
                 <TextView
                     android:id="@+id/content"
+                    android:maxLines="1"
                     android:text="Đầu tư dễ dàng chỉ từ 50.000vnd"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />

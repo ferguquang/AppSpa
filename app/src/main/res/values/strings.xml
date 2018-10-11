@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">AppSpa</string>
+    <string name="app_name">Hệ thống cửa hàng SPA</string>
 
     <string name="search">Tìm kiếm</string>
     <string name="notification">Thông báo</string>

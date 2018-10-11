@@ -35,6 +35,7 @@ import com.ngo.ducquang.appspa.oder.model.Order;
 import com.ngo.ducquang.appspa.oder.model.ResponseOrder;
 import com.ngo.ducquang.appspa.service.model.ResponseServiceAdmin;
 import com.ngo.ducquang.appspa.storageList.model.Category;
+import com.ngo.ducquang.appspa.storageList.model.UserStore;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -231,6 +232,12 @@ public class OrderFragment extends BaseFragment implements View.OnClickListener,
                 {
                     stores.clear();
                     stores = response.body().getData().getStores();
+                    if (stores.size() > 0)
+                    {
+                        Store userStore = stores.get(0);
+                        idStore = userStore.getiD();
+                        nameStore.setText(userStore.getName());
+                    }
                     hideLoadingDialog();
                 }
             }
@@ -249,14 +256,13 @@ public class OrderFragment extends BaseFragment implements View.OnClickListener,
         {
             case R.id.book:
             {
-                book.setEnabled(false);
-
                 String date = startDate.getText().toString();
                 String describe = noteEdt.getText().toString();
 
                 if (StringUtilities.isEmpty(date))
                 {
-
+                    showToast("Mời bạn chọn ngày đặt lịch", GlobalVariables.TOAST_ERRO);
+                    return;
                 }
 
                 List<String> listIDCategory = new ArrayList<>();
@@ -269,6 +275,12 @@ public class OrderFragment extends BaseFragment implements View.OnClickListener,
                         Category category = categories.get(i);
                         listIDCategory.add(category.getiD() + "");
                     }
+                }
+
+                if (listIDCategory.size() == 0)
+                {
+                    showToast("Phải chọn ít nhất 1 dịch vụ", GlobalVariables.TOAST_ERRO);
+                    return;
                 }
 
                 String iDCategory = TextUtils.join(",", listIDCategory);
@@ -285,6 +297,8 @@ public class OrderFragment extends BaseFragment implements View.OnClickListener,
                 params.put("IDCategory", iDCategory);
 
                 showLoadingDialog();
+
+                book.setEnabled(false);
 
                 if (isUpdate)
                 {
@@ -335,9 +349,13 @@ public class OrderFragment extends BaseFragment implements View.OnClickListener,
 
                                 getActivity().onBackPressed();
                                 Order order = response.body().getData().getOrder();
-                                Bundle bundle = new Bundle();
-                                bundle.putString(OrderDetailActivity.ORDER_MODEL, order.toJson());
-                                startActivity(OrderDetailActivity.class, bundle, false);
+                                if (order != null)
+                                {
+                                    Bundle bundle = new Bundle();
+
+                                    bundle.putString(OrderDetailActivity.ORDER_MODEL, order.toJson());
+                                    startActivity(OrderDetailActivity.class, bundle, false);
+                                }
                             }
                             else
                             {

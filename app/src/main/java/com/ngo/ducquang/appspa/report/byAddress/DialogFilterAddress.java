@@ -9,7 +9,9 @@ import android.widget.TextView;
 import com.ngo.ducquang.appspa.R;
 import com.ngo.ducquang.appspa.base.BaseDialog;
 import com.ngo.ducquang.appspa.base.GlobalVariables;
+import com.ngo.ducquang.appspa.base.PreferenceUtil;
 import com.ngo.ducquang.appspa.base.Share;
+import com.ngo.ducquang.appspa.base.getAddress.DataGetAddress;
 import com.ngo.ducquang.appspa.base.getAddress.District;
 import com.ngo.ducquang.appspa.base.getAddress.Province;
 import com.ngo.ducquang.appspa.base.view.popupWindow.ItemPopupMenu;
@@ -56,7 +58,13 @@ public class DialogFilterAddress extends BaseDialog implements View.OnClickListe
     }
 
     @Override
-    protected void initView(View view) {
+    protected void initView(View view)
+    {
+        String dataAdress = PreferenceUtil.getPreferences(getContext(), PreferenceUtil.DATA_GET_ADDRESS, "");
+        DataGetAddress dataGetAddress = DataGetAddress.initialize(dataAdress);
+        districts = dataGetAddress.getDistricts();
+        provinces = dataGetAddress.getProvinces();
+
         setListPopupWindow();
         valueProvince.setOnClickListener(this);
         valueDistrict.setOnClickListener(this);
@@ -137,14 +145,6 @@ public class DialogFilterAddress extends BaseDialog implements View.OnClickListe
             valueDistrict.setText(listMenuDistrict.get(position).getTitle());
             popupDistrict.dismiss();
         });
-    }
-
-    public void setDistricts(List<District> districts) {
-        this.districts = districts;
-    }
-
-    public void setProvinces(List<Province> provinces) {
-        this.provinces = provinces;
     }
 
     public interface SendIDAddress

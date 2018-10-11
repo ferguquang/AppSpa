@@ -35,19 +35,6 @@ public class ByStoreReportFragment extends BaseFragment
     private ByStoreReportAdapter adapter;
 
     private HashMap<String, String> params = new HashMap<>();
-    private SendStoreList sendStoreList;
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        sendStoreList = (SendStoreList) context;
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        sendStoreList = null;
-    }
 
     @Override
     protected int getContentView() {
@@ -87,8 +74,6 @@ public class ByStoreReportFragment extends BaseFragment
                     {
                         adapter.updateData(dataReportByStore);
                     }
-
-                    sendStoreList.sendStoreList(dataReportByStore.getStore());
                 }
 
                 hideLoadingDialog();
@@ -110,10 +95,5 @@ public class ByStoreReportFragment extends BaseFragment
         params.put("IDStore", idSelected);
         showLoadingDialog();
         ApiService.Factory.getInstance().reportByStore(params).enqueue(callbackReport());
-    }
-
-    public interface SendStoreList
-    {
-        void sendStoreList(List<Store> stores);
     }
 }

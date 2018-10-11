@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.ngo.ducquang.appspa.base.LogManager;
 import com.ngo.ducquang.appspa.base.PreferenceUtil;
+import com.ngo.ducquang.appspa.base.StringUtilities;
 import com.ngo.ducquang.appspa.base.api.ApiService;
 import com.ngo.ducquang.appspa.notification.model.Notification;
 import com.ngo.ducquang.appspa.notification.model.ResponseNotification;
@@ -38,7 +39,7 @@ public class ServiceManager extends Service
 
     @Override
     public void onCreate() {
-        Toast.makeText(this, " MyService Created ", Toast.LENGTH_LONG).show();
+//        Toast.makeText(this, " MyService Created ", Toast.LENGTH_LONG).show();
     }
 
 //    @Override
@@ -49,9 +50,13 @@ public class ServiceManager extends Service
     @Override
     public void onStart(Intent intent, int startId)
     {
-        Toast.makeText(this, " Call API SERVER - SERVICE START ", Toast.LENGTH_LONG).show();
+//        Toast.makeText(this, " Call API SERVER - SERVICE START ", Toast.LENGTH_LONG).show();
 
         String token = PreferenceUtil.getPreferences(getApplicationContext(), PreferenceUtil.TOKEN, "");
+        if (StringUtilities.isEmpty(token))
+        {
+            return;
+        }
         ApiService.Factory.getInstance().getNotificationInTop(token).enqueue(new Callback<ResponseNotification>()
         {
             @Override
@@ -89,7 +94,7 @@ public class ServiceManager extends Service
     @Override
     public void onDestroy() {
         // TODO Auto-generated method stub
-        Toast.makeText(this, "Servics Stopped", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, "Servics Stopped", Toast.LENGTH_SHORT).show();
         super.onDestroy();
     }
 

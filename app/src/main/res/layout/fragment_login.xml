@@ -2,16 +2,16 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/backround_login"
+    android:background="@drawable/bglogin"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <TextView
         android:textSize="20sp"
         android:textStyle="bold"
-        android:layout_marginTop="@dimen/margin_16dp"
+        android:layout_marginTop="24dp"
         android:paddingRight="@dimen/margin_16dp"
         android:layout_marginLeft="@dimen/margin_16dp"
-        android:textColor="@color/white"
+        android:textColor="@color/colorPrimary"
         android:gravity="center"
         android:text="HỆ THỐNG CỬA HÀNG SPA"
         android:layout_width="match_parent"
@@ -120,7 +120,7 @@
                             android:layout_marginLeft="8dp"
                             android:background="@color/transparent"
                             android:inputType="textPassword"
-                            android:textColor="@color/black"
+                            android:textColor="@color/white"
                             android:textColorHint="@color/white"
                             android:textSize="@dimen/textSizeEdt"
                             android:layout_centerInParent="true"

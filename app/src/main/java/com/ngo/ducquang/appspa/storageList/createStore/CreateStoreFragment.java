@@ -27,6 +27,7 @@ import com.ngo.ducquang.appspa.base.PreferenceUtil;
 import com.ngo.ducquang.appspa.base.Share;
 import com.ngo.ducquang.appspa.base.StringUtilities;
 import com.ngo.ducquang.appspa.base.api.ApiService;
+import com.ngo.ducquang.appspa.base.getAddress.DataGetAddress;
 import com.ngo.ducquang.appspa.base.getAddress.District;
 import com.ngo.ducquang.appspa.base.getAddress.Province;
 import com.ngo.ducquang.appspa.base.view.AddingArrayDialog;
@@ -84,8 +85,8 @@ public class CreateStoreFragment extends BaseFragment implements View.OnClickLis
 
     private int idProvince = -1, idDistrict = -1;
 
-    private List<District> districts = Share.getInstance().districts;
-    private List<Province> provinces = Share.getInstance().provinces;
+    private List<District> districts = new ArrayList<>();
+    private List<Province> provinces = new ArrayList<>();
 
     @BindView(R.id.valueProvince) TextView valueProvince;
     @BindView(R.id.valueDistrict) TextView valueDistrict;
@@ -123,6 +124,11 @@ public class CreateStoreFragment extends BaseFragment implements View.OnClickLis
         genderEdt.setOnClickListener(this);
         valueProvince.setOnClickListener(this);
         valueDistrict.setOnClickListener(this);
+
+        String dataAdress = PreferenceUtil.getPreferences(getContext(), PreferenceUtil.DATA_GET_ADDRESS, "");
+        DataGetAddress dataGetAddress = DataGetAddress.initialize(dataAdress);
+        districts = dataGetAddress.getDistricts();
+        provinces = dataGetAddress.getProvinces();
 
         tilDescribe.setVisibility(View.VISIBLE);
 

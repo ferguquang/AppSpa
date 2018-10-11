@@ -26,6 +26,7 @@ import com.ngo.ducquang.appspa.base.PreferenceUtil;
 import com.ngo.ducquang.appspa.base.Share;
 import com.ngo.ducquang.appspa.base.StringUtilities;
 import com.ngo.ducquang.appspa.base.api.ApiService;
+import com.ngo.ducquang.appspa.base.getAddress.DataGetAddress;
 import com.ngo.ducquang.appspa.base.getAddress.District;
 import com.ngo.ducquang.appspa.base.getAddress.Province;
 import com.ngo.ducquang.appspa.base.view.AddingArrayDialog;
@@ -100,8 +101,8 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
     private int idProvince = -1, idDistrict = -1;
     private String codeProvince = "";
 
-    private List<District> districts = Share.getInstance().districts;
-    private List<Province> provinces = Share.getInstance().provinces;
+    private List<District> districts = new ArrayList<>();
+    private List<Province> provinces = new ArrayList<>();
 
 
     private ListPopupWindow popupProvince;
@@ -125,6 +126,11 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
 
         valueProvince.setOnClickListener(this);
         valueDistrict.setOnClickListener(this);
+
+        String dataAdress = PreferenceUtil.getPreferences(getContext(), PreferenceUtil.DATA_GET_ADDRESS, "");
+        DataGetAddress dataGetAddress = DataGetAddress.initialize(dataAdress);
+        districts = dataGetAddress.getDistricts();
+        provinces = dataGetAddress.getProvinces();
 
         layoutChangePassword.setVisibility(View.GONE);
         cbChangePassword.setOnCheckedChangeListener((buttonView, isChecked) -> {
@@ -484,11 +490,11 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
     }
 
     private void setGender(int gender) {
-        if(gender == 0)
+        if(gender == 1)
         {
             genderEdt.setText("Nam");
         }
-        else if (gender == 1)
+        else if (gender == 2)
         {
             genderEdt.setText("Nữ");
         }

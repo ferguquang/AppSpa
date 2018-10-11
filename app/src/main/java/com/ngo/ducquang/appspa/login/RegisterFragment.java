@@ -26,6 +26,7 @@ import com.ngo.ducquang.appspa.base.PreferenceUtil;
 import com.ngo.ducquang.appspa.base.Share;
 import com.ngo.ducquang.appspa.base.StringUtilities;
 import com.ngo.ducquang.appspa.base.api.ApiService;
+import com.ngo.ducquang.appspa.base.getAddress.DataGetAddress;
 import com.ngo.ducquang.appspa.base.getAddress.District;
 import com.ngo.ducquang.appspa.base.getAddress.Province;
 import com.ngo.ducquang.appspa.base.view.AddingArrayDialog;
@@ -76,8 +77,8 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
 
     private int idProvince = -1, idDistrict = -1;
 
-    List<District> districts = Share.getInstance().districts;
-    List<Province> provinces = Share.getInstance().provinces;
+    List<District> districts = new ArrayList<>();
+    List<Province> provinces = new ArrayList<>();
 
     private int valueGender = -1;
 
@@ -125,6 +126,11 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
         genderEdt.setOnClickListener(this);
         valueProvince.setOnClickListener(this);
         valueDistrict.setOnClickListener(this);
+
+        String dataAdress = PreferenceUtil.getPreferences(getContext(), PreferenceUtil.DATA_GET_ADDRESS, "");
+        DataGetAddress dataGetAddress = DataGetAddress.initialize(dataAdress);
+        districts = dataGetAddress.getDistricts();
+        provinces = dataGetAddress.getProvinces();
 
         if (type == TYPE_USER)
         {

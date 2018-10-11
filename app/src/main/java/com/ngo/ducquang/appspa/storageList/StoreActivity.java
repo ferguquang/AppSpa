@@ -47,9 +47,10 @@ public class StoreActivity extends BaseActivity implements View.OnClickListener,
     private LinearLayoutManager layoutManager;
 
     private HashMap<String, String> params = new HashMap<>();
-    private int take = 5, skip = 1;
+    private int take = 10, skip = 1;
 
     private StorageAdapter adapter;
+    private boolean loadMore = true;
 
     private SubcriberStoreActivity subcriberStoreActivity = new SubcriberStoreActivity()
     {
@@ -111,9 +112,12 @@ public class StoreActivity extends BaseActivity implements View.OnClickListener,
             public void onScrollStateChanged(RecyclerView recyclerView, int newState)
             {
                 super.onScrollStateChanged(recyclerView, newState);
-                if (!recyclerView.canScrollVertically(1))
+                if (loadMore)
                 {
-                    loadMore();
+                    if (!recyclerView.canScrollVertically(1))
+                    {
+                        loadMore();
+                    }
                 }
             }
         });
@@ -152,6 +156,10 @@ public class StoreActivity extends BaseActivity implements View.OnClickListener,
                         {
                             adapter.addDataList(dataStoreList.getUserStores());
                         }
+                        else
+                        {
+                            loadMore = false;
+                        }
                     }
 
                     Share.getInstance().categoryList = response.body().getData().getCategories();
@@ -169,11 +177,14 @@ public class StoreActivity extends BaseActivity implements View.OnClickListener,
                         }
                     }
                 }
+
+                hideLoadingDialog();
             }
 
             @Override
             public void onFailure(Call<ResponseStoreList> call, Throwable t) {
                 LogManager.tagDefault().error(t.getMessage());
+                hideLoadingDialog();
             }
         };
     }

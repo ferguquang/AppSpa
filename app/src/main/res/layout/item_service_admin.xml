@@ -33,6 +33,7 @@
                 android:layout_toRightOf="@+id/icon"
                 android:text="tên dịch vụ"
                 android:textSize="@dimen/textSize"
+                android:textStyle="bold"
                 android:textColor="@color/black"
                 android:layout_centerVertical="true"
                 android:id="@+id/name"

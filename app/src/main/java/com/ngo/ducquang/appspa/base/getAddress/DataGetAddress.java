@@ -1,7 +1,9 @@
 package com.ngo.ducquang.appspa.base.getAddress;
 
+import com.google.gson.Gson;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.ngo.ducquang.appspa.modelStore.DataGetStore;
 
 import java.util.List;
 
@@ -31,5 +33,17 @@ public class DataGetAddress {
 
     public void setDistricts(List<District> districts) {
         this.districts = districts;
+    }
+
+    public static DataGetAddress initialize(String jsonGson)
+    {
+        Gson gson = new Gson();
+        return gson.fromJson(jsonGson, DataGetAddress.class);
+    }
+
+    public String toJson()
+    {
+        Gson gson = new Gson();
+        return gson.toJson(this);
     }
 }

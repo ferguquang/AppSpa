@@ -20,10 +20,13 @@ import com.ngo.ducquang.appspa.base.Share;
 import com.ngo.ducquang.appspa.base.api.ApiService;
 import com.ngo.ducquang.appspa.base.getAddress.ResponseGetAddress;
 import com.ngo.ducquang.appspa.login.LoginActivity;
+import com.ngo.ducquang.appspa.modelStore.DataGetStore;
+import com.ngo.ducquang.appspa.modelStore.ResponseGetStore;
 import com.ngo.ducquang.appspa.notification.NotificationActivity;
 import com.ngo.ducquang.appspa.slideMenu.SlideMenuFragment;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.microedition.khronos.opengles.GL;
@@ -93,13 +96,24 @@ public class MainActivity extends BaseActivity implements SlideMenuFragment.Even
             }
         });
 
-        prefManager = new PreferencesManager(this);
-        if (prefManager.isFirstTimeLaunch())
-        {
-            prefManager.setFirstTimeLaunch(false);
-//            AlarmSend.enableBootReceiver(getApplicationContext());
-//            AlarmSend.setAlarm(getApplicationContext(), "tesst");
-        }
+        HashMap<String, String> params = new HashMap<>();
+
+        String token = PreferenceUtil.getPreferences(getApplicationContext(), PreferenceUtil.TOKEN, "");
+        ApiService.Factory.getInstance().getStore(token, "").enqueue(new Callback<ResponseGetStore>() {
+            @Override
+            public void onResponse(Call<ResponseGetStore> call, Response<ResponseGetStore> response) {
+                if (response.body().getStatus() == 1)
+                {
+                    DataGetStore dataGetStore = response.body().getData();
+                    PreferenceUtil.savePreferences(getApplicationContext(), PreferenceUtil.DATA_GET_STORE, dataGetStore.toJson());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseGetStore> call, Throwable t) {
+                LogManager.tagDefault().error(t.getMessage());
+            }
+        });
 
         Toasty.Config.getInstance()
                 .setInfoColor(getResources().getColor(R.color.colorPrimary))
@@ -130,28 +144,28 @@ public class MainActivity extends BaseActivity implements SlideMenuFragment.Even
         {
             case GlobalVariables.IS_ADMIN:
             {
-                dataList.add(new ModelItemMain(STORE_LIST, "danh sách cửa hàng", "Thông tin danh sách cửa hàng", R.drawable.icon_store));
-                dataList.add(new ModelItemMain(LIST_ORDER, "danh sách lịch đặt", "lịch đặt", R.drawable.icon_notification));
-                dataList.add(new ModelItemMain(LIST_SERVICE, "danh sách dịch vụ", "dịch vụ", R.drawable.icon_notification));
-                dataList.add(new ModelItemMain(LIST_USER, "danh sách khách hàng", "", R.drawable.icon_notification));
+                dataList.add(new ModelItemMain(STORE_LIST, "danh sách cửa hàng", "Thông tin cửa hàng", R.drawable.sale));
+                dataList.add(new ModelItemMain(LIST_ORDER, "danh sách lịch đặt", "Thông tin lịch đặt", R.drawable.option));
+                dataList.add(new ModelItemMain(LIST_SERVICE, "danh sách dịch vụ", "Dịch vụ của cửa hàng", R.drawable.qttt));
+                dataList.add(new ModelItemMain(LIST_USER, "danh sách khách hàng", "Thông tin chi tiết khách hàng", R.drawable.cust));
                 dataList.add(new ModelItemMain(NOTIFICATION, "thông báo", "Thông báo", R.drawable.icon_notification));
-                dataList.add(new ModelItemMain(REPORT, "thống kê", "Thống kê theo khách hàng, cửa hàng", R.drawable.icon_notification));
+                dataList.add(new ModelItemMain(REPORT, "thống kê", "Báo cáo, thống kê", R.drawable.mtask));
                 break;
             }
             case GlobalVariables.IS_STORE:
             {
-                dataList.add(new ModelItemMain(STORE_LIST, "cửa hàng của bạn", "Thông tin danh sách cửa hàng", R.drawable.icon_store));
-                dataList.add(new ModelItemMain(LIST_ORDER, "danh sách lịch đặt", "lịch đặt", R.drawable.icon_notification));
-                dataList.add(new ModelItemMain(LIST_USER, "danh sách khách hàng", "", R.drawable.icon_notification));
+                dataList.add(new ModelItemMain(STORE_LIST, "cửa hàng của bạn", "Thông tin cửa hàng", R.drawable.sale));
+                dataList.add(new ModelItemMain(LIST_ORDER, "danh sách lịch đặt", "Thông tin lịch đặt", R.drawable.option));
+                dataList.add(new ModelItemMain(LIST_USER, "danh sách khách hàng", "", R.drawable.cust));
                 dataList.add(new ModelItemMain(NOTIFICATION, "thông báo", "Thông báo", R.drawable.icon_notification));
                 break;
             }
             case GlobalVariables.IS_USER:
             {
-                dataList.add(new ModelItemMain(BOOK, "đặt lịch", "Thông tin đặt lịch", R.drawable.icon_book_calendar));
-                dataList.add(new ModelItemMain(BOOK_AT_HOME, "ĐẶT TẠI NHÀ", "Tại nhà", R.drawable.icon_notification));
-                dataList.add(new ModelItemMain(STORE_LIST, "danh sách cửa hàng", "Thông tin danh sách cửa hàng", R.drawable.icon_store));
-                dataList.add(new ModelItemMain(LIST_ORDER, "danh sách lịch đặt", "lịch đặt", R.drawable.icon_notification));
+                dataList.add(new ModelItemMain(BOOK, "đặt lịch", "Thông tin đặt lịch", R.drawable.share_file));
+                dataList.add(new ModelItemMain(BOOK_AT_HOME, "ĐẶT TẠI NHÀ", "Tại nhà", R.drawable.employee));
+                dataList.add(new ModelItemMain(STORE_LIST, "danh sách cửa hàng", "Thông tin cửa hàng", R.drawable.sale));
+                dataList.add(new ModelItemMain(LIST_ORDER, "danh sách lịch đặt", "Thông tin lịch đặt", R.drawable.option));
                 dataList.add(new ModelItemMain(NOTIFICATION, "thông báo", "Thông báo", R.drawable.icon_notification));
                 break;
             }

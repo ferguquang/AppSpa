@@ -24,6 +24,7 @@
         android:background="@drawable/background_discuss_text_view_cycle">
 
         <EditText
+            android:textSize="@dimen/textSize"
             android:hint="Nhập bình luận"
             android:layout_centerVertical="true"
             android:id="@+id/commentEdt"

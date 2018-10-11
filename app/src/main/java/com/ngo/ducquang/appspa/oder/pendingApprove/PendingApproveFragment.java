@@ -1,11 +1,13 @@
 package com.ngo.ducquang.appspa.oder.pendingApprove;
 
+import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.ngo.ducquang.appspa.R;
 import com.ngo.ducquang.appspa.base.BaseFragment;
+import com.ngo.ducquang.appspa.oder.LoadMoreInterface;
 import com.ngo.ducquang.appspa.oder.OrderListActivity;
 import com.ngo.ducquang.appspa.oder.OrderListAdapter;
 import com.ngo.ducquang.appspa.oder.model.DataListOrder;
@@ -22,6 +24,9 @@ public class PendingApproveFragment extends BaseFragment
 
     private OrderListAdapter adapter;
 
+    private LoadMoreInterface loadMoreInterface;
+    private int take = 5, skip = 2;
+
     @Override
     protected int getContentView() {
         return R.layout.fragment_oder;
@@ -29,7 +34,18 @@ public class PendingApproveFragment extends BaseFragment
 
     @Override
     protected void initView(View view) {
-
+//        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener()
+//        {
+//            @Override
+//            public void onScrollStateChanged(RecyclerView recyclerView, int newState)
+//            {
+//                super.onScrollStateChanged(recyclerView, newState);
+//                if (!recyclerView.canScrollVertically(1))
+//                {
+//                    loadMoreInterface.loadMore(skip, take);
+//                }
+//            }
+//        });
     }
 
     public void setDataListOrder(DataListOrder dataListOrder)
@@ -45,7 +61,10 @@ public class PendingApproveFragment extends BaseFragment
         }
         else
         {
-            adapter.updateData(dataListOrder.getOrders());
+            if (dataListOrder.getOrders().size() > 0)
+            {
+                adapter.updateData(dataListOrder.getOrders());
+            }
         }
     }
 }

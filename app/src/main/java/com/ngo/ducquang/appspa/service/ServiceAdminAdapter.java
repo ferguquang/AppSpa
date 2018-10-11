@@ -78,7 +78,7 @@ public class ServiceAdminAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof EmptyViewHolder)
         {
-            ((EmptyViewHolder) holder).setTextEmpty("Không có dịch nào");
+            ((EmptyViewHolder) holder).setTextEmpty("Không có dịch vụ nào");
         }
 
         if (holder instanceof ItemHolder)

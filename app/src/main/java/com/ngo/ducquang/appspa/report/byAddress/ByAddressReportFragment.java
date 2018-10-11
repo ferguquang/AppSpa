@@ -34,19 +34,6 @@ public class ByAddressReportFragment extends BaseFragment
     @BindView(R.id.recyclerView) RecyclerView recyclerView;
 
     private ByAddressReportAdapter adapter;
-    private SendListAddress sendListAddress;
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        sendListAddress = (SendListAddress) context;
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        sendListAddress = null;
-    }
 
     @Override
     protected int getContentView() {
@@ -81,8 +68,6 @@ public class ByAddressReportFragment extends BaseFragment
                     recyclerView.setLayoutManager(layoutManager);
                     recyclerView.setHasFixedSize(true);
                     recyclerView.setAdapter(adapter);
-
-                    sendListAddress.sendLisAddress(dataReportByAddress.getProvinces(), dataReportByAddress.getDistricts());
                 }
 
                 hideLoadingDialog();
@@ -111,10 +96,5 @@ public class ByAddressReportFragment extends BaseFragment
         }
         showLoadingDialog();
         ApiService.Factory.getInstance().reportByAddress(params).enqueue(callback());
-    }
-
-    public interface SendListAddress
-    {
-        void sendLisAddress(List<Province> provinces, List<District> districts);
     }
 }

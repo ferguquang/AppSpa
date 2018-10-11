@@ -10,6 +10,8 @@ import android.widget.ImageView;
 
 import com.ngo.ducquang.appspa.R;
 import com.ngo.ducquang.appspa.base.BaseDialog;
+import com.ngo.ducquang.appspa.base.PreferenceUtil;
+import com.ngo.ducquang.appspa.modelStore.DataGetStore;
 import com.ngo.ducquang.appspa.modelStore.Store;
 import com.ngo.ducquang.appspa.report.byAddress.ByAddressReportAdapter;
 
@@ -52,6 +54,10 @@ public class DialogFilterStore extends BaseDialog implements DialogFilterStoreAd
     @Override
     protected void initView(View view)
     {
+        String storeString = PreferenceUtil.getPreferences(getContext(), PreferenceUtil.DATA_GET_STORE, "");
+        DataGetStore dataGetStore = DataGetStore.initialize(storeString);
+        stores = dataGetStore.getStores();
+
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         adapter = new DialogFilterStoreAdapter(getContext(), stores, this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -66,10 +72,6 @@ public class DialogFilterStore extends BaseDialog implements DialogFilterStoreAd
                 dismiss();
             }
         });
-    }
-
-    public void setStores(List<Store> stores) {
-        this.stores = stores;
     }
 
     @Override
