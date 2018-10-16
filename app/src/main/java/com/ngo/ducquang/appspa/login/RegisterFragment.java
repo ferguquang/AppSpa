@@ -1,10 +1,24 @@
 package com.ngo.ducquang.appspa.login;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.location.Address;
+import android.location.Criteria;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.os.Build;
+import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -12,9 +26,23 @@ import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListPopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.jjobes.slidedatetimepicker.SlideDateTimeListener;
 import com.github.jjobes.slidedatetimepicker.SlideDateTimePicker;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.MultiplePermissionsReport;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.ngo.ducquang.appspa.R;
 import com.ngo.ducquang.appspa.base.BaseFragment;
 import com.ngo.ducquang.appspa.base.CustomEditText;
@@ -30,6 +58,7 @@ import com.ngo.ducquang.appspa.base.getAddress.DataGetAddress;
 import com.ngo.ducquang.appspa.base.getAddress.District;
 import com.ngo.ducquang.appspa.base.getAddress.Province;
 import com.ngo.ducquang.appspa.base.view.AddingArrayDialog;
+import com.ngo.ducquang.appspa.base.view.TextViewFont;
 import com.ngo.ducquang.appspa.base.view.popupWindow.ItemPopupMenu;
 import com.ngo.ducquang.appspa.base.view.popupWindow.ListPopupWindowAdapter;
 import com.ngo.ducquang.appspa.oder.CategoryOptionAdapter;
@@ -44,22 +73,24 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static android.content.Context.LOCATION_SERVICE;
+
 /**
  * Created by ducqu on 9/21/2018.
  */
 
-public class RegisterFragment extends BaseFragment implements View.OnClickListener
-{
+public class RegisterFragment extends BaseFragment implements View.OnClickListener {
     public static final int TYPE_USER = 1;
     public static final int TYPE_STORE = 2;
 
-    @BindView(R.id.register) Button register;
+    @BindView(R.id.register) TextViewFont register;
 
     @BindView(R.id.userNameEdt) CustomEditText userNameEdt;
     @BindView(R.id.fullNameEdt) CustomEditText fullNameEdt;
@@ -70,10 +101,13 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
     @BindView(R.id.passwordEdt) CustomEditText passwordEdt;
     @BindView(R.id.repeatPasswordEdt) CustomEditText repeatPasswordEdt;
 
-    @BindView(R.id.birthdayEdt) TextView birthdayEdt;
+    @BindView(R.id.birthdayEdt) TextViewFont birthdayEdt;
     @BindView(R.id.llChooseDate) LinearLayout llChooseDate;
 
-    @BindView(R.id.genderEdt) TextView genderEdt;
+    @BindView(R.id.longitudeEdt) CustomEditText longitudeEdt;
+    @BindView(R.id.latitudeEdt) CustomEditText latitudeEdt;
+
+    @BindView(R.id.genderEdt) TextViewFont genderEdt;
 
     private int idProvince = -1, idDistrict = -1;
 
@@ -99,11 +133,9 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
     @BindView(R.id.recyclerView) RecyclerView recyclerView;
 
     @Override
-    public void onAttach(Context context)
-    {
+    public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof StoreActivity)
-        {
+        if (context instanceof StoreActivity) {
             sendUserStore = (SendUserStore) context;
         }
     }
@@ -114,12 +146,9 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
     }
 
     @Override
-    protected void initView(View view)
-    {
+    protected void initView(View view) {
         showBackPressToolBar();
         title.setText("Đăng kí");
-
-        setListPopupWindow();
 
         register.setOnClickListener(this);
         llChooseDate.setOnClickListener(this);
@@ -132,12 +161,12 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
         districts = dataGetAddress.getDistricts();
         provinces = dataGetAddress.getProvinces();
 
-        if (type == TYPE_USER)
-        {
+        setListPopupWindow();
+
+        if (type == TYPE_USER) {
             categorylayout.setVisibility(View.GONE);
 
-        }
-        else if (type == TYPE_STORE)
+        } else if (type == TYPE_STORE)
         {
             categorylayout.setVisibility(View.VISIBLE);
 
@@ -249,6 +278,13 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
                     return;
                 }
 
+                if (pass.length() < 6)
+                {
+                    passwordEdt.setError("Vui lòng nhập mật khẩu ít nhất 6 kí tự");
+                    passwordEdt.requestFocus();
+                    return;
+                }
+
                 if (idDistrict == -1)
                 {
                     showToast("Vui lòng chọn Quận/huyện", GlobalVariables.TOAST_ERRO);
@@ -317,9 +353,27 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
 
                     String iDCategory = TextUtils.join(",", listIDCategory);
 
+                    String latitude = latitudeEdt.getText().toString();
+                    String longitude = longitudeEdt.getText().toString();
+
+                    if (StringUtilities.isEmpty(latitude))
+                    {
+                        latitudeEdt.setError("Không được để trống!!!");
+                        latitudeEdt.requestFocus();
+                        return;
+                    }
+                    if (StringUtilities.isEmpty(longitude))
+                    {
+                        longitudeEdt.setError("Không được để trống!!!");
+                        longitudeEdt.requestFocus();
+                        return;
+                    }
+
                     params.put("IDCategory", iDCategory);
                     params.put("Token", PreferenceUtil.getPreferences(getContext(), PreferenceUtil.TOKEN, ""));
                     params.put("Describe", describe);
+                    params.put("Latitude", latitude + "");
+                    params.put("Longitude", longitude + "");
 
                     ApiService.Factory.getInstance().createStore(params).enqueue(new Callback<ResponseCreateStore>()
                     {

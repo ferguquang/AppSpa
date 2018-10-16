@@ -9,6 +9,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ngo.ducquang.appspa.R;
+import com.ngo.ducquang.appspa.base.view.TextViewFont;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -19,7 +20,7 @@ import butterknife.ButterKnife;
 
 public class EmptyViewHolder extends RecyclerView.ViewHolder
 {
-    @BindView(R.id.textEmpty) TextView textEmpty;
+    @BindView(R.id.textEmpty) TextViewFont textEmpty;
     @Nullable
     @BindView(R.id.imgEmpty) ImageView imgEmpty;
     @BindView(R.id.relativeLayoutEmpty) RelativeLayout relativeLayoutEmpty;

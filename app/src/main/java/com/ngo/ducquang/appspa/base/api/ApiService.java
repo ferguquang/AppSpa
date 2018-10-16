@@ -186,6 +186,10 @@ public interface ApiService
     @FormUrlEncoded
     Call<ResponseNotification> getListNotification(@FieldMap HashMap<String, String> params);
 
+    @POST("notification/create")
+    @FormUrlEncoded
+    Call<ResponseMessage> createNotification(@FieldMap HashMap<String, String> params);
+
     // thống kê
     @POST("manager/reportByStore")
     @FormUrlEncoded

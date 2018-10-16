@@ -13,21 +13,33 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.ngo.ducquang.appspa.R;
 import com.ngo.ducquang.appspa.base.EmptyViewHolder;
 import com.ngo.ducquang.appspa.base.FooterViewHolder;
+import com.ngo.ducquang.appspa.base.GlobalVariables;
+import com.ngo.ducquang.appspa.base.LogManager;
 import com.ngo.ducquang.appspa.base.Manager;
+import com.ngo.ducquang.appspa.base.PreferenceUtil;
+import com.ngo.ducquang.appspa.base.api.ApiService;
+import com.ngo.ducquang.appspa.base.font.FontChangeCrawler;
+import com.ngo.ducquang.appspa.base.reponseMessage.ResponseMessage;
+import com.ngo.ducquang.appspa.base.view.TextViewFont;
 import com.ngo.ducquang.appspa.notification.model.Notification;
 import com.ngo.ducquang.appspa.storageList.createStore.CreateStoreFragment;
 import com.ngo.ducquang.appspa.storageList.model.UserStore;
 import com.ngo.ducquang.appspa.storageList.storeDetail.StoreDetailActivity;
 
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by ducqu on 9/21/2018.
@@ -57,16 +69,18 @@ public class StorageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        FontChangeCrawler fontChanger = new FontChangeCrawler(context.getAssets(), GlobalVariables.FONT_BASE);
         View view = null;
-
         if (viewType == TYPE_EMPTY)
         {
             view = inflater.inflate(R.layout.layout_empty, parent, false);
+            fontChanger.replaceFonts((ViewGroup) view);
             return new EmptyViewHolder(view);
         }
         else if (viewType == TYPE_ITEM)
         {
             view = inflater.inflate(R.layout.item_store, parent, false);
+            fontChanger.replaceFonts((ViewGroup) view);
             return new ItemHolder(view);
         }
         else if (viewType == TYPE_FOOTER)
@@ -114,12 +128,16 @@ public class StorageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     public class ItemHolder extends RecyclerView.ViewHolder implements View.OnClickListener
     {
-        @BindView(R.id.name) TextView name;
+        @BindView(R.id.name) TextViewFont name;
         @BindView(R.id.address) TextView address;
         @BindView(R.id.addressDetail) TextView addressDetail;
         @BindView(R.id.phone) TextView phone;
         @BindView(R.id.cvGroup) CardView cvGroup;
         @BindView(R.id.imgOption) ImageView imgOption;
+        @BindView(R.id.switchSetOff) Switch switchSetOff;
+
+        private int valueStatus;
+        private int idStore;
 
         public ItemHolder(View itemView) {
             super(itemView);
@@ -131,9 +149,44 @@ public class StorageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         public void binding(UserStore model)
         {
             name.setText(model.getName());
+            name.setTextBold();
             address.setText(model.getDistrictName() + " - " + model.getProvinceName());
             phone.setText(model.getPhone());
             addressDetail.setText(model.getAddress());
+
+            if (isAdmin)
+                switchSetOff.setVisibility(View.VISIBLE);
+            else
+                switchSetOff.setVisibility(View.GONE);
+
+            switchSetOff.setChecked(model.getStatus() == 1);
+            valueStatus = switchSetOff.isChecked() ? 0 : 1;
+
+            idStore = model.getiDUser();
+            switchSetOff.setOnCheckedChangeListener((buttonView, isChecked) ->
+            {
+                HashMap<String, String> params = new HashMap<>();
+                params.put("Token", PreferenceUtil.getPreferences(switchSetOff.getContext(), PreferenceUtil.TOKEN, ""));
+                params.put("ID", idStore + "");
+                params.put("Status", valueStatus + "");
+                ApiService.Factory.getInstance().activeOrUnActiveStore(params).enqueue(new Callback<ResponseMessage>()
+                {
+                    @Override
+                    public void onResponse(Call<ResponseMessage> call, Response<ResponseMessage> response)
+                    {
+                        dataList.get(getAdapterPosition()).setStatus(switchSetOff.isChecked() ? 1 : 0);
+                        notifyItemChanged(getAdapterPosition());
+//                        model.setStatus(switchSetOff.isChecked() ? 1 : 0);
+//                        updateItem(model, getAdapterPosition());
+                        context.showToast(response.body().getMessages().get(0).getText(), GlobalVariables.TOAST_INFO);
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseMessage> call, Throwable t) {
+                        LogManager.tagDefault().error(t.getMessage());
+                    }
+                });
+            });
         }
 
         @Override

@@ -18,6 +18,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
 
 import com.ngo.ducquang.appspa.R;
+import com.ngo.ducquang.appspa.base.font.FontChangeCrawler;
 
 import butterknife.ButterKnife;
 
@@ -56,6 +57,13 @@ public abstract class BaseDialog extends AppCompatDialogFragment
         view.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.dialog_in));
         initView(view);
         return view;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        FontChangeCrawler fontChanger = new FontChangeCrawler(getActivity().getAssets(), GlobalVariables.FONT_BASE);
+        fontChanger.replaceFonts((ViewGroup) this.getView());
     }
 
     @Override

@@ -48,12 +48,31 @@
             android:layout_marginRight="@dimen/marginDialogAdd"
             android:layout_marginLeft="@dimen/marginDialogAdd"
             android:layout_marginBottom="@dimen/marginDialogAdd"
-            android:digits="0123456789.&amp;&quot;&lt;&gt;&apos; qwertyuioplkjhgfdsazxcvbnmQWERTYUIOPLKJHGFDSAZXCVBNMđĐáàảãạăắằẳẵặâấầẩẫậéèẻẽẹêếềểễệíìỉĩịóòỏõọôốồổỗộơớờởỡợúùủũụưứừửữựÁÀẢÃẠĂẮẰẲẴẶÂẤẦẨẪẬÉÈẺẼẸÊẾỀỂỄỆÍÌỈĨỊÓÒỎÕỌÔỐỒỔỖỘƠỚỜỞỠỢÚÙỦŨỤƯỨỪỬỮỰ"
             android:hint="Mô tả"
             android:textColor="@color/black"
             android:textSize="@dimen/textSize"
             android:imeOptions="actionNext"
             android:id="@+id/describeEdt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <com.ngo.ducquang.appspa.base.CustomEditText
+            android:layout_marginRight="@dimen/marginDialogAdd"
+            android:layout_marginLeft="@dimen/marginDialogAdd"
+            android:layout_marginBottom="@dimen/marginDialogAdd"
+            android:hint="Thời gian(Giờ)"
+            android:textColor="@color/black"
+            android:textSize="@dimen/textSize"
+            android:imeOptions="actionNext"
+            android:id="@+id/timeEdt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 

@@ -41,6 +41,33 @@
             </android.support.design.widget.TextInputLayout>
 
             <LinearLayout
+                android:id="@+id/layoutAddress"
+                android:gravity="center_vertical"
+                android:background="@drawable/edt_bg_selector"
+                android:orientation="horizontal"
+                android:paddingBottom="@dimen/padding_8dp"
+                android:paddingTop="@dimen/padding_8dp"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/sizeForm">
+
+                <TextView
+                    android:textSize="@dimen/textSize"
+                    android:text="Chọn địa chỉ: "
+                    android:textColor="@color/black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/nameAddress"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/textSize"
+                    android:textColor="@color/black"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:id="@+id/layoutStore"
                 android:gravity="center_vertical"
                 android:background="@drawable/edt_bg_selector"

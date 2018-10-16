@@ -3,10 +3,12 @@ package com.ngo.ducquang.appspa.notification;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.ngo.ducquang.appspa.R;
 import com.ngo.ducquang.appspa.base.BaseActivity;
+import com.ngo.ducquang.appspa.base.GlobalVariables;
 import com.ngo.ducquang.appspa.base.LogManager;
 import com.ngo.ducquang.appspa.base.PreferenceUtil;
 import com.ngo.ducquang.appspa.base.api.ApiService;
@@ -134,6 +136,46 @@ public class NotificationActivity extends BaseActivity
                 LogManager.tagDefault().error(t.getMessage());
             }
         };
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu)
+    {
+        int positionID = PreferenceUtil.getPreferences(getApplicationContext(), PreferenceUtil.POSITION_ID, -1);
+        if (positionID != GlobalVariables.IS_USER)
+        {
+            menu.add(0, 1, Menu.NONE, "Thêm thông báo")
+                    .setIcon(R.drawable.icon_asset_add_notification)
+                    .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        }
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        switch (item.getItemId())
+        {
+            case 1:
+            {
+                int positionID = PreferenceUtil.getPreferences(getApplicationContext(), PreferenceUtil.POSITION_ID, -1);
+                if (positionID == GlobalVariables.IS_ADMIN)
+                {
+                    DialogAddNotification dialogAddNotification = new DialogAddNotification();
+                    dialogAddNotification.show(getSupportFragmentManager(), dialogAddNotification.getTag());
+                }
+                else if (positionID == GlobalVariables.IS_STORE)
+                {
+
+                }
+
+
+
+                break;
+            }
+        }
+        return true;
     }
 
     @Override

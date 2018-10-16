@@ -145,7 +145,6 @@ public class StoreDetailActivity extends BaseActivity implements View.OnClickLis
         rateFragment.setDataList(dataStoreDetail.getRatings());
 
         adapter = new TabPagerAdapter(getSupportFragmentManager());
-        adapter.setContext(getApplicationContext());
 
         adapter.addFragment(categoriesFragment, "Dịch vụ");
         adapter.addFragment(commentFragment, "Thảo luận");

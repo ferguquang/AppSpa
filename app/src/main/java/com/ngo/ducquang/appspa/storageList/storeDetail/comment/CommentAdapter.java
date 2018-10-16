@@ -14,10 +14,12 @@ import android.widget.TextView;
 import com.ngo.ducquang.appspa.R;
 import com.ngo.ducquang.appspa.base.EmptyViewHolder;
 import com.ngo.ducquang.appspa.base.FooterViewHolder;
+import com.ngo.ducquang.appspa.base.GlobalVariables;
 import com.ngo.ducquang.appspa.base.LogManager;
 import com.ngo.ducquang.appspa.base.ManagerTime;
 import com.ngo.ducquang.appspa.base.PreferenceUtil;
 import com.ngo.ducquang.appspa.base.api.ApiService;
+import com.ngo.ducquang.appspa.base.font.FontChangeCrawler;
 import com.ngo.ducquang.appspa.storageList.storeDetail.model.Discuss;
 import com.ngo.ducquang.appspa.storageList.storeDetail.model.ResponseComment;
 import com.ngo.ducquang.appspa.storageList.storeDetail.rate.RateAdapter;
@@ -54,16 +56,20 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        FontChangeCrawler fontChanger = new FontChangeCrawler(context.getAssets(), GlobalVariables.FONT_BASE);
+
         View view = null;
 
         if (viewType == TYPE_DISCUSS)
         {
             view = inflater.inflate(R.layout.item_discuss, parent, false);
+            fontChanger.replaceFonts((ViewGroup)view);
             return new DiscussViewHolder(view);
         }
         else if (viewType == TYPE_COMMENT)
         {
             view = inflater.inflate(R.layout.item_comment, parent, false);
+            fontChanger.replaceFonts((ViewGroup)view);
             return new CommentViewHolder(view);
         }
 

@@ -2,10 +2,19 @@ package com.ngo.ducquang.appspa.base;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.net.ConnectivityManager;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.text.TextUtils;
 import android.util.Patterns;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.PopupMenu;
+
+import com.ngo.ducquang.appspa.base.view.CustomTypeFaceSpan;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -83,5 +92,18 @@ public class Manager {
         int dpBottom = (int) (bottom * scale);
 
         view.setPadding(dpLeft, dpTop, dpRight, dpBottom);
+    }
+
+    public static void changeFontPopupMenu(Context context, PopupMenu popupMenu)
+    {
+        Menu menu = popupMenu.getMenu();
+        for (int i = 0; i < menu.size(); i++)
+        {
+            MenuItem mi = menu.getItem(i);
+            Typeface font = Typeface.createFromAsset(context.getAssets(), GlobalVariables.FONT_BASE);
+            SpannableString mNewTitle = new SpannableString(mi.getTitle());
+            mNewTitle.setSpan(new CustomTypeFaceSpan("", font, Color.WHITE), 0, mNewTitle.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+            mi.setTitle(mNewTitle);
+        }
     }
 }

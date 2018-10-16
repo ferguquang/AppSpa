@@ -3,11 +3,14 @@ package com.ngo.ducquang.appspa.base;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.ngo.ducquang.appspa.R;
+import com.ngo.ducquang.appspa.base.font.FontChangeCrawler;
 
 import butterknife.ButterKnife;
 
@@ -25,7 +28,17 @@ public abstract class BaseBottomSheetDialogFragment extends BottomSheetDialogFra
         View view = View.inflate(getContext(), getContentView(), null);
         ButterKnife.bind(this, view);
         initView(view);
+
+        FontChangeCrawler fontChanger = new FontChangeCrawler(getActivity().getAssets(), GlobalVariables.FONT_BASE);
+        fontChanger.replaceFonts((ViewGroup) view);
+
         dialog.setContentView(view);
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
     }
 
     protected abstract int getContentView();

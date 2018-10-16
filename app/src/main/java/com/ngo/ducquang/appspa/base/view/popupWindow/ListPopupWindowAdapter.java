@@ -8,6 +8,8 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.ngo.ducquang.appspa.R;
+import com.ngo.ducquang.appspa.base.GlobalVariables;
+import com.ngo.ducquang.appspa.base.font.FontChangeCrawler;
 
 import java.util.List;
 
@@ -51,6 +53,9 @@ public class ListPopupWindowAdapter  extends BaseAdapter
         if (convertView == null)
         {
             convertView = mLayoutInflater.inflate(R.layout.item_popup_window, null);
+
+            FontChangeCrawler fontChanger = new FontChangeCrawler(mLayoutInflater.getContext().getAssets(), GlobalVariables.FONT_BASE);
+            fontChanger.replaceFonts((ViewGroup)convertView);
             holder = new ViewHolder(convertView);
             convertView.setTag(holder);
         }

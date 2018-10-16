@@ -14,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -21,6 +22,8 @@ import android.widget.Toast;
 
 import com.ngo.ducquang.appspa.R;
 import com.ngo.ducquang.appspa.alarmService.ServiceManager;
+import com.ngo.ducquang.appspa.base.font.FontChangeCrawler;
+import com.ngo.ducquang.appspa.base.view.TextViewFont;
 
 import java.lang.reflect.Field;
 
@@ -39,7 +42,7 @@ public abstract class BaseActivity extends AppCompatActivity
     protected Toolbar toolBar;
     @Nullable
     @BindView(R.id.title)
-    protected TextView title;
+    protected TextViewFont title;
     @Nullable
     @BindView(R.id.appBarLayout)
     protected RelativeLayout appBarLayout;
@@ -70,6 +73,11 @@ public abstract class BaseActivity extends AppCompatActivity
         {
             ServiceManager.startService(getBaseContext());
         }
+
+//        this.findViewById(android.R.id.content).setBackgroundResource(R.drawable.background_hoavan);
+
+        FontChangeCrawler fontChanger = new FontChangeCrawler(getAssets(), GlobalVariables.FONT_BASE);
+        fontChanger.replaceFonts((ViewGroup)this.findViewById(android.R.id.content));
     }
 
     @Override
@@ -335,7 +343,7 @@ public abstract class BaseActivity extends AppCompatActivity
         startActivity(intent);
     }
 
-    protected void showToast(String text, int type)
+    public void showToast(String text, int type)
     {
         switch (type)
         {

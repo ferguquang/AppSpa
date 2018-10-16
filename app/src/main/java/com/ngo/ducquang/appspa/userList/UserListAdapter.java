@@ -13,6 +13,8 @@ import android.widget.TextView;
 
 import com.ngo.ducquang.appspa.R;
 import com.ngo.ducquang.appspa.base.EmptyViewHolder;
+import com.ngo.ducquang.appspa.base.GlobalVariables;
+import com.ngo.ducquang.appspa.base.font.FontChangeCrawler;
 import com.ngo.ducquang.appspa.login.modelLogin.UserApp;
 import com.ngo.ducquang.appspa.storageList.StorageAdapter;
 
@@ -54,6 +56,8 @@ public class UserListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         else if (viewType == TYPE_ITEM)
         {
             view = inflater.inflate(R.layout.item_user_list, parent, false);
+            FontChangeCrawler fontChanger = new FontChangeCrawler(context.getAssets(), GlobalVariables.FONT_BASE);
+            fontChanger.replaceFonts((ViewGroup) view);
             return new ItemHolder(view);
         }
 

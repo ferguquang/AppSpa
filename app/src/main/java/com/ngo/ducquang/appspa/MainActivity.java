@@ -13,10 +13,10 @@ import android.widget.FrameLayout;
 import com.ngo.ducquang.appspa.base.BaseActivity;
 import com.ngo.ducquang.appspa.base.GlobalVariables;
 import com.ngo.ducquang.appspa.base.LogManager;
-import com.ngo.ducquang.appspa.base.Manager;
 import com.ngo.ducquang.appspa.base.PreferenceUtil;
 import com.ngo.ducquang.appspa.base.PreferencesManager;
 import com.ngo.ducquang.appspa.base.Share;
+import com.ngo.ducquang.appspa.base.font.TypefaceUtil;
 import com.ngo.ducquang.appspa.base.api.ApiService;
 import com.ngo.ducquang.appspa.base.getAddress.ResponseGetAddress;
 import com.ngo.ducquang.appspa.login.LoginActivity;
@@ -28,8 +28,6 @@ import com.ngo.ducquang.appspa.slideMenu.SlideMenuFragment;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
-import javax.microedition.khronos.opengles.GL;
 
 import butterknife.BindView;
 import es.dmoral.toasty.Toasty;
@@ -63,6 +61,8 @@ public class MainActivity extends BaseActivity implements SlideMenuFragment.Even
     @Override
     protected void initView()
     {
+        TypefaceUtil.overrideFont(getApplicationContext(), "DEFAULT", GlobalVariables.FONT_BASE);
+
         if (!PreferenceUtil.getPreferences(getApplicationContext(), PreferenceUtil.LOGIN_SUCCESS, false))
         {
             startActivity(LoginActivity.class, null, true);
@@ -171,14 +171,22 @@ public class MainActivity extends BaseActivity implements SlideMenuFragment.Even
             }
         }
 
-        title.setText("SPA");
+        title.setText(R.string.app_name);
+
+        List<BannerModel> bannerModels = new ArrayList<>();
+        bannerModels.add(new BannerModel(1, "https://www.webico.vn/wp-content/uploads/2017/05/URL.png"));
+        bannerModels.add(new BannerModel(1, "https://www.webico.vn/wp-content/uploads/2017/05/URL.png"));
+        bannerModels.add(new BannerModel(1, "https://www.webico.vn/wp-content/uploads/2017/05/URL.png"));
+        bannerModels.add(new BannerModel(1, "https://www.webico.vn/wp-content/uploads/2017/05/URL.png"));
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
-        MainAdapter mainAdapter = new MainAdapter(dataList, getSupportFragmentManager(), this);
+        MainAdapter mainAdapter = new MainAdapter(dataList, getSupportFragmentManager(), this, bannerModels);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(mainAdapter);
+
+
     }
 
     @Override

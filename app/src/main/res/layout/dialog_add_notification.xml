@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@drawable/dialog_customer_background"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:gravity="center"
+        android:id="@+id/dialogTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Thêm thông báo"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="bold"/>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <com.ngo.ducquang.appspa.base.CustomEditText
+            android:layout_marginRight="@dimen/marginDialogAdd"
+            android:layout_marginLeft="@dimen/marginDialogAdd"
+            android:layout_marginBottom="@dimen/marginDialogAdd"
+            android:hint="Mô tả"
+            android:textColor="@color/black"
+            android:textSize="@dimen/textSize"
+            android:imeOptions="actionNext"
+            android:id="@+id/describeEdt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </android.support.design.widget.TextInputLayout>
+
+    <LinearLayout
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:id="@+id/llStartDate"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/sizeForm"
+        android:layout_weight="10"
+        android:background="@drawable/edt_bg_selector"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:textColor="@color/colorGrayIcon"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:text="Ngày bắt đầu: "
+            android:textSize="@dimen/textSize"/>
+
+        <TextView
+            android:id="@+id/startDate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/size_img_margin_right"
+            android:layout_weight="5"
+            android:textColor="@color/black"
+            android:gravity="right"
+            android:textSize="@dimen/textSize"/>
+
+        <ImageView
+            android:layout_width="@dimen/size_img"
+            android:layout_height="@dimen/size_img"
+            android:layout_weight="0"
+            app:srcCompat="@drawable/icon_date_time"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:id="@+id/llEndDate"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/sizeForm"
+        android:layout_weight="10"
+        android:background="@drawable/edt_bg_selector"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:textColor="@color/colorGrayIcon"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:text="Ngày kết thúc: "
+            android:textSize="@dimen/textSize"/>
+
+        <TextView
+            android:id="@+id/endDate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/size_img_margin_right"
+            android:layout_weight="5"
+            android:textColor="@color/black"
+            android:gravity="right"
+            android:textSize="@dimen/textSize"/>
+
+        <ImageView
+            android:layout_width="@dimen/size_img"
+            android:layout_height="@dimen/size_img"
+            android:layout_weight="0"
+            app:srcCompat="@drawable/icon_date_time"/>
+
+    </LinearLayout>
+
+
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/constraintLayoutBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
+
+        <Button
+            android:id="@+id/dialogCancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/transparent"
+            android:text="HỦY"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/dialogAdd"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <Button
+            android:id="@+id/dialogAdd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/transparent"
+            android:text="ĐỒNG Ý"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/dialogCancel"
+            app:layout_constraintTop_toTopOf="parent"/>
+    </android.support.constraint.ConstraintLayout>
+
+</LinearLayout>

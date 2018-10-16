@@ -35,7 +35,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <TextView
+                <com.ngo.ducquang.appspa.base.view.TextViewFont
                     android:layout_toLeftOf="@+id/imgOption"
                     android:layout_alignParentLeft="true"
                     android:id="@+id/name"
@@ -104,27 +104,43 @@
 
             </LinearLayout>
 
-            <LinearLayout
-                android:gravity="center_vertical"
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <ImageView
-                    android:layout_marginRight="@dimen/margin_8dp"
-                    app:srcCompat="@drawable/icon_address"
+                <LinearLayout
+                    android:layout_alignParentLeft="true"
+                    android:layout_toLeftOf="@+id/switchSetOff"
+                    android:layout_centerVertical="true"
+                    android:gravity="center_vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:layout_marginRight="@dimen/margin_8dp"
+                        app:srcCompat="@drawable/icon_address"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:gravity="center_vertical"
+                        android:text="địa chỉ"
+                        android:id="@+id/address"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/textSize" />
+
+                </LinearLayout>
+
+                <Switch
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:id="@+id/switchSetOff"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
-                <TextView
-                    android:gravity="center_vertical"
-                    android:text="địa chỉ"
-                    android:id="@+id/address"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/textSize" />
-
-            </LinearLayout>
+            </RelativeLayout>
 
         </LinearLayout>
 

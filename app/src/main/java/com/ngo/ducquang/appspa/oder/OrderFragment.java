@@ -79,6 +79,9 @@ public class OrderFragment extends BaseFragment implements View.OnClickListener,
     @BindView(R.id.nameStore) TextView nameStore;
     @BindView(R.id.layoutStore) LinearLayout layoutStore;
 
+    @BindView(R.id.layoutAddress) LinearLayout layoutAddress;
+    @BindView(R.id.nameAddress) TextView nameAddress;
+
     private CategoryOptionAdapter adapter;
 
     private String token = "";
@@ -99,6 +102,10 @@ public class OrderFragment extends BaseFragment implements View.OnClickListener,
     private List<ItemPopupMenu> listItemStore = new ArrayList<>();
     private ListAdapter adapterStoreMenu;
 
+    private ListPopupWindow listPopupAddress;
+    private List<ItemPopupMenu> listItemAddress = new ArrayList<>();
+    private ListAdapter adapterAddress;
+
     @Override
     protected int getContentView() {
         return R.layout.fragment_book_calendar_spa;
@@ -113,6 +120,7 @@ public class OrderFragment extends BaseFragment implements View.OnClickListener,
         book.setOnClickListener(this);
         llStartDate.setOnClickListener(this);
         nameStore.setOnClickListener(this);
+        layoutAddress.setOnClickListener(this);
 
         Bundle bundle = getArguments();
         if (bundle != null)
@@ -422,6 +430,11 @@ public class OrderFragment extends BaseFragment implements View.OnClickListener,
                 listPopupWindow.show();
                 break;
             }
+            case R.id.layoutAddress:
+            {
+
+                break;
+            }
         }
     }
 
@@ -446,8 +459,8 @@ public class OrderFragment extends BaseFragment implements View.OnClickListener,
 
         idCategories = TextUtils.join(",", listIDCategory);
 
-        showLoadingDialog();
-        ApiService.Factory.getInstance().getStore(token, idCategories).enqueue(callbackGetStore());
+//        showLoadingDialog();
+//        ApiService.Factory.getInstance().getStore(token, idCategories).enqueue(callbackGetStore());
     }
 
     @Override

@@ -13,6 +13,9 @@ import android.widget.TextView;
 import com.ngo.ducquang.appspa.R;
 import com.ngo.ducquang.appspa.base.EmptyViewHolder;
 import com.ngo.ducquang.appspa.base.FooterViewHolder;
+import com.ngo.ducquang.appspa.base.GlobalVariables;
+import com.ngo.ducquang.appspa.base.font.FontChangeCrawler;
+import com.ngo.ducquang.appspa.base.view.TextViewFont;
 import com.ngo.ducquang.appspa.storageList.model.Category;
 import com.ngo.ducquang.appspa.storageList.model.UserStore;
 
@@ -53,6 +56,7 @@ public class ServiceAdminAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        FontChangeCrawler fontChanger = new FontChangeCrawler(context.getAssets(), GlobalVariables.FONT_BASE);
         View view = null;
 
         if (viewType == TYPE_EMPTY)
@@ -63,6 +67,7 @@ public class ServiceAdminAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         else if (viewType == TYPE_ITEM)
         {
             view = inflater.inflate(R.layout.item_service_admin, parent, false);
+            fontChanger.replaceFonts((ViewGroup) view);
             return new ItemHolder(view);
         }
         else if (viewType == TYPE_FOOTER)
@@ -109,7 +114,7 @@ public class ServiceAdminAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     public class ItemHolder extends RecyclerView.ViewHolder
     {
-        @BindView(R.id.name) TextView name;
+        @BindView(R.id.name) TextViewFont name;
         @BindView(R.id.describe) TextView describe;
         @BindView(R.id.imgOption) ImageView imgOption;
 
@@ -133,6 +138,7 @@ public class ServiceAdminAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         public void binding(Category model)
         {
             name.setText(model.getName());
+            name.setTextBold();
             describe.setText(model.getDescribe());
             if (inDetail)
             {

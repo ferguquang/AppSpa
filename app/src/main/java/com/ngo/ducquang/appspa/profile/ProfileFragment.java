@@ -186,7 +186,7 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
             categoryList = Share.getInstance().categoryList;
             List<Category> categories = new ArrayList<>();
             categories.addAll(categoryList);
-            GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 3);
+            GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
             CategoryOptionAdapter adapter = new CategoryOptionAdapter(getContext(), categories);
             recyclerView.setLayoutManager(gridLayoutManager);
             recyclerView.setHasFixedSize(true);

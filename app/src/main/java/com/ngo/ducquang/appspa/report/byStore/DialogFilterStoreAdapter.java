@@ -12,6 +12,8 @@ import android.widget.TextView;
 
 import com.ngo.ducquang.appspa.R;
 import com.ngo.ducquang.appspa.base.EmptyViewHolder;
+import com.ngo.ducquang.appspa.base.GlobalVariables;
+import com.ngo.ducquang.appspa.base.font.FontChangeCrawler;
 import com.ngo.ducquang.appspa.modelStore.Store;
 
 import java.util.ArrayList;
@@ -43,6 +45,8 @@ public class DialogFilterStoreAdapter extends RecyclerView.Adapter<RecyclerView.
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view  = inflater.inflate(R.layout.item_filter_store, parent, false);
+        FontChangeCrawler fontChanger = new FontChangeCrawler(context.getAssets(), GlobalVariables.FONT_BASE);
+        fontChanger.replaceFonts((ViewGroup) view);
         return new ItemHolder(view);
     }
 

@@ -20,6 +20,8 @@
         android:textStyle="bold"/>
 
     <TextView
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:layout_marginTop="@dimen/margin_8dp"
         android:id="@+id/askText"
         android:textColor="@color/black"

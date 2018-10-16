@@ -309,7 +309,7 @@
     <dimen name="sizeMaleFemale">12dp</dimen>
     <dimen name="sizeMaleFemaleAsset">12dp</dimen>
     <dimen name="sizeView">10dp</dimen>
-    <dimen name="viewpagerSlide">250dp</dimen>
+    <dimen name="viewpagerSlide">100dp</dimen>
 
     <!-- for borrow pay document -->
     <dimen name="height_32dp">32dp</dimen>

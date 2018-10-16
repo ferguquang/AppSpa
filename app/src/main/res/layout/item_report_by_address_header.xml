@@ -5,6 +5,7 @@
     android:weightSum="10"
     android:id="@+id/itemReportStore"
     android:gravity="center_vertical"
+    android:background="@color/white"
     android:paddingRight="@dimen/padding_16dp"
     android:paddingLeft="@dimen/padding_16dp"
     android:paddingBottom="@dimen/padding_8dp"

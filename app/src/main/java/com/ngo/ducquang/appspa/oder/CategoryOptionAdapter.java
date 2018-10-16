@@ -10,6 +10,8 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 
 import com.ngo.ducquang.appspa.R;
+import com.ngo.ducquang.appspa.base.GlobalVariables;
+import com.ngo.ducquang.appspa.base.font.FontChangeCrawler;
 import com.ngo.ducquang.appspa.storageList.model.Category;
 
 import java.util.List;
@@ -43,6 +45,8 @@ public class CategoryOptionAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view = inflater.inflate(R.layout.item_book_option, parent, false);
+        FontChangeCrawler fontChanger = new FontChangeCrawler(context.getAssets(), GlobalVariables.FONT_BASE);
+        fontChanger.replaceFonts((ViewGroup) view);
         return new ItemHolder(view);
     }
 

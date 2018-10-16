@@ -22,7 +22,7 @@
             android:tint="@color/gray"
             app:srcCompat="@drawable/icon_face_empty"/>
 
-        <TextView
+        <com.ngo.ducquang.appspa.base.view.TextViewFont
             android:id="@+id/textEmpty"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

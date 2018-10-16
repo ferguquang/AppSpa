@@ -86,6 +86,7 @@
                             android:layout_height="wrap_content" />
 
                         <LinearLayout
+                            android:layout_marginLeft="4dp"
                             android:id="@+id/lnRatingJob"
                             android:gravity="center"
                             android:paddingLeft="8dp"
@@ -182,6 +183,7 @@
                             android:layout_height="wrap_content" />
 
                         <LinearLayout
+                            android:layout_marginLeft="4dp"
                             android:gravity="center"
                             android:paddingLeft="8dp"
                             android:paddingRight="8dp"

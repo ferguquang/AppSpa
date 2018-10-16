@@ -14,10 +14,12 @@ import android.widget.TextView;
 import com.ngo.ducquang.appspa.R;
 import com.ngo.ducquang.appspa.alarmService.NotificationMessage;
 import com.ngo.ducquang.appspa.alarmService.ServiceManager;
+import com.ngo.ducquang.appspa.base.GlobalVariables;
 import com.ngo.ducquang.appspa.base.LogManager;
 import com.ngo.ducquang.appspa.base.Manager;
 import com.ngo.ducquang.appspa.base.PreferenceUtil;
 import com.ngo.ducquang.appspa.base.api.ApiService;
+import com.ngo.ducquang.appspa.base.font.FontChangeCrawler;
 import com.ngo.ducquang.appspa.login.LoginActivity;
 import com.ngo.ducquang.appspa.login.modelLogin.UserApp;
 import com.ngo.ducquang.appspa.profile.ProfileFragment;
@@ -53,20 +55,25 @@ public class SlideMenuAdapter extends RecyclerView.Adapter
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        FontChangeCrawler fontChanger = new FontChangeCrawler(context.getAssets(), GlobalVariables.FONT_BASE);
+
         View view = null;
         if (viewType == TYPE_HEADER)
         {
             view = inflater.inflate(R.layout.layout_header_menu, parent, false);
+            fontChanger.replaceFonts((ViewGroup) view);
             return new HeaderViewHolder(view);
         }
         else if (viewType == TYPE_ITEM)
         {
             view = inflater.inflate(R.layout.item_slide_menu, parent, false);
+            fontChanger.replaceFonts((ViewGroup) view);
             return new ItemMenuViewHolder(view);
         }
         else if (viewType == TYPE_LOGOUT)
         {
             view = inflater.inflate(R.layout.layout_logout_menu, parent, false);
+            fontChanger.replaceFonts((ViewGroup) view);
             return new LogoutViewHolder(view);
         }
 

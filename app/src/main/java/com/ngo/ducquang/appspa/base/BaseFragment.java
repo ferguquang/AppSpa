@@ -14,6 +14,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.ngo.ducquang.appspa.R;
+import com.ngo.ducquang.appspa.base.font.FontChangeCrawler;
+import com.ngo.ducquang.appspa.base.view.TextViewFont;
 
 import java.lang.ref.WeakReference;
 
@@ -35,7 +37,7 @@ public abstract class BaseFragment extends Fragment {
     protected Toolbar toolBar;
     @Nullable
     @BindView(R.id.title)
-    protected TextView title;
+    protected TextViewFont title;
 
     @Override
     public void onAttach(Context context) {
@@ -52,6 +54,13 @@ public abstract class BaseFragment extends Fragment {
         progressBarHandler = new ProgressBarHandler(getContext());
         initView(view);
         return view;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        FontChangeCrawler fontChanger = new FontChangeCrawler(getActivity().getAssets(), GlobalVariables.FONT_BASE);
+        fontChanger.replaceFonts((ViewGroup) this.getView());
     }
 
     protected abstract int getContentView();

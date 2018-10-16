@@ -1,9 +1,14 @@
 package com.ngo.ducquang.appspa.login;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -13,8 +18,15 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.MultiplePermissionsReport;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.ngo.ducquang.appspa.BuildConfig;
 import com.ngo.ducquang.appspa.MainActivity;
 import com.ngo.ducquang.appspa.R;
@@ -40,6 +52,7 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.HashMap;
+import java.util.List;
 
 import butterknife.BindView;
 import retrofit2.Call;
@@ -58,6 +71,15 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener
     @BindView(R.id.register) CardView register;
     @BindView(R.id.imgAccount) ImageView imgAccount;
     @BindView(R.id.lock) ImageView lock;
+
+    @BindView(R.id.longitude) TextView txtLongitude;
+    @BindView(R.id.latitude) TextView txtLatitude;
+    @BindView(R.id.progressBar) ProgressBar progressBar;
+
+    protected LocationManager locationManager;
+
+    private double latitude;
+    private double longitude;
 
     private SubcriberLogin subcriberLogin = new SubcriberLogin()
     {
@@ -106,7 +128,55 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener
 
         DrawableHelper.withContext(getBaseContext()).withColor(R.color.white).withDrawable(R.drawable.icon_account).tint().applyTo(imgAccount);
         DrawableHelper.withContext(getBaseContext()).withColor(R.color.white).withDrawable(R.drawable.icon_lock).tint().applyTo(lock);
+
+        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        Dexter.withActivity(this).withPermissions(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION)
+                .withListener(new MultiplePermissionsListener()
+                {
+                    @SuppressLint("MissingPermission")
+                    @Override
+                    public void onPermissionsChecked(MultiplePermissionsReport report)
+                    {
+                        if (report.areAllPermissionsGranted())
+                        {
+                            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, mLocationListener);
+                            showToast("Đang tìm kiếm vị trí của bạn", GlobalVariables.TOAST_INFO);
+                        }
+                    }
+
+                    @Override
+                    public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token)
+                    {
+                        token.continuePermissionRequest();
+                    }
+                }).check();
     }
+
+    private final LocationListener mLocationListener = new LocationListener()
+    {
+        @SuppressLint("SetTextI18n")
+        @Override
+        public void onLocationChanged(Location location)
+        {
+            latitude = location.getLatitude();
+            longitude = location.getLongitude();
+
+            txtLongitude.setText(longitude + "");
+            txtLatitude.setText(latitude + "");
+            progressBar.setVisibility(View.GONE);
+        }
+
+        @Override
+        public void onStatusChanged(String provider, int status, Bundle extras) {}
+
+        @Override
+        public void onProviderEnabled(String provider) {}
+
+        @Override
+        public void onProviderDisabled(String provider) {}
+    };
+
+
 
     @Override
     protected void onStart() {

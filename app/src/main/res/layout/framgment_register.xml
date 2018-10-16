@@ -72,11 +72,44 @@
             </android.support.design.widget.TextInputLayout>
 
             <LinearLayout
-                android:visibility="gone"
                 android:id="@+id/categorylayout"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:minHeight="@dimen/sizeFormTextInput"
+                    android:orientation="horizontal"
+                    android:paddingTop="8dp">
+
+                    <com.ngo.ducquang.appspa.base.CustomEditText
+                        android:id="@+id/longitudeEdt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Kinh độ"
+                        android:textSize="@dimen/textSize"/>
+
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:minHeight="@dimen/sizeFormTextInput"
+                    android:orientation="horizontal"
+                    android:paddingTop="8dp">
+
+                    <com.ngo.ducquang.appspa.base.CustomEditText
+                        android:id="@+id/latitudeEdt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Vĩ độ"
+                        android:textSize="@dimen/textSize"/>
+
+                </android.support.design.widget.TextInputLayout>
 
                 <TextView
                     android:textColor="@color/black"
@@ -127,14 +160,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <TextView
+                    <com.ngo.ducquang.appspa.base.view.TextViewFont
                         android:textSize="@dimen/textSize"
-                        android:textColor="@color/black"
+                        android:textColor="@color/colorGrayIcon"
                         android:text="Tỉnh/Thành phố:"
                         android:layout_width="@dimen/profileWidth"
                         android:layout_height="wrap_content" />
 
-                    <TextView
+                    <com.ngo.ducquang.appspa.base.view.TextViewFont
                         android:text="Chọn Tỉnh/Thành phố"
                         android:textSize="@dimen/textSize"
                         android:textColor="@color/black"
@@ -160,14 +193,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <TextView
+                    <com.ngo.ducquang.appspa.base.view.TextViewFont
                         android:textSize="@dimen/textSize"
-                        android:textColor="@color/black"
+                        android:textColor="@color/colorGrayIcon"
                         android:text="Quận/Huyện:"
                         android:layout_width="@dimen/profileWidth"
                         android:layout_height="wrap_content" />
 
-                    <TextView
+                    <com.ngo.ducquang.appspa.base.view.TextViewFont
                         android:text="Chọn Quận/Huyện"
                         android:textSize="@dimen/textSize"
                         android:textColor="@color/black"
@@ -206,7 +239,7 @@
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
-                <TextView
+                <com.ngo.ducquang.appspa.base.view.TextViewFont
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="4"
@@ -214,7 +247,7 @@
                     android:textColor="@color/colorIconDongLV"
                     android:textSize="@dimen/textSize"/>
 
-                <TextView
+                <com.ngo.ducquang.appspa.base.view.TextViewFont
                     android:textColor="@color/black"
                     android:id="@+id/birthdayEdt"
                     android:layout_width="0dp"
@@ -239,13 +272,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/sizeForm">
 
-                <TextView
+                <com.ngo.ducquang.appspa.base.view.TextViewFont
                     android:text="Giới tính"
                     android:textSize="@dimen/textSize"
                     android:layout_width="@dimen/profileWidth"
                     android:layout_height="wrap_content" />
 
-                <TextView
+                <com.ngo.ducquang.appspa.base.view.TextViewFont
                     android:textColor="@color/black"
                     android:id="@+id/genderEdt"
                     android:background="@color/transparent"
@@ -310,15 +343,16 @@
 
         </LinearLayout>
 
-        <Button
+        <com.ngo.ducquang.appspa.base.view.TextViewFont
             android:layout_marginTop="32dp"
+            android:gravity="center"
             android:background="@color/colorPrimary"
             android:textColor="@color/white"
             android:id="@+id/register"
             android:textStyle="bold"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Đăng kí"/>
+            android:layout_height="50dp"
+            android:text="ĐĂNG KÍ"/>
 
     </LinearLayout>
 

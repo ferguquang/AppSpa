@@ -15,7 +15,9 @@ import android.widget.TextView;
 import com.ngo.ducquang.appspa.R;
 import com.ngo.ducquang.appspa.base.EmptyViewHolder;
 import com.ngo.ducquang.appspa.base.FooterViewHolder;
+import com.ngo.ducquang.appspa.base.GlobalVariables;
 import com.ngo.ducquang.appspa.base.ManagerTime;
+import com.ngo.ducquang.appspa.base.font.FontChangeCrawler;
 import com.ngo.ducquang.appspa.notification.model.Notification;
 import com.ngo.ducquang.appspa.oder.OrderDetailActivity;
 import com.ngo.ducquang.appspa.storageList.StorageAdapter;
@@ -59,6 +61,8 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         else if (viewType == TYPE_ITEM)
         {
             view = inflater.inflate(R.layout.item_notification, parent, false);
+            FontChangeCrawler fontChanger = new FontChangeCrawler(notificationActivity.getAssets(), GlobalVariables.FONT_BASE);
+            fontChanger.replaceFonts((ViewGroup) view);
             return new ItemHolder(view);
         }
         else if (viewType == TYPE_FOOTER)
