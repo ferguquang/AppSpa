@@ -33,7 +33,9 @@ public class DialogAddService extends BaseDialog implements View.OnClickListener
     @BindView(R.id.dialogTitle) TextView dialogTitle;
     @BindView(R.id.nameEdt) CustomEditText nameEdt;
     @BindView(R.id.describeEdt) CustomEditText describeEdt;
-    @BindView(R.id.timeEdt) CustomEditText timeEdt;
+    @BindView(R.id.hourEdt) CustomEditText hourEdt;
+    @BindView(R.id.minuteEdt) CustomEditText minuteEdt;
+
     @BindView(R.id.dialogCancel) Button dialogCancel;
     @BindView(R.id.dialogAdd) Button dialogAdd;
 
@@ -63,7 +65,8 @@ public class DialogAddService extends BaseDialog implements View.OnClickListener
         {
             nameEdt.setText(category.getName());
             describeEdt.setText(category.getDescribe());
-//            timeEdt.setText();
+            hourEdt.setText(category.getHour() + "");
+            minuteEdt.setText(category.getMinute() + "");
         }
     }
 
@@ -75,7 +78,8 @@ public class DialogAddService extends BaseDialog implements View.OnClickListener
             {
                 String name = nameEdt.getText().toString();
                 String describe = describeEdt.getText().toString();
-                String time = timeEdt.getText().toString();
+                String hour = hourEdt.getText().toString();
+                String minutes = minuteEdt.getText().toString();
 
                 if (StringUtilities.isEmpty(name))
                 {
@@ -91,18 +95,12 @@ public class DialogAddService extends BaseDialog implements View.OnClickListener
                     return;
                 }
 
-//                if (StringUtilities.isEmpty(time))
-//                {
-//                    timeEdt.requestFocus();
-//                    timeEdt.setError("Không được để trống!!!");
-//                    return;
-//                }
-
                 HashMap<String, String> params = new HashMap<>();
                 params.put("Token", PreferenceUtil.getPreferences(getContext(), PreferenceUtil.TOKEN, ""));
                 params.put("Name", name);
                 params.put("Describe", describe);
-//                params.put("Describe", time);
+                params.put("Hour", hour);
+                params.put("Minute", minutes);
 
                 showLoadingDialog();
                 if (!isUpdate) // thêm mới

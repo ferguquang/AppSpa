@@ -58,25 +58,62 @@
 
     </android.support.design.widget.TextInputLayout>
 
-    <android.support.design.widget.TextInputLayout
+    <TextView
+        android:text="Thời gian hoàn thành:"
+        android:layout_marginLeft="8dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content" />
 
-        <com.ngo.ducquang.appspa.base.CustomEditText
-            android:layout_marginRight="@dimen/marginDialogAdd"
-            android:layout_marginLeft="@dimen/marginDialogAdd"
-            android:layout_marginBottom="@dimen/marginDialogAdd"
-            android:hint="Thời gian(Giờ)"
-            android:textColor="@color/black"
-            android:textSize="@dimen/textSize"
-            android:imeOptions="actionNext"
-            android:id="@+id/timeEdt"
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_weight="1"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
 
-    </android.support.design.widget.TextInputLayout>
+            <com.ngo.ducquang.appspa.base.CustomEditText
+                android:layout_marginRight="@dimen/marginDialogAdd"
+                android:layout_marginLeft="@dimen/marginDialogAdd"
+                android:layout_marginBottom="@dimen/marginDialogAdd"
+                android:hint="Giờ"
+                android:inputType="number"
+                android:textColor="@color/black"
+                android:textSize="@dimen/textSize"
+                android:imeOptions="actionNext"
+                android:id="@+id/hourEdt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <com.ngo.ducquang.appspa.base.CustomEditText
+                android:layout_marginRight="@dimen/marginDialogAdd"
+                android:layout_marginLeft="@dimen/marginDialogAdd"
+                android:layout_marginBottom="@dimen/marginDialogAdd"
+                android:hint="Phút"
+                android:inputType="number"
+                android:textColor="@color/black"
+                android:textSize="@dimen/textSize"
+                android:imeOptions="actionNext"
+                android:id="@+id/minuteEdt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </android.support.design.widget.TextInputLayout>
+
+    </LinearLayout>
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/constraintLayoutBtn"

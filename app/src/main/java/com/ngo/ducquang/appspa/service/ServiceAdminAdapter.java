@@ -116,6 +116,8 @@ public class ServiceAdminAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     {
         @BindView(R.id.name) TextViewFont name;
         @BindView(R.id.describe) TextView describe;
+        @BindView(R.id.price) TextView price;
+        @BindView(R.id.dateTime) TextView dateTime;
         @BindView(R.id.imgOption) ImageView imgOption;
 
         public ItemHolder(View itemView) {
@@ -144,6 +146,10 @@ public class ServiceAdminAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             {
                 imgOption.setVisibility(View.GONE);
             }
+
+            price.setText("Giá tiền: " + model.getPrice() + "");
+
+            dateTime.setText("Thời gian hoàn thành: " + model.getHour() + " giờ " + model.getMinute() + " phút");
         }
     }
 

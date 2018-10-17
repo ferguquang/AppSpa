@@ -17,6 +17,15 @@ public class Category {
     @SerializedName("Describe")
     @Expose
     private String describe;
+    @SerializedName("Hour")
+    @Expose
+    private Integer hour;
+    @SerializedName("Minute")
+    @Expose
+    private Integer minute;
+    @SerializedName("Price")
+    @Expose
+    private long price;
 
     private boolean isChecked = false;
 
@@ -50,5 +59,29 @@ public class Category {
 
     public void setDescribe(String describe) {
         this.describe = describe;
+    }
+
+    public Integer getHour() {
+        return hour;
+    }
+
+    public void setHour(Integer hour) {
+        this.hour = hour;
+    }
+
+    public Integer getMinute() {
+        return minute;
+    }
+
+    public void setMinute(Integer minute) {
+        this.minute = minute;
+    }
+
+    public long getPrice() {
+        return price;
+    }
+
+    public void setPrice(long price) {
+        this.price = price;
     }
 }

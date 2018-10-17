@@ -23,6 +23,7 @@ import com.ngo.ducquang.appspa.storageList.StorageAdapter;
 import com.ngo.ducquang.appspa.storageList.model.UserStore;
 import com.ngo.ducquang.appspa.storageList.storeDetail.categories.CategoriesFragment;
 import com.ngo.ducquang.appspa.storageList.storeDetail.comment.CommentFragment;
+import com.ngo.ducquang.appspa.storageList.storeDetail.promotion.PromotionFragment;
 import com.ngo.ducquang.appspa.storageList.storeDetail.rate.RateFragment;
 import com.ngo.ducquang.appspa.storageList.storeDetail.model.DataRate;
 import com.ngo.ducquang.appspa.storageList.storeDetail.model.DataStoreDetail;
@@ -62,6 +63,7 @@ public class StoreDetailActivity extends BaseActivity implements View.OnClickLis
     private CategoriesFragment categoriesFragment;
     private CommentFragment commentFragment;
     private RateFragment rateFragment;
+    private PromotionFragment promotionFragment;
 
     private int iDStore = -1;
     private DataStoreDetail storeDetail;
@@ -133,6 +135,9 @@ public class StoreDetailActivity extends BaseActivity implements View.OnClickLis
         textRateAverage.setText("Đánh giá: " + dataStoreDetail.getRatingAverage() + "/5");
         ratingBar.setRating(dataStoreDetail.getRatingAverage());
 
+        promotionFragment = new PromotionFragment();
+        promotionFragment.setPromotions(dataStoreDetail.getPromotions());
+
         categoriesFragment = new CategoriesFragment();
         categoriesFragment.setCategoryList(userStore.getCategories());
 
@@ -146,6 +151,7 @@ public class StoreDetailActivity extends BaseActivity implements View.OnClickLis
 
         adapter = new TabPagerAdapter(getSupportFragmentManager());
 
+        adapter.addFragment(promotionFragment, "Khuyến mãi");
         adapter.addFragment(categoriesFragment, "Dịch vụ");
         adapter.addFragment(commentFragment, "Thảo luận");
         adapter.addFragment(rateFragment, "Đánh giá");

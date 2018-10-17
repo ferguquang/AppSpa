@@ -38,6 +38,9 @@ public class DataStoreDetail {
     @SerializedName("IsOrder")
     @Expose
     private Boolean isOrder;
+    @SerializedName("Promotions")
+    @Expose
+    private List<Promotion> promotions = null;
 
     public Boolean getAdmin() {
         return isAdmin;
@@ -111,4 +114,11 @@ public class DataStoreDetail {
         isCmt = cmt;
     }
 
+    public List<Promotion> getPromotions() {
+        return promotions;
+    }
+
+    public void setPromotions(List<Promotion> promotions) {
+        this.promotions = promotions;
+    }
 }
