@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v4.widget.NestedScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -85,10 +86,86 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
+                <LinearLayout
+                    android:id="@+id/getCurrentLocation"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/textSize"
+                        android:text="Lấy vị trí hiện tại  "
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <ImageView
+                        app:srcCompat="@drawable/icon_asset_cloud_down"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/llLongitude"
+                    android:gravity="center_vertical"
+                    android:background="@drawable/edt_bg_selector"
+                    android:paddingBottom="@dimen/padding_8dp"
+                    android:paddingTop="@dimen/padding_8dp"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:text="Kinh độ"
+                        android:textSize="@dimen/textSize"
+                        android:textColor="@color/black"
+                        android:layout_width="@dimen/profileWidth"
+                        android:layout_height="wrap_content" />
+
+                    <EditText
+                        android:id="@+id/longitudeEdt"
+                        android:textSize="@dimen/textSize"
+                        android:textColor="@drawable/edit_text_selector"
+                        android:background="@color/transparent"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/llLatitude"
+                    android:gravity="center_vertical"
+                    android:background="@drawable/edt_bg_selector"
+                    android:paddingBottom="@dimen/padding_8dp"
+                    android:paddingTop="@dimen/padding_8dp"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:text="Vĩ độ"
+                        android:textSize="@dimen/textSize"
+                        android:textColor="@color/black"
+                        android:layout_width="@dimen/profileWidth"
+                        android:layout_height="wrap_content" />
+
+                    <EditText
+                        android:id="@+id/latitudeEdt"
+                        android:textSize="@dimen/textSize"
+                        android:textColor="@drawable/edit_text_selector"
+                        android:background="@color/transparent"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+
                 <TextView
                     android:textColor="@color/black"
                     android:textSize="@dimen/textSize"
-                    android:layout_marginTop="@dimen/margin_16dp"
+                    android:layout_marginTop="@dimen/padding_8dp"
                     android:text="Dịch vụ của cửa hàng"
                     android:layout_marginBottom="@dimen/margin_8dp"
                     android:layout_width="match_parent"

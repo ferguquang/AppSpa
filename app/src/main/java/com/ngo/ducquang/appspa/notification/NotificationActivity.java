@@ -159,18 +159,8 @@ public class NotificationActivity extends BaseActivity
         {
             case 1:
             {
-                int positionID = PreferenceUtil.getPreferences(getApplicationContext(), PreferenceUtil.POSITION_ID, -1);
-                if (positionID == GlobalVariables.IS_ADMIN)
-                {
-                    DialogAddNotification dialogAddNotification = new DialogAddNotification();
-                    dialogAddNotification.show(getSupportFragmentManager(), dialogAddNotification.getTag());
-                }
-                else if (positionID == GlobalVariables.IS_STORE)
-                {
-
-                }
-
-
+                DialogAddNotification dialogAddNotification = new DialogAddNotification();
+                dialogAddNotification.show(getSupportFragmentManager(), dialogAddNotification.getTag());
 
                 break;
             }

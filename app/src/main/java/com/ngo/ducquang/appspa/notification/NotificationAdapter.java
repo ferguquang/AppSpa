@@ -21,7 +21,9 @@ import com.ngo.ducquang.appspa.base.font.FontChangeCrawler;
 import com.ngo.ducquang.appspa.notification.model.Notification;
 import com.ngo.ducquang.appspa.oder.OrderDetailActivity;
 import com.ngo.ducquang.appspa.storageList.StorageAdapter;
+import com.ngo.ducquang.appspa.storageList.StoreActivity;
 import com.ngo.ducquang.appspa.storageList.model.Category;
+import com.ngo.ducquang.appspa.storageList.storeDetail.StoreDetailActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,7 +77,8 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position)
+    {
         if (holder instanceof EmptyViewHolder)
         {
             ((EmptyViewHolder) holder).setTextEmpty("Không có thông báo nào");
@@ -114,10 +117,14 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         @BindView(R.id.dateTime) TextView dateTime;
         @BindView(R.id.phone) TextView phone;
         @BindView(R.id.address) TextView address;
+        @BindView(R.id.dateTimePromotion) TextView dateTimePromotion;
 
         @BindView(R.id.cvGroup) CardView cvGroup;
         @BindView(R.id.cardViewStatus) CardView cardViewStatus;
         @BindView(R.id.llAddress) LinearLayout llAddress;
+        @BindView(R.id.llDateTimePromotion) LinearLayout llDateTimePromotion;
+        @BindView(R.id.llDateCreate) LinearLayout llDateCreate;
+        @BindView(R.id.llPhone) LinearLayout llPhone;
         @BindView(R.id.imgOption) ImageView imgOption;
 
         public ItemHolder(View itemView)
@@ -130,11 +137,26 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             {
                 dataList.get(getAdapterPosition()).setView(true);
                 notifyItemChanged(getAdapterPosition());
+                int idOrder = dataList.get(getAdapterPosition()).getiDOrder();
+                int idStore = dataList.get(getAdapterPosition()).getiDStore();
+
                 Bundle bundle = new Bundle();
-                bundle.putInt(OrderDetailActivity.ID_NOTI, dataList.get(getAdapterPosition()).getId());
-                bundle.putInt(OrderDetailActivity.ID_ORDER, dataList.get(getAdapterPosition()).getiDOrder());
-                bundle.putBoolean(OrderDetailActivity.FROM_NOTIFICATION_ACTIVITY, true);
-                notificationActivity.startActivity(OrderDetailActivity.class, bundle, false);
+                if (idOrder != 0)
+                {
+                    bundle.putInt(OrderDetailActivity.ID_NOTI, dataList.get(getAdapterPosition()).getId());
+                    bundle.putInt(OrderDetailActivity.ID_ORDER, idOrder);
+                    bundle.putBoolean(OrderDetailActivity.FROM_NOTIFICATION_ACTIVITY, true);
+                    notificationActivity.startActivity(OrderDetailActivity.class, bundle, false);
+                }
+                else if (idStore != 0)
+                {
+                    bundle.putInt(StorageAdapter.ID_STORE, idStore);
+                    notificationActivity.startActivity(StoreDetailActivity.class, bundle, false);
+                }
+                else
+                {
+                    notificationActivity.startActivity(StoreActivity.class, null, false);
+                }
             });
         }
 
@@ -143,6 +165,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             cardViewStatus.setVisibility(View.GONE);
             llAddress.setVisibility(View.GONE);
             imgOption.setVisibility(View.GONE);
+            llPhone.setVisibility(View.GONE);
 
             name.setText(model.getTitle());
             dateTime.setText(ManagerTime.convertToMonthDayYearHourMinuteFormat(model.getCreated()));
@@ -159,6 +182,21 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 cvGroup.setCardBackgroundColor(name.getContext().getResources().getColor(R.color.white));
             else
                 cvGroup.setCardBackgroundColor(name.getContext().getResources().getColor(R.color.noread));
+
+            if (model.getiDOrder() == 0)
+            {
+                llDateCreate.setVisibility(View.GONE);
+                llDateTimePromotion.setVisibility(View.VISIBLE);
+                String startDate = ManagerTime.convertToMonthDayYearHourMinuteFormat(model.getStartDate());
+                String endDate = ManagerTime.convertToMonthDayYearHourMinuteFormat(model.getEndDate());
+                dateTimePromotion.setText("Từ " + startDate + " đến " + endDate);
+                categoriesText.setText(model.getDescribe());
+            }
+            else
+            {
+                llDateTimePromotion.setVisibility(View.GONE);
+                llDateCreate.setVisibility(View.VISIBLE);
+            }
         }
     }
 

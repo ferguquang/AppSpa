@@ -16,12 +16,14 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListPopupWindow;
@@ -63,6 +65,7 @@ import com.ngo.ducquang.appspa.base.view.popupWindow.ItemPopupMenu;
 import com.ngo.ducquang.appspa.base.view.popupWindow.ListPopupWindowAdapter;
 import com.ngo.ducquang.appspa.oder.CategoryOptionAdapter;
 import com.ngo.ducquang.appspa.login.modelRegister.ResponseRegister;
+import com.ngo.ducquang.appspa.service.PriceServiceModel;
 import com.ngo.ducquang.appspa.storageList.StoreActivity;
 import com.ngo.ducquang.appspa.storageList.createStore.model.ResponseCreateStore;
 import com.ngo.ducquang.appspa.storageList.model.Category;
@@ -86,7 +89,8 @@ import static android.content.Context.LOCATION_SERVICE;
  * Created by ducqu on 9/21/2018.
  */
 
-public class RegisterFragment extends BaseFragment implements View.OnClickListener {
+public class RegisterFragment extends BaseFragment implements View.OnClickListener
+{
     public static final int TYPE_USER = 1;
     public static final int TYPE_STORE = 2;
 
@@ -172,9 +176,12 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
 
             // list category
             categoryList = Share.getInstance().categoryList;
-            GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 3);
+
+            LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+            layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
             CategoryOptionAdapter adapter = new CategoryOptionAdapter(getActivity(), categoryList);
-            recyclerView.setLayoutManager(gridLayoutManager);
+            adapter.setEnableEditPrice(true);
+            recyclerView.setLayoutManager(layoutManager);
             recyclerView.setHasFixedSize(true);
             recyclerView.setAdapter(adapter);
             recyclerView.setNestedScrollingEnabled(false);
@@ -308,10 +315,9 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
                 params.put("IDProvince", idProvince + "");
                 params.put("IDDistrict", idDistrict + "");
 
-                showLoadingDialog();
-
                 if (type == TYPE_USER)
                 {
+                    showLoadingDialog();
                     ApiService.Factory.getInstance().register(params).enqueue(new Callback<ResponseRegister>() {
                         @Override
                         public void onResponse(Call<ResponseRegister> call, Response<ResponseRegister> response)
@@ -340,14 +346,20 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
                 else if (type == TYPE_STORE)
                 {
                     List<String> listIDCategory = new ArrayList<>();
+                    List<PriceServiceModel> priceServiceModels = new ArrayList<>();
                     for (int i = 0; i < categoryList.size(); i++)
                     {
                         RecyclerView.ViewHolder viewMain = recyclerView.findViewHolderForAdapterPosition(i);
                         CheckBox checkBox = viewMain.itemView.findViewById(R.id.checkbox);
+                        EditText priceEdit = viewMain.itemView.findViewById(R.id.priceEdit);
                         if (checkBox.isChecked())
                         {
                             Category category = categoryList.get(i);
                             listIDCategory.add(category.getiD() + "");
+
+                            String key = "Price" + category.getiD();
+                            String price = priceEdit.getText().toString();
+                            priceServiceModels.add(new PriceServiceModel(key, price));
                         }
                     }
 
@@ -374,7 +386,13 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
                     params.put("Describe", describe);
                     params.put("Latitude", latitude + "");
                     params.put("Longitude", longitude + "");
+                    for (int i = 0; i < priceServiceModels.size(); i++)
+                    {
+                        PriceServiceModel model = priceServiceModels.get(i);
+                        params.put(model.getKey(), model.getValuePrice());
+                    }
 
+                    showLoadingDialog();
                     ApiService.Factory.getInstance().createStore(params).enqueue(new Callback<ResponseCreateStore>()
                     {
                         @Override
@@ -392,6 +410,8 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
                             {
                                 showToast(message.getText(), GlobalVariables.TOAST_ERRO);
                             }
+
+                            hideLoadingDialog();
                         }
 
                         @Override

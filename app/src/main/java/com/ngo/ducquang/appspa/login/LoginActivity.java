@@ -4,6 +4,8 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -23,6 +25,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
@@ -65,29 +68,24 @@ import retrofit2.Response;
  * Created by ducqu on 9/21/2018.
  */
 
-public class LoginActivity extends BaseActivity implements View.OnClickListener {
-    @BindView(R.id.userName)
-    EditText userName;
-    @BindView(R.id.password)
-    EditText password;
-    @BindView(R.id.login)
-    CardView login;
-    @BindView(R.id.register)
-    CardView register;
-    @BindView(R.id.imgAccount)
-    ImageView imgAccount;
-    @BindView(R.id.lock)
-    ImageView lock;
+public class LoginActivity extends BaseActivity implements View.OnClickListener
+{
+    @BindView(R.id.userName) EditText userName;
+    @BindView(R.id.password) EditText password;
+    @BindView(R.id.login) CardView login;
+    @BindView(R.id.register) CardView register;
+    @BindView(R.id.imgAccount) ImageView imgAccount;
+    @BindView(R.id.lock) ImageView lock;
 
-    @BindView(R.id.longitude)
-    TextView txtLongitude;
-    @BindView(R.id.latitude)
-    TextView txtLatitude;
-    @BindView(R.id.progressBar)
-    ProgressBar progressBar;
+    @BindView(R.id.copyLongitude) ImageView copyLongitude;
+    @BindView(R.id.copyLatitude) ImageView copyLatitude;
 
-    protected LocationManager locationManager;
+    @BindView(R.id.longitude) TextView txtLongitude;
+    @BindView(R.id.latitude) TextView txtLatitude;
+    @BindView(R.id.progressBar) ProgressBar progressBar;
+    @BindView(R.id.getCurrentLocation) RelativeLayout getCurrentLocation;
 
+    private LocationManager locationManager;
     private double latitude;
     private double longitude;
 
@@ -110,6 +108,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
         login.setOnClickListener(this);
         register.setOnClickListener(this);
+        copyLatitude.setOnClickListener(this);
+        copyLongitude.setOnClickListener(this);
+        getCurrentLocation.setOnClickListener(this);
 
         if (BuildConfig.DEBUG) {
             userName.setText("admin_cloud"); // todo only dev
@@ -135,62 +136,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         DrawableHelper.withContext(getBaseContext()).withColor(R.color.white).withDrawable(R.drawable.icon_lock).tint().applyTo(lock);
 
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-        Dexter.withActivity(this).withPermissions(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION)
-                .withListener(new MultiplePermissionsListener() {
-                    @Override
-                    public void onPermissionsChecked(MultiplePermissionsReport report)
-                    {
-                        if (report.areAllPermissionsGranted())
-                        {
-                            if (ActivityCompat.checkSelfPermission(LoginActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(LoginActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
-                            {
-                                return;
-                            }
-
-                            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, mLocationListener);
-                            showToast("Đang tìm kiếm vị trí của bạn", GlobalVariables.TOAST_INFO);
-                        }
-                    }
-
-                    @Override
-                    public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token)
-                    {
-                        token.continuePermissionRequest();
-                    }
-                }).check();
     }
-
-    private final LocationListener mLocationListener = new LocationListener()
-    {
-        @SuppressLint("SetTextI18n")
-        @Override
-        public void onLocationChanged(Location location)
-        {
-            latitude = location.getLatitude();
-            longitude = location.getLongitude();
-
-            txtLongitude.setText(longitude + "");
-            txtLatitude.setText(latitude + "");
-            progressBar.setVisibility(View.GONE);
-        }
-
-        @Override
-        public void onStatusChanged(String provider, int status, Bundle extras) {}
-
-        @Override
-        public void onProviderEnabled(String provider) {}
-
-        @Override
-        public void onProviderDisabled(String provider) {}
-    };
-
-
 
     @Override
     protected void onStart() {
         super.onStart();
         EventBusManager.instance().register(subcriberLogin);
-
         disableServiceNotification();
     }
 
@@ -208,6 +159,72 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     {
         switch (v.getId())
         {
+            case R.id.getCurrentLocation:
+            {
+                progressBar.setVisibility(View.VISIBLE);
+                Dexter.withActivity(this).withPermissions(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION)
+                        .withListener(new MultiplePermissionsListener()
+                        {
+                            @Override
+                            public void onPermissionsChecked(MultiplePermissionsReport report)
+                            {
+                                if (report.areAllPermissionsGranted())
+                                {
+                                    if (ActivityCompat.checkSelfPermission(LoginActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(LoginActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+                                    {
+                                        return;
+                                    }
+
+                                    locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, new LocationListener()
+                                    {
+                                        @Override
+                                        public void onLocationChanged(Location location)
+                                        {
+                                            latitude = location.getLatitude();
+                                            longitude = location.getLongitude();
+
+                                            txtLongitude.setText(longitude + "");
+                                            txtLatitude.setText(latitude + "");
+                                            progressBar.setVisibility(View.GONE);
+                                        }
+
+                                        @Override
+                                        public void onStatusChanged(String provider, int status, Bundle extras) {}
+
+                                        @Override
+                                        public void onProviderEnabled(String provider) {}
+
+                                        @Override
+                                        public void onProviderDisabled(String provider) {}
+                                    });
+                                    showToast("Đang tìm kiếm vị trí của bạn", GlobalVariables.TOAST_INFO);
+                                }
+                            }
+
+                            @Override
+                            public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token)
+                            {
+                                token.continuePermissionRequest();
+                            }
+                        }).check();
+                break;
+            }
+            case R.id.copyLatitude:
+            {
+                ClipboardManager clipboardManager = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData clipData = ClipData.newPlainText("Đã sao chép vào bộ nhớ tạm", txtLatitude.getText().toString());
+                clipboardManager.setPrimaryClip(clipData);
+                showToast("Đã sao chép vào bộ nhớ tạm", GlobalVariables.TOAST_SUCCESS);
+                break;
+            }
+            case R.id.copyLongitude:
+            {
+                ClipboardManager clipboardManager = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData clipData = ClipData.newPlainText("Đã sao chép vào bộ nhớ tạm", txtLongitude.getText().toString());
+                clipboardManager.setPrimaryClip(clipData);
+                showToast("Đã sao chép vào bộ nhớ tạm", GlobalVariables.TOAST_SUCCESS);
+                break;
+            }
             case R.id.login:
             {
                 String name = userName.getText().toString();

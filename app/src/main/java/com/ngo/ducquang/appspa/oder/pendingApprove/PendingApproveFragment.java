@@ -24,9 +24,6 @@ public class PendingApproveFragment extends BaseFragment
 
     private OrderListAdapter adapter;
 
-    private LoadMoreInterface loadMoreInterface;
-    private int take = 5, skip = 2;
-
     @Override
     protected int getContentView() {
         return R.layout.fragment_oder;

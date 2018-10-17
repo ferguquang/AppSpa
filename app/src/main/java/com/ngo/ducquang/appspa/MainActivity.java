@@ -51,8 +51,6 @@ public class MainActivity extends BaseActivity implements SlideMenuFragment.Even
     @BindView(R.id.recyclerView) RecyclerView recyclerView;
     private ActionBarDrawerToggle drawerToggle;
 
-    private PreferencesManager prefManager;
-
     @Override
     protected int getContentView() {
         return R.layout.activity_main;
@@ -95,8 +93,6 @@ public class MainActivity extends BaseActivity implements SlideMenuFragment.Even
                 LogManager.tagDefault().debug();
             }
         });
-
-        HashMap<String, String> params = new HashMap<>();
 
         String token = PreferenceUtil.getPreferences(getApplicationContext(), PreferenceUtil.TOKEN, "");
         ApiService.Factory.getInstance().getStore(token, "").enqueue(new Callback<ResponseGetStore>() {
@@ -186,7 +182,7 @@ public class MainActivity extends BaseActivity implements SlideMenuFragment.Even
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(mainAdapter);
 
-
+        setBackground(getApplicationContext(), this.findViewById(android.R.id.content), R.drawable.bgmain_qualiti25);
     }
 
     @Override

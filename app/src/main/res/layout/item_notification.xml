@@ -63,15 +63,39 @@
             <TextView
                 android:id="@+id/categories"
                 android:layout_width="match_parent"
-                android:maxLines="2"
-                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:text="Nối mi, săm mày, gội đầu"
-                android:layout_marginRight="3dp"
                 android:layout_marginLeft="3dp"
+                android:layout_marginRight="3dp"
+                android:layout_weight="1"
+                android:maxLines="2"
+                android:text="Nối mi, săm mày, gội đầu"
                 android:textColor="@color/black"
                 android:textSize="@dimen/textTitleSizeBook" />
+
+            <LinearLayout
+                android:visibility="gone"
+                android:id="@+id/llDateTimePromotion"
+                android:gravity="center_vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_marginRight="@dimen/margin_8dp"
+                    app:srcCompat="@drawable/icon_asset_date_editor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:gravity="center_vertical"
+                    android:text="Từ"
+                    android:id="@+id/dateTimePromotion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/textSize" />
+
+            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/llAddress"
@@ -107,6 +131,7 @@
                     android:layout_height="wrap_content">
 
                     <LinearLayout
+                        android:id="@+id/llDateCreate"
                         android:gravity="center_vertical"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
@@ -129,6 +154,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/llPhone"
                         android:gravity="center_vertical"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">

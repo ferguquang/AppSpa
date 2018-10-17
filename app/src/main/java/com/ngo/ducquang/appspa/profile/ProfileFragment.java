@@ -1,8 +1,15 @@
 package com.ngo.ducquang.appspa.profile;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.GridLayoutManager;
+import android.support.v4.app.ActivityCompat;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
@@ -16,6 +23,11 @@ import android.widget.TextView;
 
 import com.github.jjobes.slidedatetimepicker.SlideDateTimeListener;
 import com.github.jjobes.slidedatetimepicker.SlideDateTimePicker;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.MultiplePermissionsReport;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.ngo.ducquang.appspa.R;
 import com.ngo.ducquang.appspa.base.BaseFragment;
 import com.ngo.ducquang.appspa.base.GlobalVariables;
@@ -32,6 +44,7 @@ import com.ngo.ducquang.appspa.base.getAddress.Province;
 import com.ngo.ducquang.appspa.base.view.AddingArrayDialog;
 import com.ngo.ducquang.appspa.base.view.popupWindow.ItemPopupMenu;
 import com.ngo.ducquang.appspa.base.view.popupWindow.ListPopupWindowAdapter;
+import com.ngo.ducquang.appspa.login.LoginActivity;
 import com.ngo.ducquang.appspa.oder.CategoryOptionAdapter;
 import com.ngo.ducquang.appspa.login.modelLogin.UserApp;
 import com.ngo.ducquang.appspa.login.modelRegister.ResponseRegister;
@@ -51,6 +64,8 @@ import butterknife.BindView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static android.content.Context.LOCATION_SERVICE;
 
 /**
  * Created by ducqu on 9/23/2018.
@@ -72,7 +87,13 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
     @BindView(R.id.emailEdt) EditText emailEdt;
     @BindView(R.id.phoneEdt) EditText phoneEdt;
     @BindView(R.id.describeEdt) EditText describeEdt;
+
+    @BindView(R.id.longitudeEdt) EditText longitudeEdt;
+    @BindView(R.id.latitudeEdt) EditText latitudeEdt;
+    @BindView(R.id.getCurrentLocation) LinearLayout getCurrentLocation;
+
     @BindView(R.id.genderEdt) TextView genderEdt;
+
     private int valueGender;
 
     @BindView(R.id.recyclerView) RecyclerView recyclerView;
@@ -111,6 +132,10 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
     private ListPopupWindow popupDistrict;
     private List<ItemPopupMenu> listMenuDistrict = new ArrayList<>();
 
+    private LocationManager locationManager;
+    private double latitude;
+    private double longitude;
+
     @Override
     protected int getContentView() {
         return R.layout.fragment_profile;
@@ -126,6 +151,8 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
 
         valueProvince.setOnClickListener(this);
         valueDistrict.setOnClickListener(this);
+
+        getCurrentLocation.setOnClickListener(this);
 
         String dataAdress = PreferenceUtil.getPreferences(getContext(), PreferenceUtil.DATA_GET_ADDRESS, "");
         DataGetAddress dataGetAddress = DataGetAddress.initialize(dataAdress);
@@ -186,9 +213,11 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
             categoryList = Share.getInstance().categoryList;
             List<Category> categories = new ArrayList<>();
             categories.addAll(categoryList);
-            GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
+
+            LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+            layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
             CategoryOptionAdapter adapter = new CategoryOptionAdapter(getContext(), categories);
-            recyclerView.setLayoutManager(gridLayoutManager);
+            recyclerView.setLayoutManager(layoutManager);
             recyclerView.setHasFixedSize(true);
             recyclerView.setAdapter(adapter);
             recyclerView.setNestedScrollingEnabled(false);
@@ -203,6 +232,8 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
             }
 
             adapter.refreshData(categories);
+
+            locationManager = (LocationManager) getContext().getSystemService(LOCATION_SERVICE);
         }
 
         setListPopupWindow();
@@ -484,6 +515,53 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
                 });
 
                 addingArrayDialog.show(getFragmentManager(), "Giới tính");
+                break;
+            }
+            case R.id.getCurrentLocation:
+            {
+                Dexter.withActivity(getActivity()).withPermissions(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION)
+                        .withListener(new MultiplePermissionsListener() {
+                            @Override
+                            public void onPermissionsChecked(MultiplePermissionsReport report)
+                            {
+                                if (report.areAllPermissionsGranted())
+                                {
+                                    if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+                                    {
+                                        return;
+                                    }
+
+                                    locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, new LocationListener() {
+                                        @Override
+                                        public void onLocationChanged(Location location)
+                                        {
+                                            latitude = location.getLatitude();
+                                            longitude = location.getLongitude();
+
+                                            longitudeEdt.setText(longitude + "");
+                                            latitudeEdt.setText(latitude + "");
+                                        }
+
+                                        @Override
+                                        public void onStatusChanged(String provider, int status, Bundle extras) {}
+
+                                        @Override
+                                        public void onProviderEnabled(String provider) {}
+
+                                        @Override
+                                        public void onProviderDisabled(String provider) {}
+                                    });
+
+                                    showToast("Đang tìm kiếm vị trí của bạn", GlobalVariables.TOAST_INFO);
+                                }
+                            }
+
+                            @Override
+                            public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token)
+                            {
+                                token.continuePermissionRequest();
+                            }
+                        }).check();
                 break;
             }
         }

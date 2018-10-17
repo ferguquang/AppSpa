@@ -89,10 +89,8 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         {
             return TYPE_BANNER;
         }
-        else
-        {
-            return TYPE_ITEM;
-        }
+
+        return TYPE_ITEM;
     }
 
     public class BannerHolder extends RecyclerView.ViewHolder

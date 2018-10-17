@@ -1,6 +1,11 @@
 package com.ngo.ducquang.appspa.base;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -74,10 +79,19 @@ public abstract class BaseActivity extends AppCompatActivity
             ServiceManager.startService(getBaseContext());
         }
 
-//        this.findViewById(android.R.id.content).setBackgroundResource(R.drawable.background_hoavan);
+//        this.findViewById(android.R.id.content).setBackgroundResource(R.drawable.bgmain_qualiti25);
 
         FontChangeCrawler fontChanger = new FontChangeCrawler(getAssets(), GlobalVariables.FONT_BASE);
         fontChanger.replaceFonts((ViewGroup)this.findViewById(android.R.id.content));
+    }
+
+    public void setBackground(Context context, View view, int drawableId){
+        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), drawableId);
+        int width = Resources.getSystem().getDisplayMetrics().widthPixels;
+        int height = Resources.getSystem().getDisplayMetrics().heightPixels;
+        bitmap = Bitmap.createScaledBitmap(bitmap, width, height, true);
+        BitmapDrawable bitmapDrawable = new BitmapDrawable(context.getResources(), bitmap);
+        view.setBackground(bitmapDrawable);
     }
 
     @Override

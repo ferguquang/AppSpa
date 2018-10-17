@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 
 import com.ngo.ducquang.appspa.R;
 import com.ngo.ducquang.appspa.base.GlobalVariables;
@@ -29,6 +30,8 @@ public class CategoryOptionAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     private List<Category> dataList;
     private SendListCheckedCheckBox sendListCheckedCheckBox;
 
+    private boolean isEnableEditPrice = false;
+
     public CategoryOptionAdapter(Context context, List<Category> dataList, SendListCheckedCheckBox sendListCheckedCheckBox) {
         this.context = context;
         this.dataList = dataList;
@@ -38,6 +41,10 @@ public class CategoryOptionAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     public CategoryOptionAdapter(Context context, List<Category> dataList) {
         this.context = context;
         this.dataList = dataList;
+    }
+
+    public void setEnableEditPrice(boolean enableEditPrice) {
+        isEnableEditPrice = enableEditPrice;
     }
 
     @NonNull
@@ -66,6 +73,7 @@ public class CategoryOptionAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     public class ItemHolder extends RecyclerView.ViewHolder
     {
         @BindView(R.id.checkbox) CheckBox checkBox;
+        @BindView(R.id.priceEdit) EditText priceEdit;
 
         public ItemHolder(View itemView) {
             super(itemView);
@@ -88,6 +96,9 @@ public class CategoryOptionAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         {
             checkBox.setText(model.getName());
             checkBox.setChecked(model.isChecked());
+
+            priceEdit.setEnabled(isEnableEditPrice);
+            priceEdit.setText(model.getPrice() + "");
         }
     }
 

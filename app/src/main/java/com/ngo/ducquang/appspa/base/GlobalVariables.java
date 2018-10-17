@@ -19,6 +19,6 @@ public class GlobalVariables
     public static final int IS_STORE = 2;
     public static final int IS_USER = 3;
 
-    public static final String FONT_BASE = "fonts/Parisienne-Regular.ttf";
+    public static final String FONT_BASE = "fonts/Merienda-Regular.ttf";
     public static final String FONT_BASE_BOLD = "fonts/Merienda-Bold.ttf";
 }

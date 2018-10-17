@@ -13,8 +13,8 @@
         app:cardPreventCornerOverlap="false"
         app:cardBackgroundColor="@color/white"
         android:layout_marginRight="24dp"
-        android:layout_marginTop="@dimen/margin_12dp"
-        android:layout_marginBottom="@dimen/margin_12dp"
+        android:layout_marginTop="@dimen/margin_4dp"
+        android:layout_marginBottom="@dimen/margin_4dp"
         android:layout_marginLeft="24dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">

@@ -6,17 +6,23 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.ngo.ducquang.appspa.R;
 import com.ngo.ducquang.appspa.base.EmptyViewHolder;
 import com.ngo.ducquang.appspa.base.FooterViewHolder;
 import com.ngo.ducquang.appspa.base.GlobalVariables;
+import com.ngo.ducquang.appspa.base.ManagerTime;
 import com.ngo.ducquang.appspa.base.font.FontChangeCrawler;
+import com.ngo.ducquang.appspa.base.view.TextViewFont;
 import com.ngo.ducquang.appspa.storageList.storeDetail.model.Promotion;
 import com.ngo.ducquang.appspa.storageList.storeDetail.model.Rating;
 import com.ngo.ducquang.appspa.storageList.storeDetail.rate.RateAdapter;
 
 import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * Created by ducqu on 10/16/2018.
@@ -65,7 +71,15 @@ public class PromotionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        if (holder instanceof EmptyViewHolder)
+        {
+            ((EmptyViewHolder) holder).setTextEmpty("Chưa có khuyến mãi nào!!!");
+        }
 
+        if (holder instanceof ItemHolder)
+        {
+            ((ItemHolder) holder).binding(dataList.get(position));
+        }
     }
 
     @Override
@@ -90,9 +104,20 @@ public class PromotionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     public class ItemHolder extends RecyclerView.ViewHolder
     {
+        @BindView(R.id.describe) TextViewFont describe;
+        @BindView(R.id.dateTime) TextView dateTime;
 
         public ItemHolder(View itemView) {
             super(itemView);
+            ButterKnife.bind(this, itemView);
+        }
+
+        public void binding(Promotion model)
+        {
+            describe.setText(model.getDescribe());
+            String startDate = ManagerTime.convertToMonthDayYearHourMinuteFormat(model.getStartDate());
+            String endDate = ManagerTime.convertToMonthDayYearHourMinuteFormat(model.getEndDate());
+            dateTime.setText("Từ " + startDate + " đến " + endDate);
         }
     }
 }

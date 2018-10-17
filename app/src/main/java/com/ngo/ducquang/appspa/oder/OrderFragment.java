@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -93,8 +94,6 @@ public class OrderFragment extends BaseFragment implements View.OnClickListener,
     private String orderModelString = "";
     private Order order;
 
-    private GridLayoutManager gridLayoutManager;
-
     private List<Category> categories = new ArrayList<>();
     private List<Store> stores = new ArrayList<>();
 
@@ -114,6 +113,7 @@ public class OrderFragment extends BaseFragment implements View.OnClickListener,
     @Override
     protected void initView(View view)
     {
+        token = PreferenceUtil.getPreferences(getContext(), PreferenceUtil.TOKEN, "");
         showBackPressToolBar();
         title.setText("Đặt lịch");
 
@@ -148,6 +148,10 @@ public class OrderFragment extends BaseFragment implements View.OnClickListener,
             {
                 nameStore.setOnClickListener(null);
             }
+            else
+            {
+                ApiService.Factory.getInstance().getStore(token, idCategories).enqueue(callbackGetStore());
+            }
 
             if (!StringUtilities.isEmpty(orderModelString))
             {
@@ -155,10 +159,9 @@ public class OrderFragment extends BaseFragment implements View.OnClickListener,
             }
         }
 
-        token = PreferenceUtil.getPreferences(getContext(), PreferenceUtil.TOKEN, "");
 
         showLoadingDialog();
-        ApiService.Factory.getInstance().getStore(token, idCategories).enqueue(callbackGetStore());
+
         showLoadingDialog();
         if (order != null)
         {
@@ -190,9 +193,10 @@ public class OrderFragment extends BaseFragment implements View.OnClickListener,
 
                     if (adapter == null)
                     {
-                        gridLayoutManager = new GridLayoutManager(getContext(), 3);
+                        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+                        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
                         adapter = new CategoryOptionAdapter(getActivity(), categories, OrderFragment.this);
-                        recyclerView.setLayoutManager(gridLayoutManager);
+                        recyclerView.setLayoutManager(layoutManager);
                         recyclerView.setHasFixedSize(true);
                         recyclerView.setAdapter(adapter);
                         recyclerView.setNestedScrollingEnabled(false);
