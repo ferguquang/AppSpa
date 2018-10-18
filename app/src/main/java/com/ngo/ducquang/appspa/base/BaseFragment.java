@@ -11,7 +11,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.ngo.ducquang.appspa.R;
 import com.ngo.ducquang.appspa.base.font.FontChangeCrawler;
@@ -28,7 +27,6 @@ import butterknife.ButterKnife;
 
 public abstract class BaseFragment extends Fragment {
     private WeakReference<Activity> mWeakRef;
-//    private LoadingDialog mLoadingDialog;
 
     private ProgressBarHandler progressBarHandler;
 

@@ -20,84 +20,70 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:visibility="gone"
-                android:minHeight="@dimen/sizeFormTextInput"
-                android:orientation="horizontal"
-                android:paddingTop="8dp">
-
-                <com.ngo.ducquang.appspa.base.CustomEditText
-                    android:id="@+id/nameEdt"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Tên lịch đặt"
-                    android:textColor="@color/black"
-                    android:maxLines="6"
-                    android:textSize="@dimen/textSize"/>
-
-            </android.support.design.widget.TextInputLayout>
-
             <LinearLayout
-                android:id="@+id/layoutAddress"
-                android:gravity="center_vertical"
-                android:background="@drawable/edt_bg_selector"
-                android:orientation="horizontal"
-                android:paddingBottom="@dimen/padding_8dp"
-                android:paddingTop="@dimen/padding_8dp"
+                android:id="@+id/llOrderStore"
+                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/sizeForm">
+                android:layout_height="wrap_content">
 
-                <TextView
-                    android:textSize="@dimen/textSize"
-                    android:text="Chọn địa chỉ: "
-                    android:textColor="@color/black"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-                <TextView
-                    android:id="@+id/nameAddress"
-                    android:textStyle="bold"
-                    android:textSize="@dimen/textSize"
-                    android:textColor="@color/black"
+                <LinearLayout
+                    android:id="@+id/layoutAddress"
+                    android:gravity="center_vertical"
+                    android:background="@drawable/edt_bg_selector"
+                    android:orientation="horizontal"
+                    android:paddingBottom="@dimen/padding_8dp"
+                    android:paddingTop="@dimen/padding_8dp"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="@dimen/sizeForm">
 
-            </LinearLayout>
+                    <TextView
+                        android:textSize="@dimen/textSize"
+                        android:text="Chọn địa chỉ: "
+                        android:textColor="@color/black"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
 
-            <LinearLayout
-                android:id="@+id/layoutStore"
-                android:gravity="center_vertical"
-                android:background="@drawable/edt_bg_selector"
-                android:orientation="horizontal"
-                android:paddingBottom="@dimen/padding_8dp"
-                android:paddingTop="@dimen/padding_8dp"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/sizeForm">
 
-                <TextView
-                    android:textSize="@dimen/textSize"
-                    android:text="Cửa hàng: "
-                    android:textColor="@color/black"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    <ImageView
+                        app:srcCompat="@drawable/icon_asset_my_location"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
 
-                <TextView
-                    android:id="@+id/nameStore"
-                    android:textStyle="bold"
-                    android:textSize="@dimen/textSize"
-                    android:textColor="@color/black"
+                    <TextView
+                        android:layout_marginLeft="@dimen/margin_4dp"
+                        android:id="@+id/nameAddress"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/textSize"
+                        android:textColor="@color/black"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+
+                <android.support.v7.widget.CardView
+                    android:layout_marginTop="8dp"
+                    app:cardBackgroundColor="@color/colorBackground"
+                    app:cardElevation="@dimen/padding_10dp"
+                    app:cardCornerRadius="@dimen/padding_10dp"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content">
+
+                    <com.ngo.ducquang.appspa.base.view.MaxHeightRecyclerView
+                        android:layout_margin="8dp"
+                        android:id="@+id/recyclerViewStore"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                    </com.ngo.ducquang.appspa.base.view.MaxHeightRecyclerView>
+
+                </android.support.v7.widget.CardView>
 
             </LinearLayout>
 
             <TextView
                 android:textColor="@color/black"
                 android:textSize="@dimen/textSize"
-                android:layout_marginTop="@dimen/margin_16dp"
+                android:layout_marginTop="@dimen/margin_8dp"
                 android:text="Mời bạn lựa chọn dịch vụ của cửa hàng:"
                 android:layout_marginBottom="@dimen/margin_8dp"
                 android:layout_width="match_parent"

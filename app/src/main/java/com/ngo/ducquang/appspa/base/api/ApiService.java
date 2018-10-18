@@ -4,6 +4,7 @@ import com.ngo.ducquang.appspa.base.GlobalVariables;
 import com.ngo.ducquang.appspa.base.getAddress.ResponseGetAddress;
 import com.ngo.ducquang.appspa.base.reponseMessage.ResponseMessage;
 import com.ngo.ducquang.appspa.modelStore.ResponseGetStore;
+import com.ngo.ducquang.appspa.modelStore.ResponseGetStoreToOrder;
 import com.ngo.ducquang.appspa.notification.model.ResponseNotification;
 import com.ngo.ducquang.appspa.oder.model.ResponseDetailOrder;
 import com.ngo.ducquang.appspa.oder.model.ResponseListOder;
@@ -153,6 +154,11 @@ public interface ApiService
     @GET("account/getstores")
     Call<ResponseGetStore> getStore(@Query("Token") String token,
                                     @Query("IDCategory") String idCategory);
+
+    @GET("account/GetStoreToOrder")
+    Call<ResponseGetStoreToOrder> getStoreToOrder(@Query("Token") String token,
+                                                  @Query("Latitude") double latitude,
+                                                  @Query("Longitude") double longitude);
 
     @POST("order/Approved")
     @FormUrlEncoded

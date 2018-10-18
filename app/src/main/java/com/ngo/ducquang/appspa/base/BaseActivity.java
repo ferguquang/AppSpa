@@ -9,7 +9,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -78,8 +77,6 @@ public abstract class BaseActivity extends AppCompatActivity
         {
             ServiceManager.startService(getBaseContext());
         }
-
-//        this.findViewById(android.R.id.content).setBackgroundResource(R.drawable.bgmain_qualiti25);
 
         FontChangeCrawler fontChanger = new FontChangeCrawler(getAssets(), GlobalVariables.FONT_BASE);
         fontChanger.replaceFonts((ViewGroup)this.findViewById(android.R.id.content));

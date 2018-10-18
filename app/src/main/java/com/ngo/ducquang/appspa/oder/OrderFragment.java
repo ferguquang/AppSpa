@@ -1,13 +1,17 @@
 package com.ngo.ducquang.appspa.oder;
 
 import android.graphics.Color;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -28,15 +32,16 @@ import com.ngo.ducquang.appspa.base.Message;
 import com.ngo.ducquang.appspa.base.PreferenceUtil;
 import com.ngo.ducquang.appspa.base.StringUtilities;
 import com.ngo.ducquang.appspa.base.api.ApiService;
+import com.ngo.ducquang.appspa.base.view.MaxHeightRecyclerView;
 import com.ngo.ducquang.appspa.base.view.popupWindow.ItemPopupMenu;
 import com.ngo.ducquang.appspa.base.view.popupWindow.ListPopupWindowAdapter;
-import com.ngo.ducquang.appspa.modelStore.ResponseGetStore;
-import com.ngo.ducquang.appspa.modelStore.Store;
+import com.ngo.ducquang.appspa.modelStore.ResponseGetStoreToOrder;
+import com.ngo.ducquang.appspa.modelStore.StoreOrder;
+import com.ngo.ducquang.appspa.modelStore.StoresToOrrder;
 import com.ngo.ducquang.appspa.oder.model.Order;
 import com.ngo.ducquang.appspa.oder.model.ResponseOrder;
 import com.ngo.ducquang.appspa.service.model.ResponseServiceAdmin;
 import com.ngo.ducquang.appspa.storageList.model.Category;
-import com.ngo.ducquang.appspa.storageList.model.UserStore;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -49,11 +54,13 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static android.content.Context.LOCATION_SERVICE;
+
 /**
  * Created by ducqu on 9/21/2018.
  */
 
-public class OrderFragment extends BaseFragment implements View.OnClickListener, CategoryOptionAdapter.SendListCheckedCheckBox
+public class OrderFragment extends BaseFragment implements View.OnClickListener, CategoryOptionAdapter.SendListCheckedCheckBox, ShowStoreAdapter.SendIDStore
 {
     public static final String IDSTORE = "idstore";
     public static final String TYPE = "type";
@@ -77,11 +84,10 @@ public class OrderFragment extends BaseFragment implements View.OnClickListener,
     @BindView(R.id.startDate) TextView startDate;
     @BindView(R.id.noteEdt) EditText noteEdt;
 
-    @BindView(R.id.nameStore) TextView nameStore;
-    @BindView(R.id.layoutStore) LinearLayout layoutStore;
-
     @BindView(R.id.layoutAddress) LinearLayout layoutAddress;
     @BindView(R.id.nameAddress) TextView nameAddress;
+
+    @BindView(R.id.llOrderStore) LinearLayout llOrderStore;
 
     private CategoryOptionAdapter adapter;
 
@@ -95,15 +101,22 @@ public class OrderFragment extends BaseFragment implements View.OnClickListener,
     private Order order;
 
     private List<Category> categories = new ArrayList<>();
-    private List<Store> stores = new ArrayList<>();
 
-    private ListPopupWindow listPopupWindow;
-    private List<ItemPopupMenu> listItemStore = new ArrayList<>();
-    private ListAdapter adapterStoreMenu;
+    private List<StoreOrder> storeOrderList = new ArrayList<>();
 
+    private List<StoresToOrrder> storesToOrrders = new ArrayList<>();
     private ListPopupWindow listPopupAddress;
     private List<ItemPopupMenu> listItemAddress = new ArrayList<>();
     private ListAdapter adapterAddress;
+
+    @BindView(R.id.recyclerViewStore) MaxHeightRecyclerView recyclerViewStore;
+
+    private LocationManager locationManager;
+    private double latitude = 0;
+    private double longitude = 0;
+    final long MIN_TIME_BW_UPDATES = 1000;
+    final float MIN_DISTANCE_CHANGE_FOR_UPDATES = 1;
+    String provider = "";
 
     @Override
     protected int getContentView() {
@@ -119,8 +132,11 @@ public class OrderFragment extends BaseFragment implements View.OnClickListener,
 
         book.setOnClickListener(this);
         llStartDate.setOnClickListener(this);
-        nameStore.setOnClickListener(this);
+        nameAddress.setOnClickListener(this);
         layoutAddress.setOnClickListener(this);
+
+        locationManager = (LocationManager) getActivity().getSystemService(LOCATION_SERVICE);
+        provider = getEnabledLocationProvider();
 
         Bundle bundle = getArguments();
         if (bundle != null)
@@ -132,33 +148,28 @@ public class OrderFragment extends BaseFragment implements View.OnClickListener,
             orderModelString = bundle.getString(ORDER_MODEL_STRING, "");
             isUpdate = bundle.getBoolean(UPDATE, false);
 
-            nameStore.setText(nameStoreInDetail);
-
             if (type == ORDER_NORMAL)
             {
 
-            }
-            else if (type == ORDER_AT_HOME)
+            } else if (type == ORDER_AT_HOME)
             {
-                layoutStore.setVisibility(View.GONE);
+                llOrderStore.setVisibility(View.GONE);
                 title.setText("Đặt lịch tại nhà");
+                ApiService.Factory.getInstance().getListServiceAdmin(token, 0).enqueue(callbackGetService());
             }
 
             if (isInDetail)
             {
-                nameStore.setOnClickListener(null);
             }
             else
             {
-                ApiService.Factory.getInstance().getStore(token, idCategories).enqueue(callbackGetStore());
+                getMyLocation();
             }
 
-            if (!StringUtilities.isEmpty(orderModelString))
-            {
+            if (!StringUtilities.isEmpty(orderModelString)) {
                 order = Order.initialize(orderModelString);
             }
         }
-
 
         showLoadingDialog();
 
@@ -167,16 +178,64 @@ public class OrderFragment extends BaseFragment implements View.OnClickListener,
         {
             idStore = order.getStoreID();
         }
-        ApiService.Factory.getInstance().getListServiceAdmin(token, idStore).enqueue(callbackGetService());
 
         if (isUpdate)
         {
-            nameStore.setText(order.getStoreName());
             startDate.setText(ManagerTime.convertToMonthDayYearHourMinuteFormat(order.getOnDate()));
             noteEdt.setText(order.getDescribe());
 
             title.setText("Chỉnh sửa lịch đặt");
         }
+    }
+
+    private LocationListener mLocationListener = new LocationListener()
+    {
+        @Override
+        public void onLocationChanged(final Location location) {}
+
+        @Override
+        public void onStatusChanged(String provider, int status, Bundle extras) {}
+
+        @Override
+        public void onProviderEnabled(String provider) {}
+
+        @Override
+        public void onProviderDisabled(String provider) {}
+    };
+
+    private Callback<ResponseGetStoreToOrder> callbackGetStoreToOrder()
+    {
+        return new Callback<ResponseGetStoreToOrder>()
+        {
+            @Override
+            public void onResponse(Call<ResponseGetStoreToOrder> call, Response<ResponseGetStoreToOrder> response)
+            {
+                if (response.body().getStatus() == 1)
+                {
+                    storesToOrrders = response.body().getData().getStoresToOrrder();
+                    hideLoadingDialog();
+
+                    if (storesToOrrders.size() > 0)
+                    {
+                        nameAddress.setText(storesToOrrders.get(0).getName());
+
+                        storeOrderList.clear();
+                        storeOrderList = storesToOrrders.get(0).getStores();
+                        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+                        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+                        ShowStoreAdapter showStoreAdapter = new ShowStoreAdapter(getActivity(), storeOrderList, OrderFragment.this);
+                        recyclerViewStore.setLayoutManager(linearLayoutManager);
+                        recyclerViewStore.setAdapter(showStoreAdapter);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseGetStoreToOrder> call, Throwable t)
+            {
+                showToast(t.getMessage(), GlobalVariables.TOAST_ERRO);
+            }
+        };
     }
 
     private Callback<ResponseServiceAdmin> callbackGetService()
@@ -229,34 +288,6 @@ public class OrderFragment extends BaseFragment implements View.OnClickListener,
             public void onFailure(Call<ResponseServiceAdmin> call, Throwable t) {
                 LogManager.tagDefault().error(t.getMessage());
                 hideLoadingDialog();
-            }
-        };
-    }
-
-    private Callback<ResponseGetStore> callbackGetStore()
-    {
-        return new Callback<ResponseGetStore>()
-        {
-            @Override
-            public void onResponse(Call<ResponseGetStore> call, Response<ResponseGetStore> response)
-            {
-                if (response.body().getStatus() == 1)
-                {
-                    stores.clear();
-                    stores = response.body().getData().getStores();
-                    if (stores.size() > 0)
-                    {
-                        Store userStore = stores.get(0);
-                        idStore = userStore.getiD();
-                        nameStore.setText(userStore.getName());
-                    }
-                    hideLoadingDialog();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ResponseGetStore> call, Throwable t) {
-                LogManager.tagDefault().error(t.getMessage());
             }
         };
     }
@@ -405,38 +436,52 @@ public class OrderFragment extends BaseFragment implements View.OnClickListener,
                         .show();
                 break;
             }
-            case R.id.nameStore:
+            case R.id.nameAddress:
             {
-                listItemStore.clear();
-
-                listPopupWindow = new ListPopupWindow(getContext());
-                for (int i = 0; i < stores.size(); i++)
+                listItemAddress.clear();
+                listPopupAddress = new ListPopupWindow(getContext());
+                for (int i = 0; i < storesToOrrders.size(); i++)
                 {
-                    int id = stores.get(i).getiD();
-                    String name = stores.get(i).getName();
-                    listItemStore.add(new ItemPopupMenu(id, name));
+                    int id = storesToOrrders.get(i).getiD();
+                    String name = storesToOrrders.get(i).getName();
+                    listItemAddress.add(new ItemPopupMenu(id, name));
                 }
 
-                adapterStoreMenu = new ListPopupWindowAdapter(getContext(), listItemStore);
-                listPopupWindow.setAnchorView(nameStore);
-                listPopupWindow.setAdapter(adapterStoreMenu);
-
-                listPopupWindow.setOnItemClickListener((parent, view, position, id) ->
+                adapterAddress = new ListPopupWindowAdapter(getContext(), listItemAddress);
+                listPopupAddress.setAnchorView(nameAddress);
+                listPopupAddress.setAdapter(adapterAddress);
+                listPopupAddress.setOnItemClickListener((parent, view, position, id) ->
                 {
-                    idStore = listItemStore.get(position).getId();
-                    nameStore.setText(listItemStore.get(position).getTitle());
-
                     showLoadingDialog();
-                    ApiService.Factory.getInstance().getListServiceAdmin(token, idStore).enqueue(callbackGetService());
-                    listPopupWindow.dismiss();
+                    storeOrderList.clear();
+                    int idProvince = listItemAddress.get(position).getId();
+                    if (idProvince == 1)
+                    {
+                        storeOrderList = storesToOrrders.get(0).getStores();
+                    }
+                    else if (idProvince == 2)
+                    {
+                        storeOrderList = storesToOrrders.get(1).getStores();
+                    }
+
+                    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+                    linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+                    ShowStoreAdapter showStoreAdapter = new ShowStoreAdapter(getActivity(), storeOrderList, OrderFragment.this);
+                    recyclerViewStore.setLayoutManager(linearLayoutManager);
+                    recyclerViewStore.setAdapter(showStoreAdapter);
+
+                    hideLoadingDialog();
+
+                    nameAddress.setText(listItemAddress.get(position).getTitle());
+                    listPopupAddress.dismiss();
                 });
 
-                listPopupWindow.show();
+                listPopupAddress.show();
                 break;
             }
             case R.id.layoutAddress:
             {
-
+                getMyLocation();
                 break;
             }
         }
@@ -462,18 +507,57 @@ public class OrderFragment extends BaseFragment implements View.OnClickListener,
         }
 
         idCategories = TextUtils.join(",", listIDCategory);
-
-//        showLoadingDialog();
-//        ApiService.Factory.getInstance().getStore(token, idCategories).enqueue(callbackGetStore());
     }
 
     @Override
     public void onStop()
     {
         super.onStop();
-        if (listPopupWindow != null)
+        if (listPopupAddress != null)
         {
-            listPopupWindow.dismiss();
+            listPopupAddress.dismiss();
         }
+    }
+
+    @Override
+    public void sendIDStore(StoreOrder storeOrder) {
+        idStore = storeOrder.getiDStore();
+        ApiService.Factory.getInstance().getListServiceAdmin(token, idStore).enqueue(callbackGetService());
+    }
+
+    private void getMyLocation()
+    {
+        Location myLocation = null;
+        try
+        {
+            locationManager.requestLocationUpdates(provider, MIN_TIME_BW_UPDATES, MIN_DISTANCE_CHANGE_FOR_UPDATES, mLocationListener);
+            myLocation = locationManager.getLastKnownLocation(provider);
+        }
+        catch (SecurityException e)  // Với Android API >= 23 phải catch SecurityException.
+        {
+            Log.e("TAG", "Show My Location Error:" + e.getMessage());
+            return;
+        }
+
+        latitude = myLocation.getLatitude();
+        longitude = myLocation.getLongitude();
+
+        ApiService.Factory.getInstance().getStoreToOrder(token, latitude, longitude).enqueue(callbackGetStoreToOrder());
+        hideLoadingDialog();
+    }
+
+    public String getEnabledLocationProvider()
+    {
+        LocationManager locationManager = (LocationManager) getActivity().getSystemService(LOCATION_SERVICE);
+        Criteria criteria = new Criteria();
+        String bestProvider = locationManager.getBestProvider(criteria, true);
+        boolean enabled = locationManager.isProviderEnabled(bestProvider);
+
+        if (!enabled)
+        {
+            Log.i("TAG", "No location provider enabled!");
+            return null;
+        }
+        return bestProvider;
     }
 }

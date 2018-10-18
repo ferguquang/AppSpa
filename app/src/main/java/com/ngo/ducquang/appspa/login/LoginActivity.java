@@ -2,22 +2,21 @@ package com.ngo.ducquang.appspa.login;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
-import android.view.KeyEvent;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.EditText;
@@ -27,15 +26,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.karumi.dexter.Dexter;
-import com.karumi.dexter.MultiplePermissionsReport;
-import com.karumi.dexter.PermissionToken;
-import com.karumi.dexter.listener.PermissionRequest;
-import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.ngo.ducquang.appspa.BuildConfig;
 import com.ngo.ducquang.appspa.MainActivity;
 import com.ngo.ducquang.appspa.R;
-import com.ngo.ducquang.appspa.alarmService.AlarmSend;
 import com.ngo.ducquang.appspa.alarmService.ServiceManager;
 import com.ngo.ducquang.appspa.base.BaseActivity;
 import com.ngo.ducquang.appspa.base.DrawableHelper;
@@ -44,8 +37,9 @@ import com.ngo.ducquang.appspa.base.GlobalVariables;
 import com.ngo.ducquang.appspa.base.LogManager;
 import com.ngo.ducquang.appspa.base.Manager;
 import com.ngo.ducquang.appspa.base.Message;
+import com.ngo.ducquang.appspa.base.Permission;
 import com.ngo.ducquang.appspa.base.PreferenceUtil;
-import com.ngo.ducquang.appspa.base.Share;
+import com.ngo.ducquang.appspa.base.StringUtilities;
 import com.ngo.ducquang.appspa.base.api.ApiService;
 //import com.ngo.ducquang.appspa.base.database.DatabaseRoom;
 import com.ngo.ducquang.appspa.base.getAddress.DataGetAddress;
@@ -56,8 +50,8 @@ import com.ngo.ducquang.appspa.login.modelLogin.ResponseLogin;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import butterknife.BindView;
 import retrofit2.Call;
@@ -88,11 +82,25 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener
     private LocationManager locationManager;
     private double latitude;
     private double longitude;
+    String provider = "";
 
-    private SubcriberLogin subcriberLogin = new SubcriberLogin() {
+    public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
+
+    private static final int REQUEST_PERMISSIONS = 96;
+
+    private ArrayList<Permission> listPermission = new ArrayList<>();
+    private static final int ACCESS_FINE_LOCATION = 0;
+    private static final int ACCESS_COARSE_LOCATION = ACCESS_FINE_LOCATION + 1;
+
+    final long MIN_TIME_BW_UPDATES = 1000;
+    final float MIN_DISTANCE_CHANGE_FOR_UPDATES = 1;
+
+    private SubcriberLogin subcriberLogin = new SubcriberLogin()
+    {
         @Override
         @Subscribe(threadMode = ThreadMode.MAIN)
-        public void onUserApp(EventUserApp event) {
+        public void onUserApp(EventUserApp event)
+        {
             handleUserApp(event);
         }
     };
@@ -103,7 +111,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener
     }
 
     @Override
-    protected void initView() {
+    protected void initView()
+    {
         hideToolBar();
 
         login.setOnClickListener(this);
@@ -111,6 +120,14 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener
         copyLatitude.setOnClickListener(this);
         copyLongitude.setOnClickListener(this);
         getCurrentLocation.setOnClickListener(this);
+
+        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        provider = getEnabledLocationProvider();
+
+        listPermission.add(new Permission(ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION));
+        listPermission.add(new Permission(ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION));
+        requestPermission();
+        checkLocationPermission();
 
         if (BuildConfig.DEBUG) {
             userName.setText("admin_cloud"); // todo only dev
@@ -134,8 +151,64 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener
 
         DrawableHelper.withContext(getBaseContext()).withColor(R.color.white).withDrawable(R.drawable.icon_account).tint().applyTo(imgAccount);
         DrawableHelper.withContext(getBaseContext()).withColor(R.color.white).withDrawable(R.drawable.icon_lock).tint().applyTo(lock);
+        getMyLocation();
+    }
 
-        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+    private void getMyLocation()
+    {
+        Location myLocation = null;
+        try
+        {
+            locationManager.requestLocationUpdates(
+                    provider,
+                    MIN_TIME_BW_UPDATES,
+                    MIN_DISTANCE_CHANGE_FOR_UPDATES, locationListener);
+
+            myLocation = locationManager.getLastKnownLocation(provider);
+        }
+        catch (SecurityException e)  // Với Android API >= 23 phải catch SecurityException.
+        {
+            Log.e("TAG", "Show My Location Error:" + e.getMessage());
+            return;
+        }
+
+        txtLongitude.setText(myLocation.getLongitude() + "");
+        txtLatitude.setText(myLocation.getLatitude() + "");
+        hideLoadingDialog();
+    }
+
+    private void requestPermission()
+    {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M)
+        {
+            return;
+        }
+
+        String[] permission = new String[listPermission.size()];
+        for (int i = 0; i < listPermission.size(); i++) {
+            permission[i] = listPermission.get(i).getValue();
+        }
+
+        requestPermissions(permission, REQUEST_PERMISSIONS);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults)
+    {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode)
+        {
+            case MY_PERMISSIONS_REQUEST_LOCATION:
+            {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)
+                    {
+                        locationManager.requestLocationUpdates(provider, 0, 0, locationListener);
+                    }
+                }
+            }
+        }
     }
 
     @Override
@@ -151,6 +224,21 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener
         EventBusManager.instance().unregister(subcriberLogin);
     }
 
+    public void checkLocationPermission()
+    {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+        {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION))
+            {
+                ActivityCompat.requestPermissions(LoginActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, MY_PERMISSIONS_REQUEST_LOCATION);
+            }
+            else
+            {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, MY_PERMISSIONS_REQUEST_LOCATION);
+            }
+        }
+    }
+
     @Override
     protected void initMenu(Menu menu) {}
 
@@ -162,51 +250,22 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener
             case R.id.getCurrentLocation:
             {
                 progressBar.setVisibility(View.VISIBLE);
-                Dexter.withActivity(this).withPermissions(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION)
-                        .withListener(new MultiplePermissionsListener()
-                        {
-                            @Override
-                            public void onPermissionsChecked(MultiplePermissionsReport report)
-                            {
-                                if (report.areAllPermissionsGranted())
-                                {
-                                    if (ActivityCompat.checkSelfPermission(LoginActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(LoginActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
-                                    {
-                                        return;
-                                    }
 
-                                    locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, new LocationListener()
-                                    {
-                                        @Override
-                                        public void onLocationChanged(Location location)
-                                        {
-                                            latitude = location.getLatitude();
-                                            longitude = location.getLongitude();
+                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+                {
+                    return;
+                }
 
-                                            txtLongitude.setText(longitude + "");
-                                            txtLatitude.setText(latitude + "");
-                                            progressBar.setVisibility(View.GONE);
-                                        }
-
-                                        @Override
-                                        public void onStatusChanged(String provider, int status, Bundle extras) {}
-
-                                        @Override
-                                        public void onProviderEnabled(String provider) {}
-
-                                        @Override
-                                        public void onProviderDisabled(String provider) {}
-                                    });
-                                    showToast("Đang tìm kiếm vị trí của bạn", GlobalVariables.TOAST_INFO);
-                                }
-                            }
-
-                            @Override
-                            public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token)
-                            {
-                                token.continuePermissionRequest();
-                            }
-                        }).check();
+//                if (!StringUtilities.isEmpty(provider))
+//                {
+//                    locationManager.requestLocationUpdates(provider, 0, 0, locationListener);
+//                }
+//                else
+//                {
+//                    locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+//                }
+                showToast("Đang tìm kiếm vị trí của bạn", GlobalVariables.TOAST_INFO);
+                getMyLocation();
                 break;
             }
             case R.id.copyLatitude:
@@ -254,7 +313,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener
                         }
                         else
                         {
-                            try {
+                            try
+                            {
                                 Message message = response.body().getMessages().get(0);
                                 showToast(message.getText(), 0);
                             }
@@ -292,8 +352,46 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener
         }
     }
 
+    private LocationListener locationListener = new LocationListener()
+    {
+        @Override
+        public void onLocationChanged(Location location)
+        {
+            latitude = location.getLatitude();
+            longitude = location.getLongitude();
+
+            txtLongitude.setText(longitude + "");
+            txtLatitude.setText(latitude + "");
+            progressBar.setVisibility(View.GONE);
+        }
+
+        @Override
+        public void onStatusChanged(String provider, int status, Bundle extras) {}
+
+        @Override
+        public void onProviderEnabled(String provider) {}
+
+        @Override
+        public void onProviderDisabled(String provider) {}
+    };
+
     private void handleUserApp(EventUserApp event) {
         userName.setText("");
         password.setText("");
+    }
+
+    public String getEnabledLocationProvider()
+    {
+        LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        Criteria criteria = new Criteria();
+        String bestProvider = locationManager.getBestProvider(criteria, true);
+        boolean enabled = locationManager.isProviderEnabled(bestProvider);
+
+        if (!enabled)
+        {
+            Log.i("TAG", "No location provider enabled!");
+            return null;
+        }
+        return bestProvider;
     }
 }

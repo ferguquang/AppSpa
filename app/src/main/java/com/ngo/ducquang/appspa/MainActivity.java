@@ -182,7 +182,7 @@ public class MainActivity extends BaseActivity implements SlideMenuFragment.Even
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(mainAdapter);
 
-        setBackground(getApplicationContext(), this.findViewById(android.R.id.content), R.drawable.bgmain_qualiti25);
+//        setBackground(getApplicationContext(), this.findViewById(android.R.id.content), R.drawable.bgmain_qualiti25);
     }
 
     @Override

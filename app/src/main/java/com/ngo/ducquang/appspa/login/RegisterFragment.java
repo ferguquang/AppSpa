@@ -5,46 +5,26 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.location.Address;
 import android.location.Criteria;
-import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListPopupWindow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.github.jjobes.slidedatetimepicker.SlideDateTimeListener;
 import com.github.jjobes.slidedatetimepicker.SlideDateTimePicker;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.CameraPosition;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.karumi.dexter.Dexter;
-import com.karumi.dexter.MultiplePermissionsReport;
-import com.karumi.dexter.PermissionToken;
-import com.karumi.dexter.listener.PermissionRequest;
-import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.ngo.ducquang.appspa.R;
 import com.ngo.ducquang.appspa.base.BaseFragment;
 import com.ngo.ducquang.appspa.base.CustomEditText;
@@ -71,19 +51,19 @@ import com.ngo.ducquang.appspa.storageList.createStore.model.ResponseCreateStore
 import com.ngo.ducquang.appspa.storageList.model.Category;
 import com.ngo.ducquang.appspa.storageList.model.UserStore;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 
 import butterknife.BindView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import static android.content.Context.LOCATION_SERVICE;
 
 /**
  * Created by ducqu on 9/21/2018.
@@ -136,6 +116,13 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
     private List<Category> categoryList = new ArrayList<>();
     @BindView(R.id.recyclerView) RecyclerView recyclerView;
 
+    final long MIN_TIME_BW_UPDATES = 1000;
+    final float MIN_DISTANCE_CHANGE_FOR_UPDATES = 1;
+
+    private LocationManager locationManager;
+    String provider = "";
+    @BindView(R.id.getCurrentLocation) LinearLayout getCurrentLocation;
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -150,7 +137,8 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
     }
 
     @Override
-    protected void initView(View view) {
+    protected void initView(View view)
+    {
         showBackPressToolBar();
         title.setText("Đăng kí");
 
@@ -159,6 +147,10 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
         genderEdt.setOnClickListener(this);
         valueProvince.setOnClickListener(this);
         valueDistrict.setOnClickListener(this);
+        getCurrentLocation.setOnClickListener(this);
+
+        locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+        provider = getEnabledLocationProvider();
 
         String dataAdress = PreferenceUtil.getPreferences(getContext(), PreferenceUtil.DATA_GET_ADDRESS, "");
         DataGetAddress dataGetAddress = DataGetAddress.initialize(dataAdress);
@@ -483,7 +475,68 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
                 addingArrayDialog.show(getFragmentManager(), "Giới tính");
                 break;
             }
+            case R.id.getCurrentLocation:
+            {
+                if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+                {
+                    return;
+                }
+
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, mLocationListener);
+
+                getMyLocation();
+                break;
+            }
         }
+    }
+
+    private LocationListener mLocationListener = new LocationListener()
+    {
+        @Override
+        public void onLocationChanged(final Location location) {}
+
+        @Override
+        public void onStatusChanged(String provider, int status, Bundle extras) {}
+
+        @Override
+        public void onProviderEnabled(String provider) {}
+
+        @Override
+        public void onProviderDisabled(String provider) {}
+    };
+
+    private void getMyLocation()
+    {
+        Location myLocation = null;
+        try
+        {
+            locationManager.requestLocationUpdates(provider, MIN_TIME_BW_UPDATES, MIN_DISTANCE_CHANGE_FOR_UPDATES, mLocationListener);
+            myLocation = locationManager.getLastKnownLocation(provider);
+        }
+        catch (SecurityException e)  // Với Android API >= 23 phải catch SecurityException.
+        {
+            Log.e("TAG", "Show My Location Error:" + e.getMessage());
+            return;
+        }
+
+        longitudeEdt.setText(myLocation.getLongitude() + "");
+        latitudeEdt.setText(myLocation.getLatitude() + "");
+        hideLoadingDialog();
+    }
+
+    public String getEnabledLocationProvider()
+    {
+        LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+        Criteria criteria = new Criteria();
+        String bestProvider = locationManager.getBestProvider(criteria, true);
+        boolean enabled = locationManager.isProviderEnabled(bestProvider);
+
+        if (!enabled)
+        {
+            Log.i("TAG", "No location provider enabled!");
+            return null;
+        }
+        return bestProvider;
     }
 
     public void setType(int type) {

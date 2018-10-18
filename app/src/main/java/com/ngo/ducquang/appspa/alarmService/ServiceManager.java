@@ -9,8 +9,6 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.telecom.ConnectionService;
-import android.widget.Toast;
 
 import com.ngo.ducquang.appspa.base.LogManager;
 import com.ngo.ducquang.appspa.base.PreferenceUtil;
@@ -38,20 +36,11 @@ public class ServiceManager extends Service
     }
 
     @Override
-    public void onCreate() {
-//        Toast.makeText(this, " MyService Created ", Toast.LENGTH_LONG).show();
-    }
-
-//    @Override
-//    public int onStartCommand(Intent intent, int flags, int startId) {
-//        return START_STICKY;
-//    }
+    public void onCreate() {}
 
     @Override
     public void onStart(Intent intent, int startId)
     {
-//        Toast.makeText(this, " Call API SERVER - SERVICE START ", Toast.LENGTH_LONG).show();
-
         String token = PreferenceUtil.getPreferences(getApplicationContext(), PreferenceUtil.TOKEN, "");
         if (StringUtilities.isEmpty(token))
         {

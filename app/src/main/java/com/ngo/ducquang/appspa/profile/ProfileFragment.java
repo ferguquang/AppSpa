@@ -1,8 +1,11 @@
 package com.ngo.ducquang.appspa.profile;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -12,6 +15,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -23,11 +27,6 @@ import android.widget.TextView;
 
 import com.github.jjobes.slidedatetimepicker.SlideDateTimeListener;
 import com.github.jjobes.slidedatetimepicker.SlideDateTimePicker;
-import com.karumi.dexter.Dexter;
-import com.karumi.dexter.MultiplePermissionsReport;
-import com.karumi.dexter.PermissionToken;
-import com.karumi.dexter.listener.PermissionRequest;
-import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.ngo.ducquang.appspa.R;
 import com.ngo.ducquang.appspa.base.BaseFragment;
 import com.ngo.ducquang.appspa.base.GlobalVariables;
@@ -44,7 +43,6 @@ import com.ngo.ducquang.appspa.base.getAddress.Province;
 import com.ngo.ducquang.appspa.base.view.AddingArrayDialog;
 import com.ngo.ducquang.appspa.base.view.popupWindow.ItemPopupMenu;
 import com.ngo.ducquang.appspa.base.view.popupWindow.ListPopupWindowAdapter;
-import com.ngo.ducquang.appspa.login.LoginActivity;
 import com.ngo.ducquang.appspa.oder.CategoryOptionAdapter;
 import com.ngo.ducquang.appspa.login.modelLogin.UserApp;
 import com.ngo.ducquang.appspa.login.modelRegister.ResponseRegister;
@@ -133,14 +131,18 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
     private List<ItemPopupMenu> listMenuDistrict = new ArrayList<>();
 
     private LocationManager locationManager;
-    private double latitude;
-    private double longitude;
+    private double latitude = 0;
+    private double longitude = 0;
+    final long MIN_TIME_BW_UPDATES = 1000;
+    final float MIN_DISTANCE_CHANGE_FOR_UPDATES = 1;
+    String provider = "";
 
     @Override
     protected int getContentView() {
         return R.layout.fragment_profile;
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void initView(View view)
     {
@@ -153,6 +155,9 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
         valueDistrict.setOnClickListener(this);
 
         getCurrentLocation.setOnClickListener(this);
+
+        locationManager = (LocationManager) getActivity().getSystemService(LOCATION_SERVICE);
+        provider = getEnabledLocationProvider();
 
         String dataAdress = PreferenceUtil.getPreferences(getContext(), PreferenceUtil.DATA_GET_ADDRESS, "");
         DataGetAddress dataGetAddress = DataGetAddress.initialize(dataAdress);
@@ -233,19 +238,69 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
 
             adapter.refreshData(categories);
 
-            locationManager = (LocationManager) getContext().getSystemService(LOCATION_SERVICE);
+            locationManager = (LocationManager) getContext().getSystemService(Context.LOCATION_SERVICE);
         }
 
         setListPopupWindow();
 
         if (genderEdt.getText().toString().equals("Nam"))
-        {
             valueGender = 1;
-        }
         else
             valueGender = 2;
     }
 
+    private void getMyLocation()
+    {
+        Location myLocation = null;
+        try
+        {
+            locationManager.requestLocationUpdates(provider, MIN_TIME_BW_UPDATES, MIN_DISTANCE_CHANGE_FOR_UPDATES, mLocationListener);
+            myLocation = locationManager.getLastKnownLocation(provider);
+        }
+        catch (SecurityException e)  // Với Android API >= 23 phải catch SecurityException.
+        {
+            Log.e("TAG", "Show My Location Error:" + e.getMessage());
+            return;
+        }
+
+        latitude = myLocation.getLatitude();
+        longitude = myLocation.getLongitude();
+
+        longitudeEdt.setText(longitude + "");
+        latitudeEdt.setText(latitude + "");
+    }
+
+    private LocationListener mLocationListener = new LocationListener()
+    {
+        @Override
+        public void onLocationChanged(final Location location) {}
+
+        @Override
+        public void onStatusChanged(String provider, int status, Bundle extras) {}
+
+        @Override
+        public void onProviderEnabled(String provider) {}
+
+        @Override
+        public void onProviderDisabled(String provider) {}
+    };
+
+    public String getEnabledLocationProvider()
+    {
+        LocationManager locationManager = (LocationManager) getActivity().getSystemService(LOCATION_SERVICE);
+        Criteria criteria = new Criteria();
+        String bestProvider = locationManager.getBestProvider(criteria, true);
+        boolean enabled = locationManager.isProviderEnabled(bestProvider);
+
+        if (!enabled)
+        {
+            Log.i("TAG", "No location provider enabled!");
+            return null;
+        }
+        return bestProvider;
+    }
+
+    @SuppressLint("SetTextI18n")
     private void setListPopupWindow()
     {
         popupProvince = new ListPopupWindow(getContext());
@@ -397,7 +452,7 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
                     ApiService.Factory.getInstance().updateProfile(params).enqueue(new Callback<ResponseRegister>()
                     {
                         @Override
-                        public void onResponse(Call<ResponseRegister> call, Response<ResponseRegister> response)
+                        public void onResponse(@NonNull Call<ResponseRegister> call, @NonNull Response<ResponseRegister> response)
                         {
                             if (response.body().getStatus() == 1)
                             {
@@ -461,7 +516,7 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
                         }
 
                         @Override
-                        public void onFailure(Call<ResponseCreateStore> call, Throwable t) {
+                        public void onFailure(@NonNull Call<ResponseCreateStore> call, @NonNull Throwable t) {
                             LogManager.tagDefault().error(t.getMessage());
                             hideLoadingDialog();
                         }
@@ -519,54 +574,13 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
             }
             case R.id.getCurrentLocation:
             {
-                Dexter.withActivity(getActivity()).withPermissions(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION)
-                        .withListener(new MultiplePermissionsListener() {
-                            @Override
-                            public void onPermissionsChecked(MultiplePermissionsReport report)
-                            {
-                                if (report.areAllPermissionsGranted())
-                                {
-                                    if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
-                                    {
-                                        return;
-                                    }
-
-                                    locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, new LocationListener() {
-                                        @Override
-                                        public void onLocationChanged(Location location)
-                                        {
-                                            latitude = location.getLatitude();
-                                            longitude = location.getLongitude();
-
-                                            longitudeEdt.setText(longitude + "");
-                                            latitudeEdt.setText(latitude + "");
-                                        }
-
-                                        @Override
-                                        public void onStatusChanged(String provider, int status, Bundle extras) {}
-
-                                        @Override
-                                        public void onProviderEnabled(String provider) {}
-
-                                        @Override
-                                        public void onProviderDisabled(String provider) {}
-                                    });
-
-                                    showToast("Đang tìm kiếm vị trí của bạn", GlobalVariables.TOAST_INFO);
-                                }
-                            }
-
-                            @Override
-                            public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token)
-                            {
-                                token.continuePermissionRequest();
-                            }
-                        }).check();
+                getMyLocation();
                 break;
             }
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private void setGender(int gender) {
         if(gender == 1)
         {
@@ -576,22 +590,6 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
         {
             genderEdt.setText("Nữ");
         }
-    }
-
-    private void disableUpdate()
-    {
-        nameEdt.setEnabled(false);
-        phoneEdt.setEnabled(false);
-//        spinnerCity.setClickable(false);
-//        spinnerDistrict.setClickable(false);
-        addressEdt.setEnabled(false);
-        emailEdt.setEnabled(false);
-        llBirthday.setEnabled(false);
-        genderEdt.setClickable(false);
-        nameEdt.setEnabled(false);
-        nameEdt.setEnabled(false);
-
-        layoutContentPass.setVisibility(View.GONE);
     }
 
     public void setType(int type) {

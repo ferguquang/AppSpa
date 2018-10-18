@@ -122,6 +122,7 @@
                         android:layout_height="wrap_content">
 
                         <ImageView
+                            android:layout_gravity="top"
                             android:layout_marginRight="@dimen/margin_4dp"
                             app:srcCompat="@drawable/icon_address"
                             android:layout_width="wrap_content"
