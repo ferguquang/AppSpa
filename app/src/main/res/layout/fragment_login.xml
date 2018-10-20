@@ -8,9 +8,9 @@
     <TextView
         android:textSize="20sp"
         android:textStyle="bold"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
         android:paddingRight="@dimen/margin_16dp"
-        android:layout_marginLeft="@dimen/margin_16dp"
+        android:paddingLeft="@dimen/margin_16dp"
         android:textColor="@color/colorPrimary"
         android:gravity="center"
         android:text="HỆ THỐNG CỬA HÀNG SPA"
@@ -197,17 +197,30 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
-                        <TextView
-                            android:textSize="18sp"
-                            android:textStyle="bold"
+                        <LinearLayout
                             android:gravity="center"
-                            android:textColor="@color/white"
-                            android:text="Địa điểm của bạn:"
+                            android:orientation="horizontal"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:textSize="18sp"
+                                android:textStyle="bold"
+                                android:textColor="@color/white"
+                                android:text="Địa điểm của bạn:"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+
+                            <ImageView
+                                android:id="@+id/imgLocation"
+                                app:srcCompat="@drawable/icon_asset_my_location"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+
+                        </LinearLayout>
 
                         <RelativeLayout
-                            android:padding="10dp"
+                            android:padding="8dp"
                             android:background="@color/colorPrimary"
                             android:orientation="horizontal"
                             android:layout_width="match_parent"
@@ -250,7 +263,7 @@
 
                         <RelativeLayout
                             android:layout_marginTop="4dp"
-                            android:padding="10dp"
+                            android:padding="8dp"
                             android:background="@color/colorPrimary"
                             android:orientation="horizontal"
                             android:layout_width="match_parent"
@@ -292,13 +305,6 @@
                         </RelativeLayout>
 
                     </LinearLayout>
-
-                    <ProgressBar
-                        android:visibility="gone"
-                        android:id="@+id/progressBar"
-                        android:layout_centerInParent="true"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
 
                 </RelativeLayout>
 

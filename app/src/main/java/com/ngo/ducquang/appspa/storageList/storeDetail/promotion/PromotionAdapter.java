@@ -115,8 +115,8 @@ public class PromotionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         public void binding(Promotion model)
         {
             describe.setText(model.getDescribe());
-            String startDate = ManagerTime.convertToMonthDayYearHourMinuteFormat(model.getStartDate());
-            String endDate = ManagerTime.convertToMonthDayYearHourMinuteFormat(model.getEndDate());
+            String startDate = ManagerTime.convertToMonthDayYear(model.getStartDate());
+            String endDate = ManagerTime.convertToMonthDayYear(model.getEndDate());
             dateTime.setText("Từ " + startDate + " đến " + endDate);
         }
     }

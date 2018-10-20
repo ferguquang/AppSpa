@@ -14,6 +14,7 @@ import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.ngo.ducquang.appspa.base.ManagerTime;
 import com.ngo.ducquang.appspa.base.SetImageWithGlide;
+import com.ngo.ducquang.appspa.modelImageSlide.File;
 
 import java.util.List;
 
@@ -23,10 +24,10 @@ import java.util.List;
 
 public class BannerAdapter extends PagerAdapter
 {
-    private List<BannerModel> dataList;
+    private List<File> dataList;
     private Context context;
 
-    public BannerAdapter(List<BannerModel> dataList, Context context) {
+    public BannerAdapter(List<File> dataList, Context context) {
         this.dataList = dataList;
         this.context = context;
     }
@@ -50,9 +51,9 @@ public class BannerAdapter extends PagerAdapter
         View viewLayout = inflater.inflate(R.layout.banner_pager_item, null);
         ImageView imageBanner = viewLayout.findViewById(R.id.imageBanner);
 
-        BannerModel model = dataList.get(position);
+        File model = dataList.get(position);
 
-        SetImageWithGlide.setImageUrlGlide(model.getUrl(), imageBanner);
+        SetImageWithGlide.setImageUrlGlide(model.getFilePath(), imageBanner);
 
         ViewPager vp = (ViewPager) container;
         vp.addView(viewLayout, 0);

@@ -202,11 +202,14 @@ public class StoreDetailActivity extends BaseActivity implements View.OnClickLis
     @Override
     public void sendList(DataRate dataRate)
     {
-        viewPager.setCurrentItem(2);
+        viewPager.setCurrentItem(3);
         rateFragment.updateData(dataRate.getRatings());
 
         storeDetail.setRating(dataRate.getRating());
         storeDetail.setRatingAverage(dataRate.getRatingAverage());
+
+        textRateAverage.setText("Đánh giá: " + dataRate.getRatingAverage() + "/5");
+        textMyRate.setText("Đánh giá của tôi: " + dataRate.getRating() + "/5");
 
         ratingMe.setRating(dataRate.getRating());
         ratingBar.setRating(dataRate.getRatingAverage());

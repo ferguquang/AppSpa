@@ -10,12 +10,14 @@ public class ModelItemMain implements Serializable {
     private int id;
     private String name, content;
     private int idImage;
+    private int idColor;
 
-    public ModelItemMain(int id, String name, String content, int idImage) {
+    public ModelItemMain(int id, String name, String content, int idImage, int idColor) {
         this.id = id;
         this.name = name;
         this.content = content;
         this.idImage = idImage;
+        this.idColor = idColor;
     }
 
     public int getId() {
@@ -48,5 +50,13 @@ public class ModelItemMain implements Serializable {
 
     public void setIdImage(int idImage) {
         this.idImage = idImage;
+    }
+
+    public int getIdColor() {
+        return idColor;
+    }
+
+    public void setIdColor(int idColor) {
+        this.idColor = idColor;
     }
 }

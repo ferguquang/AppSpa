@@ -7,13 +7,13 @@
         android:icon="@drawable/icon_asset_search"
         android:title="@string/search"
         app:actionViewClass="android.support.v7.widget.SearchView"
-        app:showAsAction="ifRoom|collapseActionView">
+        app:showAsAction="never">
     </item>
 
     <item
         android:id="@+id/menu_settings"
         android:icon="@drawable/icon_asset_three_dot"
-        app:showAsAction="always"
+        app:showAsAction="never"
         android:title="setting" />
 
 </menu>

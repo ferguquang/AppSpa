@@ -12,6 +12,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -80,6 +81,7 @@ public abstract class BaseActivity extends AppCompatActivity
 
         FontChangeCrawler fontChanger = new FontChangeCrawler(getAssets(), GlobalVariables.FONT_BASE);
         fontChanger.replaceFonts((ViewGroup)this.findViewById(android.R.id.content));
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
     }
 
     public void setBackground(Context context, View view, int drawableId){
@@ -89,11 +91,6 @@ public abstract class BaseActivity extends AppCompatActivity
         bitmap = Bitmap.createScaledBitmap(bitmap, width, height, true);
         BitmapDrawable bitmapDrawable = new BitmapDrawable(context.getResources(), bitmap);
         view.setBackground(bitmapDrawable);
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
     }
 
     @Override
@@ -109,57 +106,57 @@ public abstract class BaseActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu)
     {
         MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.menu_common, menu);
-        menuSearch = menu.findItem(R.id.menuSearch);
-        menu_settings = menu.findItem(R.id.menu_settings);
-
-        searchView = (SearchView) MenuItemCompat.getActionView(menuSearch);
-
-        AutoCompleteTextView searchTextView = searchView.findViewById(android.support.v7.appcompat.R.id.search_src_text);
-        try
-        {
-            Field mCursorDrawableRes = TextView.class.getDeclaredField("mCursorDrawableRes");
-            mCursorDrawableRes.setAccessible(true);
-            mCursorDrawableRes.set(searchTextView, R.drawable.color_cursor);
-        }
-        catch (NoSuchFieldException e) {
-            LogManager.tagDefault().error(e.toString());
-        }
-        catch (IllegalAccessException e) {
-            LogManager.tagDefault().error(e.toString());
-        }
-
-        MenuItemCompat.setOnActionExpandListener(menuSearch, new MenuItemCompat.OnActionExpandListener()
-        {
-            @Override
-            public boolean onMenuItemActionExpand(MenuItem item)
-            {
-                title.setVisibility(View.GONE);
-                return true;
-            }
-
-            @Override
-            public boolean onMenuItemActionCollapse(MenuItem item)
-            {
-                title.setVisibility(View.VISIBLE);
-                return true;
-            }
-        });
-
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener()
-        {
-            @Override
-            public boolean onQueryTextSubmit(String query)
-            {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                searchOnQueryTextChange(newText);
-                return true;
-            }
-        });
+//        menuInflater.inflate(R.menu.menu_common, menu);
+//        menuSearch = menu.findItem(R.id.menuSearch);
+//        menu_settings = menu.findItem(R.id.menu_settings);
+//
+//        searchView = (SearchView) MenuItemCompat.getActionView(menuSearch);
+//
+//        AutoCompleteTextView searchTextView = searchView.findViewById(android.support.v7.appcompat.R.id.search_src_text);
+//        try
+//        {
+//            Field mCursorDrawableRes = TextView.class.getDeclaredField("mCursorDrawableRes");
+//            mCursorDrawableRes.setAccessible(true);
+//            mCursorDrawableRes.set(searchTextView, R.drawable.color_cursor);
+//        }
+//        catch (NoSuchFieldException e) {
+//            LogManager.tagDefault().error(e.toString());
+//        }
+//        catch (IllegalAccessException e) {
+//            LogManager.tagDefault().error(e.toString());
+//        }
+//
+//        MenuItemCompat.setOnActionExpandListener(menuSearch, new MenuItemCompat.OnActionExpandListener()
+//        {
+//            @Override
+//            public boolean onMenuItemActionExpand(MenuItem item)
+//            {
+//                title.setVisibility(View.GONE);
+//                return true;
+//            }
+//
+//            @Override
+//            public boolean onMenuItemActionCollapse(MenuItem item)
+//            {
+//                title.setVisibility(View.VISIBLE);
+//                return true;
+//            }
+//        });
+//
+//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener()
+//        {
+//            @Override
+//            public boolean onQueryTextSubmit(String query)
+//            {
+//                return false;
+//            }
+//
+//            @Override
+//            public boolean onQueryTextChange(String newText) {
+//                searchOnQueryTextChange(newText);
+//                return true;
+//            }
+//        });
 
         hideMenu();
         initMenu(menu);

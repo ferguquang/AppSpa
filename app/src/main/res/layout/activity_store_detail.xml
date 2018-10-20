@@ -24,189 +24,210 @@
                 <include layout="@layout/toolbar_base"/>
 
                 <LinearLayout
-                    android:id="@+id/llContent"
-                    android:gravity="center"
-                    android:orientation="vertical"
                     android:background="@color/white"
-                    android:paddingBottom="@dimen/padding_8dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <TextView
-                        android:id="@+id/name"
-                        android:layout_marginTop="@dimen/margin_8dp"
-                        android:textSize="20sp"
-                        android:textStyle="bold"
-                        android:textColor="@color/black"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-
                     <android.support.v7.widget.CardView
-                        android:id="@+id/cvBook"
-                        app:cardCornerRadius="16dp"
+                        app:cardCornerRadius="12dp"
+                        app:cardElevation="10dp"
+                        app:cardPreventCornerOverlap="true"
+                        app:cardBackgroundColor="@color/bgOrder"
+                        android:layout_marginRight="@dimen/margin_16dp"
                         android:layout_marginTop="@dimen/margin_8dp"
-                        android:layout_marginRight="48dp"
-                        android:layout_marginLeft="48dp"
-                        app:cardBackgroundColor="@color/colorPrimary"
+                        android:layout_marginBottom="@dimen/margin_8dp"
+                        android:layout_marginLeft="@dimen/margin_16dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
-                        <TextView
-                            android:id="@+id/bookCalendar"
+                        <LinearLayout
+                            android:layout_margin="16dp"
+                            android:id="@+id/llContent"
                             android:gravity="center"
-                            android:paddingTop="@dimen/padding_8dp"
+                            android:orientation="vertical"
                             android:paddingBottom="@dimen/padding_8dp"
-                            android:text="ĐẶT LỊCH NGAY"
-                            android:textStyle="bold"
-                            android:textColor="@color/white"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:id="@+id/name"
+                                android:layout_marginTop="@dimen/margin_8dp"
+                                android:textSize="20sp"
+                                android:textStyle="bold"
+                                android:textColor="@color/black"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+
+                            <android.support.v7.widget.CardView
+                                android:id="@+id/cvBook"
+                                app:cardCornerRadius="16dp"
+                                android:layout_marginTop="@dimen/margin_8dp"
+                                android:layout_marginRight="48dp"
+                                android:layout_marginLeft="48dp"
+                                app:cardBackgroundColor="@color/colorPrimary"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <TextView
+                                    android:id="@+id/bookCalendar"
+                                    android:gravity="center"
+                                    android:paddingTop="@dimen/padding_8dp"
+                                    android:paddingBottom="@dimen/padding_8dp"
+                                    android:text="ĐẶT LỊCH NGAY"
+                                    android:textStyle="bold"
+                                    android:textColor="@color/white"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content" />
+
+                            </android.support.v7.widget.CardView>
+
+                            <LinearLayout
+                                android:layout_marginTop="@dimen/margin_16dp"
+                                android:gravity="center_vertical"
+                                android:paddingRight="@dimen/padding_16dp"
+                                android:paddingLeft="@dimen/padding_16dp"
+                                android:orientation="horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <ImageView
+                                    app:srcCompat="@drawable/icon_asset_star"
+                                    android:layout_marginRight="@dimen/margin_4dp"
+                                    android:layout_width="16dp"
+                                    android:layout_height="16dp" />
+
+                                <TextView
+                                    android:id="@+id/textRateAverage"
+                                    android:text="Đánh giá: "
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content" />
+
+                                <LinearLayout
+                                    android:layout_marginLeft="4dp"
+                                    android:id="@+id/lnRatingJob"
+                                    android:gravity="center"
+                                    android:paddingLeft="8dp"
+                                    android:paddingRight="8dp"
+                                    android:paddingBottom="4dp"
+                                    android:paddingTop="4dp"
+                                    android:background="@drawable/background_discuss_text_view_cycle"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="24dp">
+
+                                    <RatingBar
+                                        style="?android:attr/ratingBarStyleSmall"
+                                        android:isIndicator="false"
+                                        android:id="@+id/ratingBar"
+                                        android:numStars="5"
+                                        android:rating="2.28"
+                                        android:stepSize="0.5"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content" />
+
+                                </LinearLayout>
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_marginTop="@dimen/margin_4dp"
+                                android:layout_marginBottom="@dimen/margin_4dp"
+                                android:paddingRight="@dimen/padding_16dp"
+                                android:paddingLeft="@dimen/padding_16dp"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <ImageView
+                                    android:layout_gravity="top"
+                                    android:layout_marginRight="@dimen/margin_4dp"
+                                    app:srcCompat="@drawable/icon_address"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content" />
+
+                                <TextView
+                                    android:id="@+id/address"
+                                    android:textSize="@dimen/textSize"
+                                    android:textColor="@color/black"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:paddingRight="@dimen/padding_16dp"
+                                android:paddingLeft="@dimen/padding_16dp"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <ImageView
+                                    android:layout_marginRight="@dimen/margin_4dp"
+                                    app:srcCompat="@drawable/icon_phone"
+                                    android:layout_width="16dp"
+                                    android:layout_height="16dp" />
+
+                                <TextView
+                                    android:id="@+id/phone"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/textSize"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/myRateLayout"
+                                android:paddingRight="@dimen/padding_16dp"
+                                android:paddingLeft="@dimen/padding_16dp"
+                                android:layout_marginTop="@dimen/margin_4dp"
+                                android:layout_marginBottom="@dimen/margin_4dp"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <ImageView
+                                    android:layout_marginRight="@dimen/margin_4dp"
+                                    app:srcCompat="@drawable/icon_asset_star"
+                                    android:layout_width="16dp"
+                                    android:layout_height="16dp" />
+
+                                <TextView
+                                    android:id="@+id/textMyRate"
+                                    android:text="Đánh giá của tôi: "
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content" />
+
+                                <LinearLayout
+                                    android:layout_marginLeft="4dp"
+                                    android:gravity="center"
+                                    android:paddingLeft="8dp"
+                                    android:paddingRight="8dp"
+                                    android:paddingBottom="4dp"
+                                    android:paddingTop="4dp"
+                                    android:background="@drawable/background_discuss_text_view_cycle"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="24dp">
+
+                                    <RatingBar
+                                        style="?android:attr/ratingBarStyleSmall"
+                                        android:isIndicator="false"
+                                        android:id="@+id/ratingMe"
+                                        android:numStars="5"
+                                        android:rating="2.28"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content" />
+
+                                </LinearLayout>
+
+                            </LinearLayout>
+
+
+                        </LinearLayout>
 
                     </android.support.v7.widget.CardView>
-
-                    <LinearLayout
-                        android:layout_marginTop="@dimen/margin_16dp"
-                        android:gravity="center_vertical"
-                        android:paddingRight="@dimen/padding_16dp"
-                        android:paddingLeft="@dimen/padding_16dp"
-                        android:orientation="horizontal"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <ImageView
-                            app:srcCompat="@drawable/icon_asset_star"
-                            android:layout_marginRight="@dimen/margin_4dp"
-                            android:layout_width="16dp"
-                            android:layout_height="16dp" />
-
-                        <TextView
-                            android:id="@+id/textRateAverage"
-                            android:text="Đánh giá: "
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
-
-                        <LinearLayout
-                            android:layout_marginLeft="4dp"
-                            android:id="@+id/lnRatingJob"
-                            android:gravity="center"
-                            android:paddingLeft="8dp"
-                            android:paddingRight="8dp"
-                            android:paddingBottom="4dp"
-                            android:paddingTop="4dp"
-                            android:background="@drawable/background_discuss_text_view_cycle"
-                            android:layout_width="wrap_content"
-                            android:layout_height="24dp">
-
-                            <RatingBar
-                                style="?android:attr/ratingBarStyleSmall"
-                                android:isIndicator="false"
-                                android:id="@+id/ratingBar"
-                                android:numStars="5"
-                                android:rating="2.28"
-                                android:stepSize="0.5"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content" />
-
-                        </LinearLayout>
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_marginTop="@dimen/margin_4dp"
-                        android:layout_marginBottom="@dimen/margin_4dp"
-                        android:paddingRight="@dimen/padding_16dp"
-                        android:paddingLeft="@dimen/padding_16dp"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <ImageView
-                            android:layout_gravity="top"
-                            android:layout_marginRight="@dimen/margin_4dp"
-                            app:srcCompat="@drawable/icon_address"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
-
-                        <TextView
-                            android:id="@+id/address"
-                            android:textSize="@dimen/textSize"
-                            android:textColor="@color/black"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
-
-                    </LinearLayout>
-
-                   <LinearLayout
-                       android:paddingRight="@dimen/padding_16dp"
-                       android:paddingLeft="@dimen/padding_16dp"
-                       android:gravity="center_vertical"
-                       android:orientation="horizontal"
-                       android:layout_width="match_parent"
-                       android:layout_height="wrap_content">
-
-                       <ImageView
-                           android:layout_marginRight="@dimen/margin_4dp"
-                           app:srcCompat="@drawable/icon_phone"
-                           android:layout_width="16dp"
-                           android:layout_height="16dp" />
-
-                       <TextView
-                           android:id="@+id/phone"
-                           android:textColor="@color/black"
-                           android:textSize="@dimen/textSize"
-                           android:layout_width="match_parent"
-                           android:layout_height="wrap_content" />
-
-                   </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/myRateLayout"
-                        android:paddingRight="@dimen/padding_16dp"
-                        android:paddingLeft="@dimen/padding_16dp"
-                        android:layout_marginTop="@dimen/margin_4dp"
-                        android:layout_marginBottom="@dimen/margin_4dp"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <ImageView
-                            android:layout_marginRight="@dimen/margin_4dp"
-                            app:srcCompat="@drawable/icon_asset_star"
-                            android:layout_width="16dp"
-                            android:layout_height="16dp" />
-
-                        <TextView
-                            android:id="@+id/textMyRate"
-                            android:text="Đánh giá của tôi: "
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
-
-                        <LinearLayout
-                            android:layout_marginLeft="4dp"
-                            android:gravity="center"
-                            android:paddingLeft="8dp"
-                            android:paddingRight="8dp"
-                            android:paddingBottom="4dp"
-                            android:paddingTop="4dp"
-                            android:background="@drawable/background_discuss_text_view_cycle"
-                            android:layout_width="wrap_content"
-                            android:layout_height="24dp">
-
-                            <RatingBar
-                                style="?android:attr/ratingBarStyleSmall"
-                                android:isIndicator="false"
-                                android:id="@+id/ratingMe"
-                                android:numStars="5"
-                                android:rating="2.28"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content" />
-
-                        </LinearLayout>
-
-                    </LinearLayout>
-
 
                 </LinearLayout>
 

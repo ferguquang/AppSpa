@@ -3,6 +3,7 @@ package com.ngo.ducquang.appspa.base.api;
 import com.ngo.ducquang.appspa.base.GlobalVariables;
 import com.ngo.ducquang.appspa.base.getAddress.ResponseGetAddress;
 import com.ngo.ducquang.appspa.base.reponseMessage.ResponseMessage;
+import com.ngo.ducquang.appspa.modelImageSlide.ResponseGetImage;
 import com.ngo.ducquang.appspa.modelStore.ResponseGetStore;
 import com.ngo.ducquang.appspa.modelStore.ResponseGetStoreToOrder;
 import com.ngo.ducquang.appspa.notification.model.ResponseNotification;
@@ -154,6 +155,9 @@ public interface ApiService
     @GET("account/getstores")
     Call<ResponseGetStore> getStore(@Query("Token") String token,
                                     @Query("IDCategory") String idCategory);
+
+    @GET("account/GetImage")
+    Call<ResponseGetImage> getImage(@Query("Token") String token);
 
     @GET("account/GetStoreToOrder")
     Call<ResponseGetStoreToOrder> getStoreToOrder(@Query("Token") String token,

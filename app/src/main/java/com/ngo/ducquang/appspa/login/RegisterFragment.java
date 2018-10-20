@@ -519,6 +519,12 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
             return;
         }
 
+//        if (myLocation == null || StringUtilities.isEmpty(provider))
+//        {
+//            showToast("Yêu cầu bật dịch vụ vị trí trên điện thoại!!!", GlobalVariables.TOAST_INFO);
+//            return;
+//        }
+
         longitudeEdt.setText(myLocation.getLongitude() + "");
         latitudeEdt.setText(myLocation.getLatitude() + "");
         hideLoadingDialog();

@@ -1,7 +1,6 @@
 package com.ngo.ducquang.appspa.login;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -21,10 +20,8 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.ngo.ducquang.appspa.BuildConfig;
 import com.ngo.ducquang.appspa.MainActivity;
@@ -41,7 +38,6 @@ import com.ngo.ducquang.appspa.base.Permission;
 import com.ngo.ducquang.appspa.base.PreferenceUtil;
 import com.ngo.ducquang.appspa.base.StringUtilities;
 import com.ngo.ducquang.appspa.base.api.ApiService;
-//import com.ngo.ducquang.appspa.base.database.DatabaseRoom;
 import com.ngo.ducquang.appspa.base.getAddress.DataGetAddress;
 import com.ngo.ducquang.appspa.base.getAddress.ResponseGetAddress;
 import com.ngo.ducquang.appspa.login.modelLogin.DataLogin;
@@ -73,10 +69,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener
 
     @BindView(R.id.copyLongitude) ImageView copyLongitude;
     @BindView(R.id.copyLatitude) ImageView copyLatitude;
+    @BindView(R.id.imgLocation) ImageView imgLocation;
 
     @BindView(R.id.longitude) TextView txtLongitude;
     @BindView(R.id.latitude) TextView txtLatitude;
-    @BindView(R.id.progressBar) ProgressBar progressBar;
     @BindView(R.id.getCurrentLocation) RelativeLayout getCurrentLocation;
 
     private LocationManager locationManager;
@@ -121,23 +117,23 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener
         copyLongitude.setOnClickListener(this);
         getCurrentLocation.setOnClickListener(this);
 
-        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-        provider = getEnabledLocationProvider();
-
         listPermission.add(new Permission(ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION));
         listPermission.add(new Permission(ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION));
         requestPermission();
-        checkLocationPermission();
+//        checkLocationPermission();
 
         if (BuildConfig.DEBUG) {
             userName.setText("admin_cloud"); // todo only dev
             password.setText("123123");
         }
 
-        ApiService.Factory.getInstance().getAddress().enqueue(new Callback<ResponseGetAddress>() {
+        ApiService.Factory.getInstance().getAddress().enqueue(new Callback<ResponseGetAddress>()
+        {
             @Override
-            public void onResponse(Call<ResponseGetAddress> call, Response<ResponseGetAddress> response) {
-                if (response.body().getStatus() == 1) {
+            public void onResponse(Call<ResponseGetAddress> call, Response<ResponseGetAddress> response)
+            {
+                if (response.body().getStatus() == 1)
+                {
                     DataGetAddress dataGetAddress = response.body().getData();
                     PreferenceUtil.savePreferences(getApplicationContext(), PreferenceUtil.DATA_GET_ADDRESS, dataGetAddress.toJson());
                 }
@@ -149,21 +145,25 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener
             }
         });
 
+        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+
         DrawableHelper.withContext(getBaseContext()).withColor(R.color.white).withDrawable(R.drawable.icon_account).tint().applyTo(imgAccount);
         DrawableHelper.withContext(getBaseContext()).withColor(R.color.white).withDrawable(R.drawable.icon_lock).tint().applyTo(lock);
-        getMyLocation();
+        DrawableHelper.withContext(getBaseContext()).withColor(R.color.white).withDrawable(R.drawable.icon_asset_my_location).tint().applyTo(imgLocation);
     }
 
     private void getMyLocation()
     {
+        if (StringUtilities.isEmpty(provider))
+        {
+            requestPermission();
+        }
+
+        provider = getEnabledLocationProvider();
         Location myLocation = null;
         try
         {
-            locationManager.requestLocationUpdates(
-                    provider,
-                    MIN_TIME_BW_UPDATES,
-                    MIN_DISTANCE_CHANGE_FOR_UPDATES, locationListener);
-
+            locationManager.requestLocationUpdates(provider, MIN_TIME_BW_UPDATES, MIN_DISTANCE_CHANGE_FOR_UPDATES, locationListener);
             myLocation = locationManager.getLastKnownLocation(provider);
         }
         catch (SecurityException e)  // Với Android API >= 23 phải catch SecurityException.
@@ -172,9 +172,16 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener
             return;
         }
 
-        txtLongitude.setText(myLocation.getLongitude() + "");
-        txtLatitude.setText(myLocation.getLatitude() + "");
-        hideLoadingDialog();
+        try
+        {
+            txtLongitude.setText(myLocation.getLongitude() + "");
+            txtLatitude.setText(myLocation.getLatitude() + "");
+            hideLoadingDialog();
+        }
+        catch (Exception e)
+        {
+            showToast("Lỗi vị trí GPS!!!", GlobalVariables.TOAST_INFO);
+        }
     }
 
     private void requestPermission()
@@ -204,7 +211,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener
 
                     if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)
                     {
+                        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
                         locationManager.requestLocationUpdates(provider, 0, 0, locationListener);
+                        provider = getEnabledLocationProvider();
                     }
                 }
             }
@@ -249,21 +258,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener
         {
             case R.id.getCurrentLocation:
             {
-                progressBar.setVisibility(View.VISIBLE);
-
-                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
-                {
-                    return;
-                }
-
-//                if (!StringUtilities.isEmpty(provider))
-//                {
-//                    locationManager.requestLocationUpdates(provider, 0, 0, locationListener);
-//                }
-//                else
-//                {
-//                    locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
-//                }
                 showToast("Đang tìm kiếm vị trí của bạn", GlobalVariables.TOAST_INFO);
                 getMyLocation();
                 break;
@@ -357,12 +351,11 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener
         @Override
         public void onLocationChanged(Location location)
         {
-            latitude = location.getLatitude();
-            longitude = location.getLongitude();
-
-            txtLongitude.setText(longitude + "");
-            txtLatitude.setText(latitude + "");
-            progressBar.setVisibility(View.GONE);
+//            latitude = location.getLatitude();
+//            longitude = location.getLongitude();
+//
+//            txtLongitude.setText(longitude + "");
+//            txtLatitude.setText(latitude + "");
         }
 
         @Override

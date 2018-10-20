@@ -12,8 +12,9 @@ public class SetImageWithGlide
 {
     public static void setImageUrlGlide(String url, ImageView imageView)
     {
+        String root = GlobalVariables.ROOT;
         Glide.with(imageView.getContext())
-                .load(url)
+                .load(root + url)
                 .into(imageView);
     }
 

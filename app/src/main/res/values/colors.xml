@@ -55,5 +55,16 @@
     <color name="colorBackgroundList">#ffffff</color>
     <color name="workTodo">#cccccc</color>
     <color name="noread">#ebf8ff</color>
+    <color name="protion">#80fffa9b</color>
+
+    <color name="main1">#9affc6</color>
+    <color name="main2">#fff200</color>
+    <color name="main3">#3cff00</color>
+    <color name="main4">#00eeff</color>
+    <color name="main5">#fa94ff</color>
+    <color name="main6">#ffbea4</color>
+    <color name="main7">#d9d9d9</color>
+
+    <color name="bgOrder">#d5ffb8</color>
 
 </resources>

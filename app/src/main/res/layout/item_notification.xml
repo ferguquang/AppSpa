@@ -8,7 +8,7 @@
 
     <android.support.v7.widget.CardView
         android:id="@+id/cvGroup"
-        app:cardCornerRadius="6dp"
+        app:cardCornerRadius="12dp"
         app:cardElevation="4dp"
         app:cardPreventCornerOverlap="false"
         app:cardBackgroundColor="@color/colorBackgroundList"
@@ -22,10 +22,10 @@
         <LinearLayout
             android:id="@+id/llAssign"
             android:orientation="vertical"
-            android:paddingBottom="8dp"
-            android:paddingTop="8dp"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1">
@@ -35,7 +35,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <TextView
+                <com.ngo.ducquang.appspa.base.view.TextViewFont
                     android:layout_toLeftOf="@+id/imgOption"
                     android:layout_alignParentLeft="true"
                     android:id="@+id/name"
@@ -60,7 +60,7 @@
 
             </RelativeLayout>
 
-            <TextView
+            <com.ngo.ducquang.appspa.base.view.TextViewFont
                 android:id="@+id/categories"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -86,7 +86,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
-                <TextView
+                <com.ngo.ducquang.appspa.base.view.TextViewFont
                     android:gravity="center_vertical"
                     android:text="Từ"
                     android:id="@+id/dateTimePromotion"
@@ -109,7 +109,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
-                <TextView
+                <com.ngo.ducquang.appspa.base.view.TextViewFont
                     android:gravity="center_vertical"
                     android:text="địa chỉ của khách"
                     android:id="@+id/address"
@@ -142,7 +142,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content" />
 
-                        <TextView
+                        <com.ngo.ducquang.appspa.base.view.TextViewFont
                             android:gravity="center_vertical"
                             android:text="ngày tháng"
                             android:id="@+id/dateTime"
@@ -165,7 +165,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content" />
 
-                        <TextView
+                        <com.ngo.ducquang.appspa.base.view.TextViewFont
                             android:gravity="center_vertical"
                             android:text="0123456"
                             android:id="@+id/phone"
@@ -189,7 +189,7 @@
                     android:minWidth="100dp"
                     app:cardElevation="0dp">
 
-                    <TextView
+                    <com.ngo.ducquang.appspa.base.view.TextViewFont
                         android:layout_gravity="center"
                         android:text="đã hoàn thanh"
                         android:id="@+id/status"

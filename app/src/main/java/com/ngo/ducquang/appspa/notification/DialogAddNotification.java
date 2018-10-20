@@ -45,7 +45,7 @@ public class DialogAddNotification extends BaseDialog implements View.OnClickLis
     @BindView(R.id.dialogCancel) Button dialogCancel;
     @BindView(R.id.dialogAdd) Button dialogAdd;
 
-    private SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+    private SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
 
 
     @Override

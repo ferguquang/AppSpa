@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ngo.ducquang.appspa.R;
@@ -30,9 +31,9 @@ import butterknife.ButterKnife;
 
 public class ServiceAdminAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 {
-    public int TYPE_EMPTY = 0;
-    public int TYPE_ITEM = 1;
-    public int TYPE_FOOTER = 2;
+    private final int TYPE_EMPTY = 0;
+    private final int TYPE_ITEM = 1;
+    private final int TYPE_FOOTER = 2;
 
     private Context context;
     private List<Category> dataList;
@@ -119,21 +120,21 @@ public class ServiceAdminAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         @BindView(R.id.price) TextView price;
         @BindView(R.id.dateTime) TextView dateTime;
         @BindView(R.id.imgOption) ImageView imgOption;
+        @BindView(R.id.llPrice) LinearLayout llPrice;
 
-        public ItemHolder(View itemView) {
+        public ItemHolder(View itemView)
+        {
             super(itemView);
 
             ButterKnife.bind(this, itemView);
 
-            imgOption.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    BottomSheetServiceFragment bottomSheetServiceFragment = new BottomSheetServiceFragment();
-                    bottomSheetServiceFragment.setAdapter(ServiceAdminAdapter.this);
-                    bottomSheetServiceFragment.setCategory(dataList.get(getAdapterPosition()));
-                    bottomSheetServiceFragment.setPosotion(getAdapterPosition());
-                    bottomSheetServiceFragment.show(fragmentManager, bottomSheetServiceFragment.getTag());
-                }
+            imgOption.setOnClickListener(v ->
+            {
+                BottomSheetServiceFragment bottomSheetServiceFragment = new BottomSheetServiceFragment();
+                bottomSheetServiceFragment.setAdapter(ServiceAdminAdapter.this);
+                bottomSheetServiceFragment.setCategory(dataList.get(getAdapterPosition()));
+                bottomSheetServiceFragment.setPosotion(getAdapterPosition());
+                bottomSheetServiceFragment.show(fragmentManager, bottomSheetServiceFragment.getTag());
             });
         }
 
@@ -150,6 +151,7 @@ public class ServiceAdminAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             price.setText("Giá tiền: " + model.getPrice() + "");
 
             dateTime.setText("Thời gian hoàn thành: " + model.getHour() + " giờ " + model.getMinute() + " phút");
+            llPrice.setVisibility(View.GONE);
         }
     }
 

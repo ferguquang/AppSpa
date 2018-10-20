@@ -28,6 +28,7 @@ public class DialogFilterStore extends BaseDialog implements DialogFilterStoreAd
 {
     @BindView(R.id.btnOK) Button btnOK;
     @BindView(R.id.recyclerView) RecyclerView recyclerView;
+    @BindView(R.id.imgOK) ImageView imgOK;
 
     private SendIDStoreSelected sendIDStoreSelected;
     private List<Store> stores;
@@ -65,12 +66,13 @@ public class DialogFilterStore extends BaseDialog implements DialogFilterStoreAd
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapter);
 
-        btnOK.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                sendIDStoreSelected.send(idSelected);
-                dismiss();
-            }
+        btnOK.setOnClickListener(v -> {
+            sendIDStoreSelected.send(idSelected);
+            dismiss();
+        });
+        imgOK.setOnClickListener(v -> {
+            sendIDStoreSelected.send(idSelected);
+            dismiss();
         });
     }
 

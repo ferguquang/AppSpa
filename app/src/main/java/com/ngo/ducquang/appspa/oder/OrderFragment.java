@@ -208,7 +208,7 @@ public class OrderFragment extends BaseFragment implements View.OnClickListener,
         return new Callback<ResponseGetStoreToOrder>()
         {
             @Override
-            public void onResponse(Call<ResponseGetStoreToOrder> call, Response<ResponseGetStoreToOrder> response)
+            public void onResponse(@NonNull Call<ResponseGetStoreToOrder> call, @NonNull Response<ResponseGetStoreToOrder> response)
             {
                 if (response.body().getStatus() == 1)
                 {
@@ -219,7 +219,6 @@ public class OrderFragment extends BaseFragment implements View.OnClickListener,
                     {
                         nameAddress.setText(storesToOrrders.get(0).getName());
 
-                        storeOrderList.clear();
                         storeOrderList = storesToOrrders.get(0).getStores();
                         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
                         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -231,7 +230,7 @@ public class OrderFragment extends BaseFragment implements View.OnClickListener,
             }
 
             @Override
-            public void onFailure(Call<ResponseGetStoreToOrder> call, Throwable t)
+            public void onFailure(@NonNull Call<ResponseGetStoreToOrder> call, @NonNull Throwable t)
             {
                 showToast(t.getMessage(), GlobalVariables.TOAST_ERRO);
             }
@@ -255,6 +254,7 @@ public class OrderFragment extends BaseFragment implements View.OnClickListener,
                         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
                         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
                         adapter = new CategoryOptionAdapter(getActivity(), categories, OrderFragment.this);
+                        adapter.setShowTime(true);
                         recyclerView.setLayoutManager(layoutManager);
                         recyclerView.setHasFixedSize(true);
                         recyclerView.setAdapter(adapter);
@@ -285,7 +285,7 @@ public class OrderFragment extends BaseFragment implements View.OnClickListener,
             }
 
             @Override
-            public void onFailure(Call<ResponseServiceAdmin> call, Throwable t) {
+            public void onFailure(@NonNull Call<ResponseServiceAdmin> call, @NonNull Throwable t) {
                 LogManager.tagDefault().error(t.getMessage());
                 hideLoadingDialog();
             }
@@ -453,7 +453,7 @@ public class OrderFragment extends BaseFragment implements View.OnClickListener,
                 listPopupAddress.setOnItemClickListener((parent, view, position, id) ->
                 {
                     showLoadingDialog();
-                    storeOrderList.clear();
+//                    storeOrderList.clear();
                     int idProvince = listItemAddress.get(position).getId();
                     if (idProvince == 1)
                     {
@@ -536,6 +536,12 @@ public class OrderFragment extends BaseFragment implements View.OnClickListener,
         catch (SecurityException e)  // Với Android API >= 23 phải catch SecurityException.
         {
             Log.e("TAG", "Show My Location Error:" + e.getMessage());
+            return;
+        }
+
+        if (myLocation == null)
+        {
+            showToast("Yêu cầu bật dịch vụ vị trí trên điện thoại!!!", GlobalVariables.TOAST_INFO);
             return;
         }
 

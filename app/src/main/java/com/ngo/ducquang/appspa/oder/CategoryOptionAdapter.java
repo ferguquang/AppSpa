@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.ngo.ducquang.appspa.R;
 import com.ngo.ducquang.appspa.base.GlobalVariables;
@@ -31,6 +33,7 @@ public class CategoryOptionAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     private SendListCheckedCheckBox sendListCheckedCheckBox;
 
     private boolean isEnableEditPrice = false;
+    private boolean isShowTime = false;
 
     public CategoryOptionAdapter(Context context, List<Category> dataList, SendListCheckedCheckBox sendListCheckedCheckBox) {
         this.context = context;
@@ -41,6 +44,10 @@ public class CategoryOptionAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     public CategoryOptionAdapter(Context context, List<Category> dataList) {
         this.context = context;
         this.dataList = dataList;
+    }
+
+    public void setShowTime(boolean showTime) {
+        isShowTime = showTime;
     }
 
     public void setEnableEditPrice(boolean enableEditPrice) {
@@ -74,6 +81,8 @@ public class CategoryOptionAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     {
         @BindView(R.id.checkbox) CheckBox checkBox;
         @BindView(R.id.priceEdit) EditText priceEdit;
+        @BindView(R.id.llPrice) LinearLayout llPrice;
+        @BindView(R.id.timeLayout) TextView timeLayout;
 
         public ItemHolder(View itemView) {
             super(itemView);
@@ -99,6 +108,18 @@ public class CategoryOptionAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
             priceEdit.setEnabled(isEnableEditPrice);
             priceEdit.setText(model.getPrice() + "");
+
+            if (isShowTime)
+            {
+                llPrice.setVisibility(View.GONE);
+                timeLayout.setVisibility(View.VISIBLE);
+                timeLayout.setText("Thời gian: " + model.getHour() + "h/" + model.getMinute() + "'");
+            }
+            else
+            {
+                llPrice.setVisibility(View.VISIBLE);
+                timeLayout.setVisibility(View.GONE);
+            }
         }
     }
 

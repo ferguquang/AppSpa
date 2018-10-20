@@ -20,6 +20,7 @@ import com.ngo.ducquang.appspa.base.FooterViewHolder;
 import com.ngo.ducquang.appspa.base.GlobalVariables;
 import com.ngo.ducquang.appspa.base.ManagerTime;
 import com.ngo.ducquang.appspa.base.font.FontChangeCrawler;
+import com.ngo.ducquang.appspa.base.view.TextViewFont;
 import com.ngo.ducquang.appspa.oder.model.Order;
 import com.ngo.ducquang.appspa.storageList.model.Category;
 
@@ -111,14 +112,14 @@ public class OrderListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     public class ItemHolder extends RecyclerView.ViewHolder implements View.OnClickListener
     {
-        @BindView(R.id.name) TextView name;
-        @BindView(R.id.categories) TextView categories;
-        @BindView(R.id.dateTime) TextView dateTime;
-        @BindView(R.id.phone) TextView phone;
-        @BindView(R.id.address) TextView address;
+        @BindView(R.id.name) TextViewFont name;
+        @BindView(R.id.categories) TextViewFont categories;
+        @BindView(R.id.dateTime) TextViewFont dateTime;
+        @BindView(R.id.phone) TextViewFont phone;
+        @BindView(R.id.address) TextViewFont address;
         @BindView(R.id.cvGroup) CardView cvGroup;
         @BindView(R.id.cardViewStatus) CardView cardViewStatus;
-        @BindView(R.id.status) TextView status;
+        @BindView(R.id.status) TextViewFont status;
         @BindView(R.id.imgOption) ImageView imgOption;
 
         public ItemHolder(View itemView)

@@ -20,6 +20,8 @@ import com.ngo.ducquang.appspa.base.font.TypefaceUtil;
 import com.ngo.ducquang.appspa.base.api.ApiService;
 import com.ngo.ducquang.appspa.base.getAddress.ResponseGetAddress;
 import com.ngo.ducquang.appspa.login.LoginActivity;
+import com.ngo.ducquang.appspa.modelImageSlide.File;
+import com.ngo.ducquang.appspa.modelImageSlide.ResponseGetImage;
 import com.ngo.ducquang.appspa.modelStore.DataGetStore;
 import com.ngo.ducquang.appspa.modelStore.ResponseGetStore;
 import com.ngo.ducquang.appspa.notification.NotificationActivity;
@@ -50,6 +52,9 @@ public class MainActivity extends BaseActivity implements SlideMenuFragment.Even
     @BindView(R.id.leftDrawer) FrameLayout leftDrawer;
     @BindView(R.id.recyclerView) RecyclerView recyclerView;
     private ActionBarDrawerToggle drawerToggle;
+
+    private MainAdapter mainAdapter;
+    private List<File> bannerModels = new ArrayList<>();
 
     @Override
     protected int getContentView() {
@@ -140,49 +145,61 @@ public class MainActivity extends BaseActivity implements SlideMenuFragment.Even
         {
             case GlobalVariables.IS_ADMIN:
             {
-                dataList.add(new ModelItemMain(STORE_LIST, "danh sách cửa hàng", "Thông tin cửa hàng", R.drawable.sale));
-                dataList.add(new ModelItemMain(LIST_ORDER, "danh sách lịch đặt", "Thông tin lịch đặt", R.drawable.option));
-                dataList.add(new ModelItemMain(LIST_SERVICE, "danh sách dịch vụ", "Dịch vụ của cửa hàng", R.drawable.qttt));
-                dataList.add(new ModelItemMain(LIST_USER, "danh sách khách hàng", "Thông tin chi tiết khách hàng", R.drawable.cust));
-                dataList.add(new ModelItemMain(NOTIFICATION, "thông báo", "Thông báo", R.drawable.icon_notification));
-                dataList.add(new ModelItemMain(REPORT, "thống kê", "Báo cáo, thống kê", R.drawable.mtask));
+                dataList.add(new ModelItemMain(STORE_LIST, "danh sách cửa hàng", "Thông tin cửa hàng", R.drawable.sale, getResources().getColor(R.color.main1)));
+                dataList.add(new ModelItemMain(LIST_ORDER, "danh sách lịch đặt", "Thông tin lịch đặt", R.drawable.option, getResources().getColor(R.color.main2)));
+                dataList.add(new ModelItemMain(LIST_SERVICE, "danh sách dịch vụ", "Dịch vụ của cửa hàng", R.drawable.qttt, getResources().getColor(R.color.main3)));
+                dataList.add(new ModelItemMain(LIST_USER, "danh sách khách hàng", "Thông tin chi tiết khách hàng", R.drawable.cust, getResources().getColor(R.color.main4)));
+                dataList.add(new ModelItemMain(NOTIFICATION, "thông báo", "Thông báo", R.drawable.icon_notification, getResources().getColor(R.color.main5)));
+                dataList.add(new ModelItemMain(REPORT, "thống kê", "Báo cáo, thống kê", R.drawable.mtask, getResources().getColor(R.color.main6)));
                 break;
             }
             case GlobalVariables.IS_STORE:
             {
-                dataList.add(new ModelItemMain(STORE_LIST, "cửa hàng của bạn", "Thông tin cửa hàng", R.drawable.sale));
-                dataList.add(new ModelItemMain(LIST_ORDER, "danh sách lịch đặt", "Thông tin lịch đặt", R.drawable.option));
-                dataList.add(new ModelItemMain(LIST_USER, "danh sách khách hàng", "", R.drawable.cust));
-                dataList.add(new ModelItemMain(NOTIFICATION, "thông báo", "Thông báo", R.drawable.icon_notification));
+                dataList.add(new ModelItemMain(STORE_LIST, "cửa hàng của bạn", "Thông tin cửa hàng", R.drawable.sale, getResources().getColor(R.color.main1)));
+                dataList.add(new ModelItemMain(LIST_ORDER, "danh sách lịch đặt", "Thông tin lịch đặt", R.drawable.option, getResources().getColor(R.color.main2)));
+                dataList.add(new ModelItemMain(LIST_USER, "danh sách khách hàng", "", R.drawable.cust, getResources().getColor(R.color.main3)));
+                dataList.add(new ModelItemMain(NOTIFICATION, "thông báo", "Thông báo", R.drawable.icon_notification, getResources().getColor(R.color.main4)));
                 break;
             }
             case GlobalVariables.IS_USER:
             {
-                dataList.add(new ModelItemMain(BOOK, "đặt lịch", "Thông tin đặt lịch", R.drawable.share_file));
-                dataList.add(new ModelItemMain(BOOK_AT_HOME, "ĐẶT TẠI NHÀ", "Tại nhà", R.drawable.employee));
-                dataList.add(new ModelItemMain(STORE_LIST, "danh sách cửa hàng", "Thông tin cửa hàng", R.drawable.sale));
-                dataList.add(new ModelItemMain(LIST_ORDER, "danh sách lịch đặt", "Thông tin lịch đặt", R.drawable.option));
-                dataList.add(new ModelItemMain(NOTIFICATION, "thông báo", "Thông báo", R.drawable.icon_notification));
+                dataList.add(new ModelItemMain(BOOK, "đặt lịch", "Thông tin đặt lịch", R.drawable.icon_map, getResources().getColor(R.color.main1)));
+                dataList.add(new ModelItemMain(BOOK_AT_HOME, "ĐẶT TẠI NHÀ", "Tại nhà", R.drawable.icon_home, getResources().getColor(R.color.main2)));
+                dataList.add(new ModelItemMain(STORE_LIST, "danh sách cửa hàng", "Thông tin cửa hàng", R.drawable.sale, getResources().getColor(R.color.main3)));
+                dataList.add(new ModelItemMain(LIST_ORDER, "danh sách lịch đặt", "Thông tin lịch đặt", R.drawable.mtask, getResources().getColor(R.color.main4)));
+                dataList.add(new ModelItemMain(NOTIFICATION, "thông báo", "Thông báo", R.drawable.icon_notification, getResources().getColor(R.color.main5)));
                 break;
             }
         }
 
         title.setText(R.string.app_name);
 
-        List<BannerModel> bannerModels = new ArrayList<>();
-        bannerModels.add(new BannerModel(1, "https://www.webico.vn/wp-content/uploads/2017/05/URL.png"));
-        bannerModels.add(new BannerModel(1, "https://www.webico.vn/wp-content/uploads/2017/05/URL.png"));
-        bannerModels.add(new BannerModel(1, "https://www.webico.vn/wp-content/uploads/2017/05/URL.png"));
-        bannerModels.add(new BannerModel(1, "https://www.webico.vn/wp-content/uploads/2017/05/URL.png"));
-
         LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
-        MainAdapter mainAdapter = new MainAdapter(dataList, getSupportFragmentManager(), this, bannerModels);
+        mainAdapter = new MainAdapter(dataList, getSupportFragmentManager(), this, bannerModels);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(mainAdapter);
 
-//        setBackground(getApplicationContext(), this.findViewById(android.R.id.content), R.drawable.bgmain_qualiti25);
+        setBackground(getApplicationContext(), this.findViewById(android.R.id.content), R.drawable.bg2);
+
+        ApiService.Factory.getInstance().getImage(token).enqueue(new Callback<ResponseGetImage>()
+        {
+            @Override
+            public void onResponse(Call<ResponseGetImage> call, Response<ResponseGetImage> response)
+            {
+                if (response.body().getStatus() == 1)
+                {
+                    bannerModels = response.body().getData().getFiles();
+                    mainAdapter.updateImage(bannerModels);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseGetImage> call, Throwable t) {
+
+            }
+        });
     }
 
     @Override

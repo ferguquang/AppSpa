@@ -119,6 +119,8 @@ public class RateAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             ratingBar.setRating(model.getRate());
             note.setText(model.getNote());
             dateTime.setText(ManagerTime.convertToMonthDayYearHourMinuteFormat(model.getCreated()));
+
+            ratingBar.setIsIndicator(true);
         }
     }
 

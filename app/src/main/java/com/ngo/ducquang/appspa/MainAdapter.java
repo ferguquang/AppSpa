@@ -13,10 +13,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
+import com.ngo.ducquang.appspa.base.FooterViewHolder;
+import com.ngo.ducquang.appspa.base.LogManager;
 import com.ngo.ducquang.appspa.base.view.TextViewFont;
 import com.ngo.ducquang.appspa.base.view.TransformerFadeViewPager;
+import com.ngo.ducquang.appspa.modelImageSlide.File;
 import com.ngo.ducquang.appspa.oder.OrderFragment;
 import com.ngo.ducquang.appspa.notification.NotificationActivity;
 import com.ngo.ducquang.appspa.oder.OrderListActivity;
@@ -40,13 +42,14 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 {
     private final int TYPE_BANNER = 1;
     private final int TYPE_ITEM = 2;
+    private final int TYPE_FOOTER = 3;
 
     private List<ModelItemMain> dataList;
     private FragmentManager fragmentManager;
     private MainActivity context;
-    private List<BannerModel> bannerModels;
+    private List<File> bannerModels;
 
-    public MainAdapter(List<ModelItemMain> dataList, FragmentManager fragmentManager, MainActivity context, List<BannerModel> bannerModels) {
+    public MainAdapter(List<ModelItemMain> dataList, FragmentManager fragmentManager, MainActivity context, List<File> bannerModels) {
         this.dataList = dataList;
         this.fragmentManager = fragmentManager;
         this.context = context;
@@ -63,11 +66,18 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             view = inflater.inflate(R.layout.item_main_banner, parent, false);
             return new BannerHolder(view);
         }
-        else
+        else if (viewType == TYPE_ITEM)
         {
             view = inflater.inflate(R.layout.item_main_activity, parent, false);
             return new ItemHolder(view);
         }
+        else if (viewType == TYPE_FOOTER)
+        {
+            view = inflater.inflate(R.layout.listview_footer, parent, false);
+            return new FooterViewHolder(view);
+        }
+
+        throw new RuntimeException("k có type nào");
     }
 
     @Override
@@ -80,7 +90,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     @Override
     public int getItemCount() {
-        return dataList.size() + 1;
+        return dataList.size() + 2;
     }
 
     @Override
@@ -88,6 +98,10 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         if (position == 0)
         {
             return TYPE_BANNER;
+        }
+        else if (dataList.size() != 0 && position > dataList.size())
+        {
+            return TYPE_FOOTER;
         }
 
         return TYPE_ITEM;
@@ -105,7 +119,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         private int currentPage = 0;
         private Timer timer;
         private long DELAY_MS = 1000;//delay in milliseconds before task is to be executed
-        private long PERIOD_MS = 5000;
+        private long PERIOD_MS = 4000;
 
         public BannerHolder(View itemView)
         {
@@ -114,7 +128,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
             adapter = new BannerAdapter(bannerModels, context);
             viewPager.setAdapter(adapter);
-            viewPager.setPageTransformer(false,  new TransformerFadeViewPager());
+            viewPager.setPageTransformer(true,  new TransformerFadeViewPager());
 
             dotCount = adapter.getCount();
 
@@ -144,36 +158,57 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 @Override
                 public void onPageSelected(int position)
                 {
-                    for(int i = 0; i < dotCount; i++)
+                    try
                     {
-                        dots[i].setImageDrawable(ContextCompat.getDrawable(context, R.drawable.non_active_dot));
-                    }
+                        for(int i = 0; i < dotCount; i++)
+                        {
+                            dots[i].setImageDrawable(ContextCompat.getDrawable(context, R.drawable.non_active_dot));
+                        }
 
-                    dots[position].setImageDrawable(ContextCompat.getDrawable(context, R.drawable.active_dot));
+                        dots[position].setImageDrawable(ContextCompat.getDrawable(context, R.drawable.active_dot));
+                    }
+                    catch (Exception e)
+                    {
+                        LogManager.tagDefault().error(e.toString());
+                    }
                 }
 
                 @Override
                 public void onPageScrollStateChanged(int i) {}
             });
 
-            Handler handler = new Handler();
-            timer = new Timer(); // This will create a new Thread
-            timer.schedule(new TimerTask() // task to be scheduled
+            try
             {
-                @Override
-                public void run()
+                Handler handler = new Handler();
+                timer = new Timer(); // This will create a new Thread
+                timer.schedule(new TimerTask() // task to be scheduled
                 {
-                    handler.post(() ->
+                    @Override
+                    public void run()
                     {
-                        if (currentPage == bannerModels.size())
+                        handler.post(() ->
                         {
-                            currentPage = 0;
-                        }
+                            try
+                            {
+                                if (currentPage == bannerModels.size())
+                                {
+                                    currentPage = 0;
+                                }
 
-                        viewPager.setCurrentItem(currentPage++, true);
-                    });
-                }
-            }, DELAY_MS, PERIOD_MS);
+                                viewPager.setCurrentItem(currentPage++, true);
+                            }
+                            catch (Exception e)
+                            {
+                                LogManager.tagDefault().error(e.toString());
+                            }
+                        });
+                    }
+                }, DELAY_MS, PERIOD_MS);
+            }
+            catch (Exception e)
+            {
+                LogManager.tagDefault().error(e.toString());
+            }
         }
     }
 
@@ -196,6 +231,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             name.setText(model.getName().toUpperCase());
             content.setText(model.getContent());
             name.setTextBold();
+            cvGroup.setCardBackgroundColor(model.getIdColor());
         }
 
         @Override
@@ -250,5 +286,12 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 }
             }
         }
+    }
+
+    public void updateImage(List<File> files)
+    {
+        bannerModels.clear();
+        bannerModels.addAll(files);
+        notifyItemChanged(0);
     }
 }

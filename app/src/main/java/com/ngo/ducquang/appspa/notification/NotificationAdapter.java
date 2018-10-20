@@ -18,6 +18,7 @@ import com.ngo.ducquang.appspa.base.FooterViewHolder;
 import com.ngo.ducquang.appspa.base.GlobalVariables;
 import com.ngo.ducquang.appspa.base.ManagerTime;
 import com.ngo.ducquang.appspa.base.font.FontChangeCrawler;
+import com.ngo.ducquang.appspa.base.view.TextViewFont;
 import com.ngo.ducquang.appspa.notification.model.Notification;
 import com.ngo.ducquang.appspa.oder.OrderDetailActivity;
 import com.ngo.ducquang.appspa.storageList.StorageAdapter;
@@ -63,8 +64,8 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         else if (viewType == TYPE_ITEM)
         {
             view = inflater.inflate(R.layout.item_notification, parent, false);
-            FontChangeCrawler fontChanger = new FontChangeCrawler(notificationActivity.getAssets(), GlobalVariables.FONT_BASE);
-            fontChanger.replaceFonts((ViewGroup) view);
+//            FontChangeCrawler fontChanger = new FontChangeCrawler(notificationActivity.getAssets(), GlobalVariables.FONT_BASE);
+//            fontChanger.replaceFonts((ViewGroup) view);
             return new ItemHolder(view);
         }
         else if (viewType == TYPE_FOOTER)
@@ -112,12 +113,12 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     public class ItemHolder extends RecyclerView.ViewHolder
     {
-        @BindView(R.id.name) TextView name;
-        @BindView(R.id.categories) TextView categoriesText;
-        @BindView(R.id.dateTime) TextView dateTime;
-        @BindView(R.id.phone) TextView phone;
-        @BindView(R.id.address) TextView address;
-        @BindView(R.id.dateTimePromotion) TextView dateTimePromotion;
+        @BindView(R.id.name) TextViewFont name;
+        @BindView(R.id.categories) TextViewFont categoriesText;
+        @BindView(R.id.dateTime) TextViewFont dateTime;
+        @BindView(R.id.phone) TextViewFont phone;
+        @BindView(R.id.address) TextViewFont address;
+        @BindView(R.id.dateTimePromotion) TextViewFont dateTimePromotion;
 
         @BindView(R.id.cvGroup) CardView cvGroup;
         @BindView(R.id.cardViewStatus) CardView cardViewStatus;
@@ -187,10 +188,11 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             {
                 llDateCreate.setVisibility(View.GONE);
                 llDateTimePromotion.setVisibility(View.VISIBLE);
-                String startDate = ManagerTime.convertToMonthDayYearHourMinuteFormat(model.getStartDate());
-                String endDate = ManagerTime.convertToMonthDayYearHourMinuteFormat(model.getEndDate());
+                String startDate = ManagerTime.convertToMonthDayYear(model.getStartDate());
+                String endDate = ManagerTime.convertToMonthDayYear(model.getEndDate());
                 dateTimePromotion.setText("Từ " + startDate + " đến " + endDate);
                 categoriesText.setText(model.getDescribe());
+                cvGroup.setCardBackgroundColor(name.getContext().getResources().getColor(R.color.protion));
             }
             else
             {

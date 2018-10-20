@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ngo.ducquang.appspa.R;
 import com.ngo.ducquang.appspa.base.EmptyViewHolder;
@@ -18,6 +19,7 @@ import com.ngo.ducquang.appspa.base.GlobalVariables;
 import com.ngo.ducquang.appspa.base.LogManager;
 import com.ngo.ducquang.appspa.base.ManagerTime;
 import com.ngo.ducquang.appspa.base.PreferenceUtil;
+import com.ngo.ducquang.appspa.base.StringUtilities;
 import com.ngo.ducquang.appspa.base.api.ApiService;
 import com.ngo.ducquang.appspa.base.font.FontChangeCrawler;
 import com.ngo.ducquang.appspa.storageList.storeDetail.model.Discuss;
@@ -29,6 +31,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import es.dmoral.toasty.Toasty;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -139,13 +142,21 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         @BindView(R.id.sendComment) ImageView sendComment;
         @BindView(R.id.emptyDiscuss) TextView emptyDiscuss;
 
-        public CommentViewHolder(View itemView) {
+        public CommentViewHolder(View itemView)
+        {
             super(itemView);
 
             ButterKnife.bind(this, itemView);
 
-            sendComment.setOnClickListener(v -> {
+            sendComment.setOnClickListener(v ->
+            {
                 String body = commentEdt.getText().toString();
+
+                if (StringUtilities.isEmpty(body))
+                {
+                    Toasty.error(context, "Yêu cầu nhập bình luận", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
                 HashMap<String, String> params = new HashMap<>();
                 params.put("Token", PreferenceUtil.getPreferences(context, PreferenceUtil.TOKEN, ""));
