@@ -53,6 +53,7 @@ public class BannerAdapter extends PagerAdapter
 
         File model = dataList.get(position);
 
+        String name = model.getFileName();
         SetImageWithGlide.setImageUrlGlide(model.getFilePath(), imageBanner);
 
         ViewPager vp = (ViewPager) container;

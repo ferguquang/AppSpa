@@ -7,6 +7,7 @@ package com.ngo.ducquang.appspa.base;
 public class GlobalVariables
 {
     public static final String BASE_URL = "http://103.199.18.108/api/";
+    public static final String BASE_URL_DEV = "http://103.199.18.108:88/api/";
     public static final String ROOT = "http://103.199.18.108/";
 
     public static final int TOAST_INFO = 1;
