@@ -7,6 +7,7 @@ import android.view.View;
 
 import com.ngo.ducquang.appspa.R;
 import com.ngo.ducquang.appspa.base.BaseFragment;
+import com.ngo.ducquang.appspa.base.LogManager;
 import com.ngo.ducquang.appspa.oder.LoadMoreInterface;
 import com.ngo.ducquang.appspa.oder.OrderListActivity;
 import com.ngo.ducquang.appspa.oder.OrderListAdapter;
@@ -30,38 +31,32 @@ public class PendingApproveFragment extends BaseFragment
     }
 
     @Override
-    protected void initView(View view) {
-//        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener()
-//        {
-//            @Override
-//            public void onScrollStateChanged(RecyclerView recyclerView, int newState)
-//            {
-//                super.onScrollStateChanged(recyclerView, newState);
-//                if (!recyclerView.canScrollVertically(1))
-//                {
-//                    loadMoreInterface.loadMore(skip, take);
-//                }
-//            }
-//        });
-    }
+    protected void initView(View view) {}
 
     public void setDataListOrder(DataListOrder dataListOrder)
     {
-        if (adapter == null)
+        try
         {
-            LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-            adapter = new OrderListAdapter((OrderListActivity) getActivity(), dataListOrder.getOrders(), getFragmentManager());
-            layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-            recyclerView.setLayoutManager(layoutManager);
-            recyclerView.setHasFixedSize(true);
-            recyclerView.setAdapter(adapter);
-        }
-        else
-        {
-            if (dataListOrder.getOrders().size() > 0)
+            if (adapter == null)
             {
-                adapter.updateData(dataListOrder.getOrders());
+                LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+                adapter = new OrderListAdapter((OrderListActivity) getActivity(), dataListOrder.getOrders(), getFragmentManager());
+                layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+                recyclerView.setLayoutManager(layoutManager);
+                recyclerView.setHasFixedSize(true);
+                recyclerView.setAdapter(adapter);
             }
+            else
+            {
+                if (dataListOrder.getOrders().size() > 0)
+                {
+                    adapter.updateData(dataListOrder.getOrders());
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            LogManager.tagDefault().error(e.toString());
         }
     }
 }

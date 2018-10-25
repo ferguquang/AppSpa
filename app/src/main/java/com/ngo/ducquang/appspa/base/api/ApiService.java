@@ -164,6 +164,10 @@ public interface ApiService
                                                   @Query("Latitude") double latitude,
                                                   @Query("Longitude") double longitude);
 
+    @GET("account/GetStoreToOrder")
+    Call<ResponseGetStoreToOrder> getStoreToOrder(@Query("Token") String token,
+                                                  @Query("IDSt") int idStore);
+
     @POST("order/Approved")
     @FormUrlEncoded
     Call<ResponseMessage> approvedOrder(@Field("Token") String token,
@@ -240,7 +244,7 @@ public interface ApiService
                     .build();
 
             retrofit = new Retrofit.Builder()
-                    .baseUrl(GlobalVariables.BASE_URL)
+                    .baseUrl(GlobalVariables.BASE_URL_DEV)
                     .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .addConverterFactory(GsonConverterFactory.create())
                     .client(okHttpClient)

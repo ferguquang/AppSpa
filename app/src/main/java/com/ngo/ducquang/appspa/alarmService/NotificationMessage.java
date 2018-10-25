@@ -41,7 +41,7 @@ public class NotificationMessage
         bundle.putInt(OrderDetailActivity.ID_ORDER, model.getiDOrder());
         bundle.putBoolean(OrderDetailActivity.FROM_NOTIFICATION_ACTIVITY, true);
 
-        Intent intent = new Intent(context, OrderDetailActivity.class);
+        Intent intent = new Intent(context, NotificationActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtras(bundle);
@@ -59,14 +59,14 @@ public class NotificationMessage
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
         {
-            NotificationChannel mChannel = new NotificationChannel("0", "AppSpa android 8", NotificationManager.IMPORTANCE_HIGH);
-            mChannel.setDescription("description");
+            NotificationChannel mChannel = new NotificationChannel(id + "", "Làm đẹp 24h", NotificationManager.IMPORTANCE_HIGH);
+            mChannel.setDescription(title);
             mChannel.enableVibration(true);
 
             NotificationManager notifManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
             notifManager.createNotificationChannel(mChannel);
 
-            NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "0");
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(context, id + "");
 
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
             PendingIntent pendingIntent = PendingIntent.getActivity(context, 1251, intent, PendingIntent.FLAG_ONE_SHOT);

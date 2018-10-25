@@ -72,7 +72,13 @@ public abstract class BaseActivity extends AppCompatActivity
         }
 
         progressBarHandler = new ProgressBarHandler(this);
-        initView();
+        try {
+            initView();
+        }
+        catch (Exception e)
+        {
+            LogManager.tagDefault().error();
+        }
 
         if (!ServiceManager.isMyServiceRunning(ServiceManager.class, getBaseContext()))
         {

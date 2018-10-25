@@ -154,13 +154,15 @@ public class SlideMenuAdapter extends RecyclerView.Adapter
         @BindView(R.id.icon) ImageView icon;
         @BindView(R.id.name) TextView name;
 
-        public LogoutViewHolder(View itemView) {
+        public LogoutViewHolder(View itemView)
+        {
             super(itemView);
             ButterKnife.bind(this, itemView);
 
             icon.setImageResource(R.drawable.icon_logout);
             name.setText("Đăng xuất");
-            itemView.setOnClickListener(v -> {
+            itemView.setOnClickListener(v ->
+            {
                 slideMenuFragment.showLoadingDialog();
                 ApiService.Factory.getInstance().logout(PreferenceUtil.getPreferences(context, PreferenceUtil.TOKEN, "")).enqueue(new Callback<ResponseLogout>()
                 {
@@ -188,6 +190,11 @@ public class SlideMenuAdapter extends RecyclerView.Adapter
                 });
             });
         }
+    }
+
+    public void refreshHeader()
+    {
+        notifyItemChanged(0);
     }
 
     public interface EventCloseNavigation

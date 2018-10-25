@@ -69,6 +69,7 @@
                             android:layout_height="wrap_content"/>
 
                         <EditText
+                            android:maxLines="1"
                             android:textStyle="bold"
                             android:layout_marginLeft="8dp"
                             android:background="@color/transparent"
@@ -116,6 +117,7 @@
                             android:id="@+id/lock"/>
 
                         <EditText
+                            android:maxLines="1"
                             android:textStyle="bold"
                             android:layout_marginLeft="8dp"
                             android:background="@color/transparent"

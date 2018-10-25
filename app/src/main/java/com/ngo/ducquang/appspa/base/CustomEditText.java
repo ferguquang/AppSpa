@@ -2,7 +2,6 @@ package com.ngo.ducquang.appspa.base;
 
 import android.content.Context;
 import android.graphics.Typeface;
-import android.os.Build;
 import android.util.AttributeSet;
 import android.widget.EditText;
 

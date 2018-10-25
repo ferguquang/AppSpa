@@ -1,5 +1,6 @@
 package com.ngo.ducquang.appspa.service;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
@@ -138,6 +139,7 @@ public class ServiceAdminAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             });
         }
 
+        @SuppressLint("SetTextI18n")
         public void binding(Category model)
         {
             name.setText(model.getName());
@@ -147,11 +149,14 @@ public class ServiceAdminAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             {
                 imgOption.setVisibility(View.GONE);
             }
+            else
+            {
+                llPrice.setVisibility(View.GONE);
+            }
 
             price.setText("Giá tiền: " + model.getPrice() + "");
 
             dateTime.setText("Thời gian hoàn thành: " + model.getHour() + " giờ " + model.getMinute() + " phút");
-            llPrice.setVisibility(View.GONE);
         }
     }
 

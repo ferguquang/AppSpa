@@ -47,6 +47,7 @@
 
                 <com.ngo.ducquang.appspa.base.CustomEditText
                     android:id="@+id/fullNameEdt"
+                    android:maxLines="1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Tên đầy đủ"
@@ -85,6 +86,7 @@
                     android:layout_height="wrap_content">
 
                     <LinearLayout
+                        android:gravity="center_vertical"
                         android:id="@+id/getCurrentLocation"
                         android:orientation="horizontal"
                         android:layout_width="match_parent"
@@ -96,7 +98,8 @@
                             android:layout_height="wrap_content" />
 
                         <ImageView
-                            android:src="@drawable/icon_asset_my_location"
+                            android:layout_marginLeft="@dimen/margin_4dp"
+                            app:srcCompat="@drawable/icon_asset_my_location"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content" />
 
@@ -342,6 +345,7 @@
 
                 <com.ngo.ducquang.appspa.base.CustomEditText
                     android:inputType="textPassword"
+                    android:maxLines="1"
                     android:id="@+id/passwordEdt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -361,6 +365,7 @@
                 <com.ngo.ducquang.appspa.base.CustomEditText
                     android:id="@+id/repeatPasswordEdt"
                     android:inputType="textPassword"
+                    android:maxLines="1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Nhập lại mật khẩu"

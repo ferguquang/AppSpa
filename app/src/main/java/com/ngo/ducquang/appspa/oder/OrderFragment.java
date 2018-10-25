@@ -160,6 +160,38 @@ public class OrderFragment extends BaseFragment implements View.OnClickListener,
 
             if (isInDetail)
             {
+                ApiService.Factory.getInstance().getStoreToOrder(token, idStore).enqueue(new Callback<ResponseGetStoreToOrder>()
+                {
+                    @Override
+                    public void onResponse(Call<ResponseGetStoreToOrder> call, Response<ResponseGetStoreToOrder> response)
+                    {
+                        if (response.body().getStatus() == 1)
+                        {
+                            storesToOrrders = response.body().getData().getStoresToOrrder();
+                            hideLoadingDialog();
+
+                            if (storesToOrrders.size() > 0)
+                            {
+                                nameAddress.setText(storesToOrrders.get(0).getName());
+
+                                storeOrderList = storesToOrrders.get(0).getStores();
+                                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+                                linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+                                ShowStoreAdapter showStoreAdapter = new ShowStoreAdapter(getActivity(), storeOrderList, OrderFragment.this);
+                                recyclerViewStore.setLayoutManager(linearLayoutManager);
+                                recyclerViewStore.setAdapter(showStoreAdapter);
+                            }
+
+                            showLoadingDialog();
+                            ApiService.Factory.getInstance().getListServiceAdmin(token, idStore).enqueue(callbackGetService());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseGetStoreToOrder> call, Throwable t) {
+                        showToast(t.getMessage(), GlobalVariables.TOAST_ERRO);
+                    }
+                });
             }
             else
             {
@@ -171,9 +203,6 @@ public class OrderFragment extends BaseFragment implements View.OnClickListener,
             }
         }
 
-        showLoadingDialog();
-
-        showLoadingDialog();
         if (order != null)
         {
             idStore = order.getStoreID();

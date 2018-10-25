@@ -119,7 +119,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         private int currentPage = 0;
         private Timer timer;
         private long DELAY_MS = 1000;//delay in milliseconds before task is to be executed
-        private long PERIOD_MS = 4000;
+        private long PERIOD_MS = 3500;
 
         public BannerHolder(View itemView)
         {
@@ -216,7 +216,6 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     {
         @BindView(R.id.iconImage) ImageView iconImage;
         @BindView(R.id.name) TextViewFont name;
-        @BindView(R.id.content) TextViewFont content;
         @BindView(R.id.cvGroup) CardView cvGroup;
 
         public ItemHolder(View itemView) {
@@ -229,9 +228,8 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         {
             iconImage.setImageResource(model.getIdImage());
             name.setText(model.getName().toUpperCase());
-            content.setText(model.getContent());
             name.setTextBold();
-            cvGroup.setCardBackgroundColor(model.getIdColor());
+            cvGroup.setCardBackgroundColor(context.getResources().getColor(R.color.colorButton));
         }
 
         @Override
@@ -260,7 +258,6 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 {
                     Bundle bundle = new Bundle();
                     bundle.putInt(OrderFragment.TYPE, OrderFragment.ORDER_AT_HOME);
-
                     context.addFragment(new OrderFragment(), bundle, true);
                     break;
                 }

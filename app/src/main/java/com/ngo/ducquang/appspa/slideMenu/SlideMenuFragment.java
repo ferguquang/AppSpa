@@ -7,6 +7,10 @@ import android.view.View;
 
 import com.ngo.ducquang.appspa.R;
 import com.ngo.ducquang.appspa.base.BaseFragment;
+import com.ngo.ducquang.appspa.base.EventBusManager;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 
@@ -19,6 +23,27 @@ public class SlideMenuFragment extends BaseFragment implements SlideMenuAdapter.
 
     private SlideMenuAdapter adapter;
     private EventCloseNavigationInActivity eventCloseNavigationInActivity;
+
+    private SubcriberSlideMenu subcriberSlideMenu = new SubcriberSlideMenu()
+    {
+        @Override
+        @Subscribe(threadMode = ThreadMode.MAIN)
+        void onEventUpdateHeader(EventUpdateHeader event) {
+            adapter.refreshHeader();
+        }
+    };
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBusManager.instance().register(subcriberSlideMenu);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBusManager.instance().unregister(subcriberSlideMenu);
+    }
 
     @Override
     public void onAttach(Context context) {

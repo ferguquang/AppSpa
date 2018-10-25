@@ -14,7 +14,6 @@ import com.ngo.ducquang.appspa.base.BaseActivity;
 import com.ngo.ducquang.appspa.base.GlobalVariables;
 import com.ngo.ducquang.appspa.base.LogManager;
 import com.ngo.ducquang.appspa.base.PreferenceUtil;
-import com.ngo.ducquang.appspa.base.PreferencesManager;
 import com.ngo.ducquang.appspa.base.Share;
 import com.ngo.ducquang.appspa.base.font.TypefaceUtil;
 import com.ngo.ducquang.appspa.base.api.ApiService;
@@ -149,7 +148,7 @@ public class MainActivity extends BaseActivity implements SlideMenuFragment.Even
                 dataList.add(new ModelItemMain(LIST_ORDER, "danh sách lịch đặt", "Thông tin lịch đặt", R.drawable.option, getResources().getColor(R.color.main2)));
                 dataList.add(new ModelItemMain(LIST_SERVICE, "danh sách dịch vụ", "Dịch vụ của cửa hàng", R.drawable.qttt, getResources().getColor(R.color.main3)));
                 dataList.add(new ModelItemMain(LIST_USER, "danh sách khách hàng", "Thông tin chi tiết khách hàng", R.drawable.cust, getResources().getColor(R.color.main4)));
-                dataList.add(new ModelItemMain(NOTIFICATION, "thông báo", "Thông báo", R.drawable.icon_notification, getResources().getColor(R.color.main5)));
+                dataList.add(new ModelItemMain(NOTIFICATION, "thông báo", "Thông báo", R.drawable.icon_notification_main, getResources().getColor(R.color.main5)));
                 dataList.add(new ModelItemMain(REPORT, "thống kê", "Báo cáo, thống kê", R.drawable.mtask, getResources().getColor(R.color.main6)));
                 break;
             }
@@ -158,7 +157,7 @@ public class MainActivity extends BaseActivity implements SlideMenuFragment.Even
                 dataList.add(new ModelItemMain(STORE_LIST, "cửa hàng của bạn", "Thông tin cửa hàng", R.drawable.sale, getResources().getColor(R.color.main1)));
                 dataList.add(new ModelItemMain(LIST_ORDER, "danh sách lịch đặt", "Thông tin lịch đặt", R.drawable.option, getResources().getColor(R.color.main2)));
                 dataList.add(new ModelItemMain(LIST_USER, "danh sách khách hàng", "", R.drawable.cust, getResources().getColor(R.color.main3)));
-                dataList.add(new ModelItemMain(NOTIFICATION, "thông báo", "Thông báo", R.drawable.icon_notification, getResources().getColor(R.color.main4)));
+                dataList.add(new ModelItemMain(NOTIFICATION, "thông báo", "Thông báo", R.drawable.icon_notification_main, getResources().getColor(R.color.main4)));
                 break;
             }
             case GlobalVariables.IS_USER:
@@ -167,7 +166,7 @@ public class MainActivity extends BaseActivity implements SlideMenuFragment.Even
                 dataList.add(new ModelItemMain(BOOK_AT_HOME, "ĐẶT TẠI NHÀ", "Tại nhà", R.drawable.icon_home, getResources().getColor(R.color.main2)));
                 dataList.add(new ModelItemMain(STORE_LIST, "danh sách cửa hàng", "Thông tin cửa hàng", R.drawable.sale, getResources().getColor(R.color.main3)));
                 dataList.add(new ModelItemMain(LIST_ORDER, "danh sách lịch đặt", "Thông tin lịch đặt", R.drawable.mtask, getResources().getColor(R.color.main4)));
-                dataList.add(new ModelItemMain(NOTIFICATION, "thông báo", "Thông báo", R.drawable.icon_notification, getResources().getColor(R.color.main5)));
+                dataList.add(new ModelItemMain(NOTIFICATION, "thông báo", "Thông báo", R.drawable.icon_notification_main, getResources().getColor(R.color.main5)));
                 break;
             }
         }
@@ -181,7 +180,7 @@ public class MainActivity extends BaseActivity implements SlideMenuFragment.Even
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(mainAdapter);
 
-        setBackground(getApplicationContext(), this.findViewById(android.R.id.content), R.drawable.bg2);
+//        setBackground(getApplicationContext(), this.findViewById(android.R.id.content), R.drawable.bg2);
 
         ApiService.Factory.getInstance().getImage(token).enqueue(new Callback<ResponseGetImage>()
         {

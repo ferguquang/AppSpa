@@ -17,6 +17,7 @@ import com.ngo.ducquang.appspa.base.LogManager;
 import com.ngo.ducquang.appspa.base.PreferenceUtil;
 import com.ngo.ducquang.appspa.base.api.ApiService;
 import com.ngo.ducquang.appspa.base.view.TabPagerAdapter;
+import com.ngo.ducquang.appspa.base.view.TextViewFont;
 import com.ngo.ducquang.appspa.base.view.TransformerFadeViewPager;
 import com.ngo.ducquang.appspa.oder.OrderFragment;
 import com.ngo.ducquang.appspa.storageList.StorageAdapter;
@@ -44,7 +45,7 @@ public class StoreDetailActivity extends BaseActivity implements View.OnClickLis
 {
     @BindView(R.id.tabLayout) TabLayout tabLayout;
     @BindView(R.id.viewPager) ViewPager viewPager;
-    @BindView(R.id.name) TextView name;
+    @BindView(R.id.name) TextViewFont name;
     @BindView(R.id.address) TextView address;
     @BindView(R.id.phone) TextView phone;
     @BindView(R.id.textMyRate) TextView textMyRate;
@@ -127,6 +128,7 @@ public class StoreDetailActivity extends BaseActivity implements View.OnClickLis
     {
         this.storeDetail = dataStoreDetail;
         UserStore userStore = dataStoreDetail.getUserStore();
+        name.setTextBold();
         name.setText(userStore.getName());
         address.setText("Địa chỉ: " + userStore.getAddress() + " - " + userStore.getDistrictName() + " - " + userStore.getProvinceName());
         phone.setText("Số điện thoại: " + userStore.getPhone());

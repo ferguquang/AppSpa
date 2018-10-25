@@ -29,6 +29,7 @@ import com.github.jjobes.slidedatetimepicker.SlideDateTimeListener;
 import com.github.jjobes.slidedatetimepicker.SlideDateTimePicker;
 import com.ngo.ducquang.appspa.R;
 import com.ngo.ducquang.appspa.base.BaseFragment;
+import com.ngo.ducquang.appspa.base.EventBusManager;
 import com.ngo.ducquang.appspa.base.GlobalVariables;
 import com.ngo.ducquang.appspa.base.LogManager;
 import com.ngo.ducquang.appspa.base.ManagerTime;
@@ -46,6 +47,8 @@ import com.ngo.ducquang.appspa.base.view.popupWindow.ListPopupWindowAdapter;
 import com.ngo.ducquang.appspa.oder.CategoryOptionAdapter;
 import com.ngo.ducquang.appspa.login.modelLogin.UserApp;
 import com.ngo.ducquang.appspa.login.modelRegister.ResponseRegister;
+import com.ngo.ducquang.appspa.service.PriceServiceModel;
+import com.ngo.ducquang.appspa.slideMenu.EventUpdateHeader;
 import com.ngo.ducquang.appspa.storageList.StorageAdapter;
 import com.ngo.ducquang.appspa.storageList.createStore.model.DataCreateStore;
 import com.ngo.ducquang.appspa.storageList.createStore.model.ResponseCreateStore;
@@ -213,15 +216,18 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
             valueProvince.setText(userStore.getProvinceName());
             valueDistrict.setText(userStore.getDistrictName());
             describeEdt.setText(userStore.getDescribe());
+            longitudeEdt.setText(userStore.getLongitude() + "");
+            latitudeEdt.setText(userStore.getLatitude() + "");
 
             // setCheck
-            categoryList = Share.getInstance().categoryList;
+            categoryList = userStore.getCategories();
             List<Category> categories = new ArrayList<>();
             categories.addAll(categoryList);
 
             LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
             layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
             CategoryOptionAdapter adapter = new CategoryOptionAdapter(getContext(), categories);
+            adapter.setEnableEditPrice(true);
             recyclerView.setLayoutManager(layoutManager);
             recyclerView.setHasFixedSize(true);
             recyclerView.setAdapter(adapter);
@@ -459,6 +465,8 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
                                 showToast(response.body().getMessages().get(0).getText(), GlobalVariables.TOAST_SUCCESS);
                                 UserApp userApp = response.body().getData().getUserApp();
                                 PreferenceUtil.savePreferences(getContext(), PreferenceUtil.USER_APP, userApp.toJson());
+
+                                EventBusManager.instance().post(new EventUpdateHeader());
                             }
                             else
                             {
@@ -468,12 +476,33 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
 
                         @Override
                         public void onFailure(Call<ResponseRegister> call, Throwable t) {
-
+                            showToast(t.getMessage(), GlobalVariables.TOAST_ERRO);
                         }
                     });
                 }
                 else if (type == TYPE_STORE)
                 {
+                    List<PriceServiceModel> priceServiceModels = new ArrayList<>();
+                    for (int i = 0; i < categoryList.size(); i++)
+                    {
+                        RecyclerView.ViewHolder viewMain = recyclerView.findViewHolderForAdapterPosition(i);
+                        CheckBox checkBox = viewMain.itemView.findViewById(R.id.checkbox);
+                        EditText priceEdit = viewMain.itemView.findViewById(R.id.priceEdit);
+                        if (checkBox.isChecked())
+                        {
+                            Category category = categoryList.get(i);
+
+                            String key = "Price" + category.getiD();
+                            String price = priceEdit.getText().toString();
+                            priceServiceModels.add(new PriceServiceModel(key, price));
+                        }
+                    }
+                    for (int i = 0; i < priceServiceModels.size(); i++)
+                    {
+                        PriceServiceModel model = priceServiceModels.get(i);
+                        params.put(model.getKey(), model.getValuePrice());
+                    }
+
                     List<String> listIDCategory = new ArrayList<>();
                     for (int i = 0; i < categoryList.size(); i++)
                     {
@@ -487,11 +516,15 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
                     }
 
                     String iDCategory = TextUtils.join(",", listIDCategory);
+                    String latiude = latitudeEdt.getText().toString();
+                    String longitude = longitudeEdt.getText().toString();
 
                     params.put("Describe", describe);
                     params.put("IDCategory", iDCategory);
                     params.put("PasswordAdmin", oldPass);
                     params.put("ID", userStore.getiDUser() + "");
+                    params.put("Latitude", latiude);
+                    params.put("Longitude", longitude);
 
                     showLoadingDialog();
                     ApiService.Factory.getInstance().updateStore(params).enqueue(new Callback<ResponseCreateStore>()
@@ -522,7 +555,6 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
                         }
                     });
                 }
-
 
                 break;
             }

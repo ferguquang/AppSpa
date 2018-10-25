@@ -169,6 +169,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             llPhone.setVisibility(View.GONE);
 
             name.setText(model.getTitle());
+            name.setTextBold();
             dateTime.setText(ManagerTime.convertToMonthDayYearHourMinuteFormat(model.getCreated()));
             List<String> categoriesString = new ArrayList<>();
             List<Category> categories = model.getCategories();

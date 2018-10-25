@@ -58,6 +58,12 @@ public class UserStore {
     @SerializedName("Status")
     @Expose
     private int status;
+    @SerializedName("Latitude")
+    @Expose
+    private double latitude;
+    @SerializedName("Longitude")
+    @Expose
+    private double longitude;
     @SerializedName("Categories")
     @Expose
     private List<Category> categories = null;
@@ -192,6 +198,22 @@ public class UserStore {
 
     public List<Category> getCategories() {
         return categories;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
     }
 
     public void setCategories(List<Category> categories) {

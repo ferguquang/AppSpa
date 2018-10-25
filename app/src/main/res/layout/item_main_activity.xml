@@ -32,9 +32,11 @@
                 android:layout_height="48dp" />
 
             <LinearLayout
+                android:layout_centerVertical="true"
                 android:layout_marginLeft="16dp"
                 android:layout_toRightOf="@+id/iconImage"
                 android:orientation="vertical"
+                android:gravity="center_vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 
@@ -43,21 +45,15 @@
                     android:textSize="18sp"
                     android:textStyle="bold"
                     android:maxLines="1"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="@color/colorTextButton"
                     android:text="ĐẦU TƯ THÊM"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-                <com.ngo.ducquang.appspa.base.view.TextViewFont
-                    android:id="@+id/content"
-                    android:maxLines="1"
-                    android:text="Đầu tư dễ dàng chỉ từ 50.000vnd"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
             </LinearLayout>
 
             <ImageView
+                android:visibility="gone"
                 android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
                 app:srcCompat="@drawable/ic_next"
