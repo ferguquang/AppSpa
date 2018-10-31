@@ -14,8 +14,8 @@ android {
         applicationId "com.ngo.ducquang.appspa2"
         minSdkVersion 19
         targetSdkVersion 27
-        versionCode 8
-        versionName "8.0"
+        versionCode 13
+        versionName "13.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled true
