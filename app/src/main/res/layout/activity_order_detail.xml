@@ -96,7 +96,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
 
-                    <TextView
+                    <com.ngo.ducquang.appspa.base.view.TextViewFont
                         android:textSize="@dimen/textSize"
                         android:textColor="@color/black"
                         android:text="ngày tháng"
@@ -200,7 +200,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
 
-                    <TextView
+                    <com.ngo.ducquang.appspa.base.view.TextViewFont
                         android:textColor="@color/black"
                         android:textSize="@dimen/textSize"
                         android:text="khách hàng"

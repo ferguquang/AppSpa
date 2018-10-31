@@ -134,9 +134,10 @@ public class OrderListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         public void binding(Order model)
         {
             name.setText(model.getUser().getName());
+            name.setTextBold();
             phone.setText(model.getUser().getPhone());
             address.setText(model.getUser().getAddress());
-            dateTime.setText(ManagerTime.convertToMonthDayYearHourMinuteFormat(model.getCreated()));
+            dateTime.setText(ManagerTime.convertToMonthDayYearHourMinuteFormat(model.getOnDate()));
 
             List<Category> categoryList = model.getCategories();
             List<String> listIDCategory = new ArrayList<>();
@@ -146,7 +147,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 listIDCategory.add(category.getName() + "");
             }
 
-            categories.setText(TextUtils.join(",", listIDCategory));
+            categories.setText(TextUtils.join(", ", listIDCategory));
 
             cardViewStatus.setCardBackgroundColor(Color.parseColor(model.getStatusColor()));
             status.setText(model.getStatusName());

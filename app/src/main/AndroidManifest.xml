@@ -100,6 +100,8 @@
             android:name=".alarmService.ServiceManager"
             android:enabled="true">
         </service>
+        <service android:name=".alarmService.GPSTracker"
+            android:enabled="true"/>
     </application>
 
 </manifest>

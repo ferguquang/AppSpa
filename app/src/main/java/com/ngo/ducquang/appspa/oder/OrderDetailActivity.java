@@ -16,6 +16,7 @@ import com.ngo.ducquang.appspa.base.ManagerTime;
 import com.ngo.ducquang.appspa.base.PreferenceUtil;
 import com.ngo.ducquang.appspa.base.StringUtilities;
 import com.ngo.ducquang.appspa.base.api.ApiService;
+import com.ngo.ducquang.appspa.base.view.TextViewFont;
 import com.ngo.ducquang.appspa.oder.model.Order;
 import com.ngo.ducquang.appspa.oder.model.ResponseDetailOrder;
 
@@ -41,11 +42,11 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
 
     @BindView(R.id.name) TextView name;
     @BindView(R.id.nameStore) TextView nameStore;
-    @BindView(R.id.dateTime) TextView dateTime;
+    @BindView(R.id.dateTime) TextViewFont dateTime;
     @BindView(R.id.status) TextView status;
     @BindView(R.id.cardViewStatus) CardView cardViewStatus;
     @BindView(R.id.describe) TextView describe;
-    @BindView(R.id.userName) TextView userName;
+    @BindView(R.id.userName) TextViewFont userName;
     @BindView(R.id.userAddress) TextView userAddress;
     @BindView(R.id.userPhone) TextView userPhone;
     @BindView(R.id.userEmail) TextView userEmail;
@@ -146,6 +147,9 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
         userPhone.setText(order.getUser().getPhone());
         userEmail.setText(order.getUser().getEmail());
         reponseTime.setText("Ngày phản hồi: " + ManagerTime.convertToMonthDayYearHourMinuteFormatSlash(order.getResponsed()));
+
+        dateTime.setTextBold();
+        userName.setTextBold();
     }
 
     @Override

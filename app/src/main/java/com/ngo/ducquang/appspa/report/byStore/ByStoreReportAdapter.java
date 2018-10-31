@@ -1,5 +1,6 @@
 package com.ngo.ducquang.appspa.report.byStore;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
@@ -15,6 +16,7 @@ import com.ngo.ducquang.appspa.base.EmptyViewHolder;
 import com.ngo.ducquang.appspa.base.FooterViewHolder;
 import com.ngo.ducquang.appspa.base.GlobalVariables;
 import com.ngo.ducquang.appspa.base.font.FontChangeCrawler;
+import com.ngo.ducquang.appspa.base.view.TextViewFont;
 import com.ngo.ducquang.appspa.report.model.DataReportByStore;
 import com.ngo.ducquang.appspa.report.model.ReportByStore;
 import com.ngo.ducquang.appspa.storageList.StorageAdapter;
@@ -103,7 +105,7 @@ public class ByStoreReportAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     public class ItemHolder extends RecyclerView.ViewHolder
     {
-        @BindView(R.id.name) TextView name;
+        @BindView(R.id.name) TextViewFont name;
         @BindView(R.id.totalUser) TextView totalUser;
         @BindView(R.id.totalDone) TextView totalDone;
         @BindView(R.id.totalInProcess) TextView totalInProcess;
@@ -116,9 +118,11 @@ public class ByStoreReportAdapter extends RecyclerView.Adapter<RecyclerView.View
             ButterKnife.bind(this, itemView);
         }
 
+        @SuppressLint("SetTextI18n")
         public void binding(ReportByStore model)
         {
             name.setText(model.getName());
+            name.setTextBold();
             totalUser.setText(model.getTotalUser() + "");
             totalDone.setText(model.getTotalDone() + "");
             totalInProcess.setText(model.getTotalInProcess() + "");

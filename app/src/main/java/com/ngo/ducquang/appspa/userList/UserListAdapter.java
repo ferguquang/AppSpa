@@ -15,6 +15,7 @@ import com.ngo.ducquang.appspa.R;
 import com.ngo.ducquang.appspa.base.EmptyViewHolder;
 import com.ngo.ducquang.appspa.base.GlobalVariables;
 import com.ngo.ducquang.appspa.base.font.FontChangeCrawler;
+import com.ngo.ducquang.appspa.base.view.TextViewFont;
 import com.ngo.ducquang.appspa.login.modelLogin.UserApp;
 import com.ngo.ducquang.appspa.storageList.StorageAdapter;
 
@@ -94,7 +95,7 @@ public class UserListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
 
     public class ItemHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        @BindView(R.id.name) TextView name;
+        @BindView(R.id.name) TextViewFont name;
         @BindView(R.id.address) TextView address;
         @BindView(R.id.addressDetail) TextView addressDetail;
         @BindView(R.id.phone) TextView phone;
@@ -112,6 +113,8 @@ public class UserListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             address.setText(model.getDistrictName() + " - " + model.getProvinceName());
             phone.setText(model.getPhone());
             addressDetail.setText(model.getAddress());
+
+            name.setTextBold();
         }
 
         @Override

@@ -525,14 +525,21 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
 //            return;
 //        }
 
-        longitudeEdt.setText(myLocation.getLongitude() + "");
-        latitudeEdt.setText(myLocation.getLatitude() + "");
+        try
+        {
+            longitudeEdt.setText(myLocation.getLongitude() + "");
+            latitudeEdt.setText(myLocation.getLatitude() + "");
+        }
+        catch (Exception e)
+        {
+            LogManager.tagDefault().error(e.toString());
+        }
+
         hideLoadingDialog();
     }
 
     public String getEnabledLocationProvider()
     {
-        LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
         Criteria criteria = new Criteria();
         String bestProvider = locationManager.getBestProvider(criteria, true);
         boolean enabled = locationManager.isProviderEnabled(bestProvider);

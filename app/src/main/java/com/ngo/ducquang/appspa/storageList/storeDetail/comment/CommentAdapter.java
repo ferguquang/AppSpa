@@ -22,6 +22,7 @@ import com.ngo.ducquang.appspa.base.PreferenceUtil;
 import com.ngo.ducquang.appspa.base.StringUtilities;
 import com.ngo.ducquang.appspa.base.api.ApiService;
 import com.ngo.ducquang.appspa.base.font.FontChangeCrawler;
+import com.ngo.ducquang.appspa.base.view.TextViewFont;
 import com.ngo.ducquang.appspa.storageList.storeDetail.model.Discuss;
 import com.ngo.ducquang.appspa.storageList.storeDetail.model.ResponseComment;
 import com.ngo.ducquang.appspa.storageList.storeDetail.rate.RateAdapter;
@@ -120,7 +121,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public class DiscussViewHolder extends RecyclerView.ViewHolder
     {
         @BindView(R.id.name) TextView name;
-        @BindView(R.id.body) TextView body;
+        @BindView(R.id.body) TextViewFont body;
         @BindView(R.id.dateTime) TextView dateTime;
 
         public DiscussViewHolder(View itemView) {
@@ -132,6 +133,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         {
             name.setText(model.getCreatedByName());
             body.setText(model.getBody());
+            body.setTextBold();
             dateTime.setText(ManagerTime.convertToMonthDayYearHourMinuteFormat(model.getCreated()));
         }
     }

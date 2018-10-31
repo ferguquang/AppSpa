@@ -69,6 +69,7 @@
                     android:layout_height="@dimen/sizeIconBook" />
 
                 <TextView
+                    android:textSize="@dimen/textSizeSmall"
                     android:layout_marginLeft="4dp"
                     android:text="Từ ngày: "
                     android:id="@+id/dateTime"

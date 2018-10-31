@@ -28,6 +28,7 @@ import android.widget.TextView;
 import com.github.jjobes.slidedatetimepicker.SlideDateTimeListener;
 import com.github.jjobes.slidedatetimepicker.SlideDateTimePicker;
 import com.ngo.ducquang.appspa.R;
+import com.ngo.ducquang.appspa.alarmService.GPSTracker;
 import com.ngo.ducquang.appspa.base.BaseFragment;
 import com.ngo.ducquang.appspa.base.EventBusManager;
 import com.ngo.ducquang.appspa.base.GlobalVariables;
@@ -269,11 +270,25 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
             return;
         }
 
-        latitude = myLocation.getLatitude();
-        longitude = myLocation.getLongitude();
+//        latitude = myLocation.getLatitude();
+//        longitude = myLocation.getLongitude();
+//
+//        longitudeEdt.setText(longitude + "");
+//        latitudeEdt.setText(latitude + "");
 
-        longitudeEdt.setText(longitude + "");
-        latitudeEdt.setText(latitude + "");
+        GPSTracker gps;
+        gps = new GPSTracker(getContext());
+        if(gps.canGetLocation())
+        {
+            double latitude = gps.getLatitude();
+            double longitude = gps.getLongitude();
+            longitudeEdt.setText(longitude + "");
+            latitudeEdt.setText(latitude + "");
+        }
+        else
+        {
+            gps.showSettingsAlert();
+        }
     }
 
     private LocationListener mLocationListener = new LocationListener()

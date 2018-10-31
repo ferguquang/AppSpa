@@ -28,7 +28,7 @@ public class SlideMenuFragment extends BaseFragment implements SlideMenuAdapter.
     {
         @Override
         @Subscribe(threadMode = ThreadMode.MAIN)
-        void onEventUpdateHeader(EventUpdateHeader event) {
+        public void onEventUpdateHeader(EventUpdateHeader event) {
             adapter.refreshHeader();
         }
     };

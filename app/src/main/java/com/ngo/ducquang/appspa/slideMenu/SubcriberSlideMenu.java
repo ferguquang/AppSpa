@@ -5,5 +5,5 @@ package com.ngo.ducquang.appspa.slideMenu;
  */
 
 public class SubcriberSlideMenu {
-    void onEventUpdateHeader(EventUpdateHeader event){}
+    public void onEventUpdateHeader(EventUpdateHeader event){}
 }

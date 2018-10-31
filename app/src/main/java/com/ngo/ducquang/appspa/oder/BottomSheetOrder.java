@@ -88,6 +88,7 @@ public class BottomSheetOrder extends BaseBottomSheetDialogFragment implements V
             {
                 Bundle bundle = new Bundle();
                 bundle.putString(OrderFragment.ORDER_MODEL_STRING, order.toJson());
+                bundle.putInt(OrderFragment.TYPE, OrderFragment.ORDER_NORMAL);
                 bundle.putBoolean(OrderFragment.UPDATE, true);
                 addFragment(new OrderFragment(), bundle, true);
                 dismiss();

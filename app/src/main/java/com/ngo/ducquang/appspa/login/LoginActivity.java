@@ -150,6 +150,15 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener
         DrawableHelper.withContext(getBaseContext()).withColor(R.color.white).withDrawable(R.drawable.icon_account).tint().applyTo(imgAccount);
         DrawableHelper.withContext(getBaseContext()).withColor(R.color.white).withDrawable(R.drawable.icon_lock).tint().applyTo(lock);
         DrawableHelper.withContext(getBaseContext()).withColor(R.color.white).withDrawable(R.drawable.icon_asset_my_location).tint().applyTo(imgLocation);
+
+        try
+        {
+            provider = getEnabledLocationProvider();
+        }
+        catch (Exception e)
+        {
+            showToast(e.toString(), 3);
+        }
     }
 
     private void getMyLocation()
@@ -169,7 +178,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener
         catch (SecurityException e)  // Với Android API >= 23 phải catch SecurityException.
         {
             Log.e("TAG", "Show My Location Error:" + e.getMessage());
-            return;
         }
 
         try
@@ -211,8 +219,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener
 
                     if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)
                     {
-                        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-                        locationManager.requestLocationUpdates(provider, 0, 0, locationListener);
+//                        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+                        locationManager.requestLocationUpdates(provider, MIN_TIME_BW_UPDATES, MIN_DISTANCE_CHANGE_FOR_UPDATES, locationListener);
                         provider = getEnabledLocationProvider();
                     }
                 }
@@ -351,11 +359,11 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener
         @Override
         public void onLocationChanged(Location location)
         {
-//            latitude = location.getLatitude();
-//            longitude = location.getLongitude();
-//
-//            txtLongitude.setText(longitude + "");
-//            txtLatitude.setText(latitude + "");
+            latitude = location.getLatitude();
+            longitude = location.getLongitude();
+
+            txtLongitude.setText(longitude + "");
+            txtLatitude.setText(latitude + "");
         }
 
         @Override
@@ -375,7 +383,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener
 
     public String getEnabledLocationProvider()
     {
-        LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+//        LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         Criteria criteria = new Criteria();
         String bestProvider = locationManager.getBestProvider(criteria, true);
         boolean enabled = locationManager.isProviderEnabled(bestProvider);

@@ -20,6 +20,8 @@ import com.ngo.ducquang.appspa.base.Manager;
 import com.ngo.ducquang.appspa.base.PreferenceUtil;
 import com.ngo.ducquang.appspa.base.api.ApiService;
 import com.ngo.ducquang.appspa.base.font.FontChangeCrawler;
+import com.ngo.ducquang.appspa.base.view.ConfirmDialog;
+import com.ngo.ducquang.appspa.base.view.OnConfirmDialogAction;
 import com.ngo.ducquang.appspa.login.LoginActivity;
 import com.ngo.ducquang.appspa.login.modelLogin.UserApp;
 import com.ngo.ducquang.appspa.profile.ProfileFragment;
@@ -86,10 +88,6 @@ public class SlideMenuAdapter extends RecyclerView.Adapter
         if (holder instanceof HeaderViewHolder)
         {
             ((HeaderViewHolder) holder).binding();
-        }
-        else if (holder instanceof ItemMenuViewHolder)
-        {
-
         }
     }
 
@@ -163,31 +161,40 @@ public class SlideMenuAdapter extends RecyclerView.Adapter
             name.setText("Đăng xuất");
             itemView.setOnClickListener(v ->
             {
-                slideMenuFragment.showLoadingDialog();
-                ApiService.Factory.getInstance().logout(PreferenceUtil.getPreferences(context, PreferenceUtil.TOKEN, "")).enqueue(new Callback<ResponseLogout>()
+                ConfirmDialog.initialize("Bạn có muốn đăng xuất không?", new OnConfirmDialogAction()
                 {
                     @Override
-                    public void onResponse(Call<ResponseLogout> call, Response<ResponseLogout> response)
-                    {
-                        if (response.body().getStatus() == 1)
-                        {
-                            PreferenceUtil.clearPreference(context);
-                            NotificationMessage.removeAllNotification(context);
-
-//                          AlarmSend.canclerAlarm(context);
-                            ServiceManager.stopService(context);
-
-                            Manager.startActivity(context, LoginActivity.class, true);
-                            ((FragmentActivity) context).finish();
-                        }
-                    }
+                    public void onCancel() {}
 
                     @Override
-                    public void onFailure(Call<ResponseLogout> call, Throwable t) {
-                        LogManager.tagDefault().error(t.getMessage());
-                        slideMenuFragment.hideLoadingDialog();
+                    public void onAccept()
+                    {
+                        slideMenuFragment.showLoadingDialog();
+                        ApiService.Factory.getInstance().logout(PreferenceUtil.getPreferences(context, PreferenceUtil.TOKEN, "")).enqueue(new Callback<ResponseLogout>()
+                        {
+                            @Override
+                            public void onResponse(Call<ResponseLogout> call, Response<ResponseLogout> response)
+                            {
+                                if (response.body().getStatus() == 1)
+                                {
+                                    PreferenceUtil.clearPreference(context);
+                                    NotificationMessage.removeAllNotification(context);
+
+                                    ServiceManager.stopService(context);
+
+                                    Manager.startActivity(context, LoginActivity.class, true);
+                                    ((FragmentActivity) context).finish();
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<ResponseLogout> call, Throwable t) {
+                                LogManager.tagDefault().error(t.getMessage());
+                                slideMenuFragment.hideLoadingDialog();
+                            }
+                        });
                     }
-                });
+                }).show(slideMenuFragment.getFragmentManager(), "tag");
             });
         }
     }

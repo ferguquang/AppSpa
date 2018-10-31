@@ -20,7 +20,10 @@
         android:layout_height="wrap_content">
 
         <RelativeLayout
-            android:layout_margin="16dp"
+            android:layout_marginTop="@dimen/margin_4dp"
+            android:layout_marginBottom="@dimen/margin_4dp"
+            android:layout_marginLeft="@dimen/margin_16dp"
+            android:layout_marginRight="@dimen/margin_16dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -42,7 +45,7 @@
 
                 <com.ngo.ducquang.appspa.base.view.TextViewFont
                     android:id="@+id/name"
-                    android:textSize="18sp"
+                    android:textSize="16sp"
                     android:textStyle="bold"
                     android:maxLines="1"
                     android:textColor="@color/colorTextButton"
@@ -51,14 +54,6 @@
                     android:layout_height="wrap_content" />
 
             </LinearLayout>
-
-            <ImageView
-                android:visibility="gone"
-                android:layout_centerVertical="true"
-                android:layout_alignParentRight="true"
-                app:srcCompat="@drawable/ic_next"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
 
         </RelativeLayout>
 

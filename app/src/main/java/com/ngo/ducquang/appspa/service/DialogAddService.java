@@ -95,6 +95,21 @@ public class DialogAddService extends BaseDialog implements View.OnClickListener
                     return;
                 }
 
+                int hourInt = Integer.parseInt(hour);
+                if (hourInt > 24)
+                {
+                    hourEdt.requestFocus();
+                    hourEdt.setError("Số giờ không được vượt quá 24");
+                    return;
+                }
+                int minutesInt = Integer.parseInt(minutes);
+                if (minutesInt > 60)
+                {
+                    minuteEdt.requestFocus();
+                    minuteEdt.setError("Số phút không được vượt quá 60");
+                    return;
+                }
+
                 HashMap<String, String> params = new HashMap<>();
                 params.put("Token", PreferenceUtil.getPreferences(getContext(), PreferenceUtil.TOKEN, ""));
                 params.put("Name", name);

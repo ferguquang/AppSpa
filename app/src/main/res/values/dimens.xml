@@ -32,7 +32,7 @@
     <dimen name="textSizeHuge">18sp</dimen>
     <dimen name="textSizeLarge">16sp</dimen>
     <dimen name="textSizeMedium">15sp</dimen>
-    <dimen name="textSizeSmall">14sp</dimen>
+    <dimen name="textSizeSmall">12sp</dimen>
     <dimen name="textSizeTitle">16sp</dimen>
 
     <dimen name="maximumImageWidth">435dp</dimen>

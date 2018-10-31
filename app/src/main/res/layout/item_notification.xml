@@ -11,7 +11,7 @@
         app:cardCornerRadius="12dp"
         app:cardElevation="4dp"
         app:cardPreventCornerOverlap="false"
-        app:cardBackgroundColor="@color/main7"
+        app:cardBackgroundColor="@color/white"
         android:layout_marginRight="@dimen/margin_16dp"
         android:layout_marginTop="@dimen/margin_8dp"
         android:layout_marginBottom="@dimen/margin_8dp"

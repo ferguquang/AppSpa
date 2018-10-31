@@ -35,7 +35,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <TextView
+                <com.ngo.ducquang.appspa.base.view.TextViewFont
                     android:layout_toLeftOf="@+id/imgOption"
                     android:layout_alignParentLeft="true"
                     android:id="@+id/name"

@@ -14,6 +14,7 @@ import com.ngo.ducquang.appspa.base.EmptyViewHolder;
 import com.ngo.ducquang.appspa.base.FooterViewHolder;
 import com.ngo.ducquang.appspa.base.GlobalVariables;
 import com.ngo.ducquang.appspa.base.font.FontChangeCrawler;
+import com.ngo.ducquang.appspa.base.view.TextViewFont;
 import com.ngo.ducquang.appspa.report.byStore.ByStoreReportAdapter;
 import com.ngo.ducquang.appspa.report.model.DataReportByAddress;
 import com.ngo.ducquang.appspa.report.model.ReportByAddress;
@@ -102,7 +103,7 @@ public class ByAddressReportAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     public class ItemHolder extends RecyclerView.ViewHolder
     {
-        @BindView(R.id.name) TextView name;
+        @BindView(R.id.name) TextViewFont name;
         @BindView(R.id.totalStore) TextView totalStore;
         @BindView(R.id.totalUser) TextView totalUser;
         @BindView(R.id.total) TextView total;
@@ -116,6 +117,7 @@ public class ByAddressReportAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         public void binding(ReportByAddress model)
         {
             name.setText(model.getName());
+            name.setTextBold();
             totalStore.setText(model.getTotalStore() + "");
             totalUser.setText(model.getTotalUser() + "");
             total.setText(model.getTotal() + "");

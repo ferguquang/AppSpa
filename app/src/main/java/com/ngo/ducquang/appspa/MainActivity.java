@@ -116,8 +116,9 @@ public class MainActivity extends BaseActivity implements SlideMenuFragment.Even
         });
 
         Toasty.Config.getInstance()
-                .setInfoColor(getResources().getColor(R.color.colorPrimary))
-                .setSuccessColor(getResources().getColor(R.color.colorPrimary))
+                .setInfoColor(getResources().getColor(R.color.colorAccent))
+                .setSuccessColor(getResources().getColor(R.color.colorAccent))
+                .setErrorColor(getResources().getColor(R.color.main5))
                 .tintIcon(true)
                 .apply();
 
@@ -179,8 +180,6 @@ public class MainActivity extends BaseActivity implements SlideMenuFragment.Even
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(mainAdapter);
-
-//        setBackground(getApplicationContext(), this.findViewById(android.R.id.content), R.drawable.bg2);
 
         ApiService.Factory.getInstance().getImage(token).enqueue(new Callback<ResponseGetImage>()
         {

@@ -67,7 +67,7 @@
         android:layout_height="wrap_content">
 
         <ImageView
-            app:srcCompat="@drawable/icon_asset_edit_underline_24dp"
+            app:srcCompat="@drawable/icon_asset_delete"
             android:layout_width="@dimen/sizeOption"
             android:layout_height="@dimen/sizeOption" />
 
