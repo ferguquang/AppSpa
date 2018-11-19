@@ -14,14 +14,19 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.PopupMenu;
+import android.widget.Toast;
 
 import com.ngo.ducquang.appspa.base.view.CustomTypeFaceSpan;
+import com.ngo.ducquang.appspa.login.LoginActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import es.dmoral.toasty.Toasty;
 
 /**
  * Created by QuangND on 12/13/2017.
@@ -114,5 +119,26 @@ public class Manager {
 
     public static int dpToPx(int dp) {
         return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
+    }
+
+    public static void checkAuthen(Context context, int status, List<Message> messages)
+    {
+        if (status == 0)
+        {
+            try
+            {
+                Message message = messages.get(0);
+                Toasty.error(context, message.getText(), Toast.LENGTH_LONG).show();
+                if (message.getCode() == 1002)
+                {
+                    PreferenceUtil.clearPreference(context);
+                    startActivity(context, LoginActivity.class, true);
+                }
+            }
+            catch (Exception e)
+            {
+                LogManager.tagDefault().error(e.toString());
+            }
+        }
     }
 }

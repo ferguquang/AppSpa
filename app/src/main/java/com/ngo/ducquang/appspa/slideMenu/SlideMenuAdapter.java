@@ -87,7 +87,11 @@ public class SlideMenuAdapter extends RecyclerView.Adapter
     {
         if (holder instanceof HeaderViewHolder)
         {
-            ((HeaderViewHolder) holder).binding();
+            try {
+                ((HeaderViewHolder) holder).binding();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -127,7 +131,7 @@ public class SlideMenuAdapter extends RecyclerView.Adapter
             });
         }
 
-        public void binding()
+        public void binding() throws Exception
         {
             UserApp userApp = UserApp.initialize(PreferenceUtil.getPreferences(context, PreferenceUtil.USER_APP, ""));
             name.setText(userApp.getName());

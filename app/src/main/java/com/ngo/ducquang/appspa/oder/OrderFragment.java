@@ -536,13 +536,20 @@ public class OrderFragment extends BaseFragment implements View.OnClickListener,
             return;
         }
 
-        if (myLocation == null) {
-            showToast("Yêu cầu bật dịch vụ vị trí trên điện thoại!!!", GlobalVariables.TOAST_INFO);
-            return;
+//        if (myLocation == null) {
+//            showToast("Yêu cầu bật dịch vụ vị trí trên điện thoại!!!", GlobalVariables.TOAST_INFO);
+//            return;
+//        }
+
+        try {
+            latitude = myLocation.getLatitude();
+            longitude = myLocation.getLongitude();
+        }
+        catch (Exception e)
+        {
+            Log.e("TAG", "Location Error:" + e.getMessage());
         }
 
-        latitude = myLocation.getLatitude();
-        longitude = myLocation.getLongitude();
 
         if(gps.canGetLocation())
         {
@@ -555,6 +562,8 @@ public class OrderFragment extends BaseFragment implements View.OnClickListener,
         {
             gps.showSettingsAlert();
         }
+
+//        ApiService.Factory.getInstance().getStoreToOrder(token, latitude, longitude).enqueue(callbackGetStoreToOrder());
     }
 
     public String getEnabledLocationProvider() {
@@ -568,38 +577,5 @@ public class OrderFragment extends BaseFragment implements View.OnClickListener,
             return null;
         }
         return bestProvider;
-    }
-
-    private Location getLastBestLocation()
-    {
-        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return null;
-        }
-
-        Location locationGPS = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        Location locationNet = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-
-        long GPSLocationTime = 0;
-        if (null != locationGPS) { GPSLocationTime = locationGPS.getTime(); }
-
-        long NetLocationTime = 0;
-
-        if (null != locationNet) {
-            NetLocationTime = locationNet.getTime();
-        }
-
-        if ( 0 < GPSLocationTime - NetLocationTime ) {
-            return locationGPS;
-        }
-        else {
-            return locationNet;
-        }
     }
 }

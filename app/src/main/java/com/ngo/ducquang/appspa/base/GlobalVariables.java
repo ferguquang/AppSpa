@@ -8,6 +8,7 @@ public class GlobalVariables
 {
     public static final String BASE_URL = "http://103.199.18.108/api/";
     public static final String BASE_URL_DEV = "http://103.199.18.108:81/api/";
+    public static final String BASE_URL_DEV2 = "http://103.199.18.108:8081/api/";
     public static final String ROOT = "http://103.199.18.108/";
 
     public static final int TOAST_INFO = 1;

@@ -263,6 +263,26 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
                     phoneEdt.requestFocus();
                     return;
                 }
+//
+                if (StringUtilities.isEmpty(address))
+                {
+                    addressEdt.setError("Không được để trống!!!");
+                    addressEdt.requestFocus();
+                    return;
+                }
+
+                if (StringUtilities.isEmpty(birthday))
+                {
+                    showToast("Ngày sinh không được để trống", GlobalVariables.TOAST_ERRO);
+                    return;
+                }
+
+                if (StringUtilities.isEmpty(email))
+                {
+                    emailEdt.setError("Không được để trống!!!");
+                    emailEdt.requestFocus();
+                    return;
+                }
 
                 if (valueGender == -1)
                 {
@@ -378,6 +398,12 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
                     params.put("Describe", describe);
                     params.put("Latitude", latitude + "");
                     params.put("Longitude", longitude + "");
+                    if (priceServiceModels.size() == 0)
+                    {
+                        showToast("Chọn ít nhất 1 dịch vụ", GlobalVariables.TOAST_ERRO);
+                        return;
+                    }
+
                     for (int i = 0; i < priceServiceModels.size(); i++)
                     {
                         PriceServiceModel model = priceServiceModels.get(i);

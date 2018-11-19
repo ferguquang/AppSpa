@@ -244,7 +244,7 @@ public interface ApiService
                     .build();
 
             retrofit = new Retrofit.Builder()
-                    .baseUrl(GlobalVariables.BASE_URL)
+                    .baseUrl(GlobalVariables.BASE_URL_DEV2)
                     .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .addConverterFactory(GsonConverterFactory.create())
                     .client(okHttpClient)

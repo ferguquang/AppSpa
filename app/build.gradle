@@ -6,16 +6,16 @@ android {
             keyAlias 'keyAlias'
             keyPassword '123456'
             storePassword '123456'
-            storeFile file('D:/androidstudio/project/AppSpa/keyStore/keystore.jks')
+            storeFile file('./keyStoreFinal/keystore.jks')
         }
     }
     compileSdkVersion 27
     defaultConfig {
-        applicationId "com.ngo.ducquang.appspa2"
+        applicationId "com.ngo.ducquang.appspa3"
         minSdkVersion 19
         targetSdkVersion 27
-        versionCode 13
-        versionName "13.0"
+        versionCode 1
+        versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled true

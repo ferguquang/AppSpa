@@ -13,6 +13,7 @@ import android.widget.FrameLayout;
 import com.ngo.ducquang.appspa.base.BaseActivity;
 import com.ngo.ducquang.appspa.base.GlobalVariables;
 import com.ngo.ducquang.appspa.base.LogManager;
+import com.ngo.ducquang.appspa.base.Manager;
 import com.ngo.ducquang.appspa.base.PreferenceUtil;
 import com.ngo.ducquang.appspa.base.Share;
 import com.ngo.ducquang.appspa.base.font.TypefaceUtil;
@@ -107,6 +108,8 @@ public class MainActivity extends BaseActivity implements SlideMenuFragment.Even
                     DataGetStore dataGetStore = response.body().getData();
                     PreferenceUtil.savePreferences(getApplicationContext(), PreferenceUtil.DATA_GET_STORE, dataGetStore.toJson());
                 }
+
+                Manager.checkAuthen(getApplicationContext(), response.body().getStatus(), response.body().getMessages());
             }
 
             @Override
