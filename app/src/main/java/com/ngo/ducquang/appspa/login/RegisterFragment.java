@@ -98,7 +98,7 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
     List<District> districts = new ArrayList<>();
     List<Province> provinces = new ArrayList<>();
 
-    private int valueGender = -1;
+    private int valueGender = 2;
 
     @BindView(R.id.valueProvince) TextView valueProvince;
     @BindView(R.id.valueDistrict) TextView valueDistrict;
@@ -115,6 +115,8 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
     @BindView(R.id.categorylayout) LinearLayout categorylayout;
     private List<Category> categoryList = new ArrayList<>();
     @BindView(R.id.recyclerView) RecyclerView recyclerView;
+
+    @BindView(R.id.titleFullName) TextView titleFullName;
 
     final long MIN_TIME_BW_UPDATES = 1000;
     final float MIN_DISTANCE_CHANGE_FOR_UPDATES = 1;
@@ -177,6 +179,9 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
             recyclerView.setHasFixedSize(true);
             recyclerView.setAdapter(adapter);
             recyclerView.setNestedScrollingEnabled(false);
+
+            fullNameEdt.setHint("Tên cửa hàng");
+            titleFullName.setText("Tên cửa hàng");
         }
     }
 
@@ -264,31 +269,25 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
                     return;
                 }
 //
-                if (StringUtilities.isEmpty(address))
-                {
-                    addressEdt.setError("Không được để trống!!!");
-                    addressEdt.requestFocus();
-                    return;
-                }
+//                if (StringUtilities.isEmpty(address))
+//                {
+//                    addressEdt.setError("Không được để trống!!!");
+//                    addressEdt.requestFocus();
+//                    return;
+//                }
 
-                if (StringUtilities.isEmpty(birthday))
-                {
-                    showToast("Ngày sinh không được để trống", GlobalVariables.TOAST_ERRO);
-                    return;
-                }
+//                if (StringUtilities.isEmpty(birthday))
+//                {
+//                    showToast("Ngày sinh không được để trống", GlobalVariables.TOAST_ERRO);
+//                    return;
+//                }
 
-                if (StringUtilities.isEmpty(email))
-                {
-                    emailEdt.setError("Không được để trống!!!");
-                    emailEdt.requestFocus();
-                    return;
-                }
-
-                if (valueGender == -1)
-                {
-                    showToast("Vui lòng chọn giới tính!!!", GlobalVariables.TOAST_ERRO);
-                    return;
-                }
+//                if (StringUtilities.isEmpty(email))
+//                {
+//                    emailEdt.setError("Không được để trống!!!");
+//                    emailEdt.requestFocus();
+//                    return;
+//                }
 
                 if (!pass.equals(repeatPass))
                 {
@@ -304,16 +303,16 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
                     return;
                 }
 
-                if (idDistrict == -1)
-                {
-                    showToast("Vui lòng chọn Quận/huyện", GlobalVariables.TOAST_ERRO);
-                    return;
-                }
-                if (idProvince == -1)
-                {
-                    showToast("Vui lòng chọn Tỉnh/Thành phố", GlobalVariables.TOAST_ERRO);
-                    return;
-                }
+//                if (idDistrict == -1)
+//                {
+//                    showToast("Vui lòng chọn Quận/huyện", GlobalVariables.TOAST_ERRO);
+//                    return;
+//                }
+//                if (idProvince == -1)
+//                {
+//                    showToast("Vui lòng chọn Tỉnh/Thành phố", GlobalVariables.TOAST_ERRO);
+//                    return;
+//                }
 
                 HashMap<String, String> params = new HashMap<>();
                 params.put("Username", userName);
@@ -380,18 +379,18 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
                     String latitude = latitudeEdt.getText().toString();
                     String longitude = longitudeEdt.getText().toString();
 
-                    if (StringUtilities.isEmpty(latitude))
-                    {
-                        latitudeEdt.setError("Không được để trống!!!");
-                        latitudeEdt.requestFocus();
-                        return;
-                    }
-                    if (StringUtilities.isEmpty(longitude))
-                    {
-                        longitudeEdt.setError("Không được để trống!!!");
-                        longitudeEdt.requestFocus();
-                        return;
-                    }
+//                    if (StringUtilities.isEmpty(latitude))
+//                    {
+//                        latitudeEdt.setError("Không được để trống!!!");
+//                        latitudeEdt.requestFocus();
+//                        return;
+//                    }
+//                    if (StringUtilities.isEmpty(longitude))
+//                    {
+//                        longitudeEdt.setError("Không được để trống!!!");
+//                        longitudeEdt.requestFocus();
+//                        return;
+//                    }
 
                     params.put("IDCategory", iDCategory);
                     params.put("Token", PreferenceUtil.getPreferences(getContext(), PreferenceUtil.TOKEN, ""));

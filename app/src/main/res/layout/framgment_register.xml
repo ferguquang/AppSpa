@@ -19,13 +19,29 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <android.support.design.widget.TextInputLayout
+            <LinearLayout
+                android:layout_marginTop="@dimen/margin_8dp"
+                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:minHeight="@dimen/sizeFormTextInput"
-                android:orientation="horizontal"
-                android:paddingTop="8dp">
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:text="Tên đăng nhập"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:textColor="@color/redCus"
+                        android:text="*"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
 
                 <com.ngo.ducquang.appspa.base.CustomEditText
                     android:id="@+id/userNameEdt"
@@ -35,15 +51,31 @@
                     android:hint="Tên đăng nhập"
                     android:textSize="@dimen/textSize"/>
 
-            </android.support.design.widget.TextInputLayout>
+            </LinearLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <LinearLayout
+                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:minHeight="@dimen/sizeFormTextInput"
-                android:orientation="horizontal"
-                android:paddingTop="8dp">
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/titleFullName"
+                        android:text="Tên đầy đủ"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:textColor="@color/redCus"
+                        android:text="*"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
 
                 <com.ngo.ducquang.appspa.base.CustomEditText
                     android:id="@+id/fullNameEdt"
@@ -53,15 +85,30 @@
                     android:hint="Tên đầy đủ"
                     android:textSize="@dimen/textSize"/>
 
-            </android.support.design.widget.TextInputLayout>
+            </LinearLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <LinearLayout
+                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:minHeight="@dimen/sizeFormTextInput"
-                android:orientation="horizontal"
-                android:paddingTop="8dp">
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:text="Số điện thoại"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:textColor="@color/redCus"
+                        android:text="*"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
 
                 <com.ngo.ducquang.appspa.base.CustomEditText
                     android:id="@+id/phoneEdt"
@@ -71,7 +118,7 @@
                     android:hint="Số điện thoại"
                     android:textSize="@dimen/textSize"/>
 
-            </android.support.design.widget.TextInputLayout>
+            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/categorylayout"
@@ -100,8 +147,8 @@
                         <ImageView
                             android:layout_marginLeft="@dimen/margin_4dp"
                             app:srcCompat="@drawable/icon_asset_my_location"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                            android:layout_width="16dp"
+                            android:layout_height="16dp" />
 
                     </LinearLayout>
 
@@ -278,6 +325,7 @@
                     android:textSize="@dimen/textSize"/>
 
                 <com.ngo.ducquang.appspa.base.view.TextViewFont
+                    android:text="Nữ"
                     android:textColor="@color/black"
                     android:id="@+id/birthdayEdt"
                     android:layout_width="0dp"
@@ -335,13 +383,28 @@
 
             </android.support.design.widget.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <LinearLayout
+                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:minHeight="@dimen/sizeFormTextInput"
-                android:orientation="horizontal"
-                android:paddingTop="8dp">
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:text="Mật khẩu"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:textColor="@color/redCus"
+                        android:text="*"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
 
                 <com.ngo.ducquang.appspa.base.CustomEditText
                     android:inputType="textPassword"
@@ -352,15 +415,30 @@
                     android:hint="Mật khẩu"
                     android:textSize="@dimen/textSize"/>
 
-            </android.support.design.widget.TextInputLayout>
+            </LinearLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <LinearLayout
+                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:minHeight="@dimen/sizeFormTextInput"
-                android:orientation="horizontal"
-                android:paddingTop="8dp">
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:text="Nhập lại mật khẩu"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:textColor="@color/redCus"
+                        android:text="*"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
 
                 <com.ngo.ducquang.appspa.base.CustomEditText
                     android:id="@+id/repeatPasswordEdt"
@@ -371,7 +449,7 @@
                     android:hint="Nhập lại mật khẩu"
                     android:textSize="@dimen/textSize"/>
 
-            </android.support.design.widget.TextInputLayout>
+            </LinearLayout>
 
         </LinearLayout>
 

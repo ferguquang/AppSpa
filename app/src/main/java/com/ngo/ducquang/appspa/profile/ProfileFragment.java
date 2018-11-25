@@ -252,6 +252,7 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
                     if (idCategoryCuaHang == categoryFull.getiD())
                     {
                         categories.get(a).setChecked(true);
+                        categories.get(a).setPrice(categoryCuaHang.getPrice());
                     }
                 }
             }
