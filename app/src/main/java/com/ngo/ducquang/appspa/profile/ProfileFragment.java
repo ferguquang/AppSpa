@@ -83,6 +83,7 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
     private UserStore userStore;
     private boolean isAdmin;
     private StorageAdapter storageAdapter;
+    private List<Category> categories;
 
     @BindView(R.id.nameEdt) EditText nameEdt;
     @BindView(R.id.addressEdt) EditText addressEdt;
@@ -222,8 +223,8 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
 
             // setCheck
             categoryList = userStore.getCategories();
-            List<Category> categories = new ArrayList<>();
-            categories.addAll(categoryList);
+            List<Category> categoriesSelected = new ArrayList<>();
+            categoriesSelected.addAll(categoryList);
 
             LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
             layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -234,12 +235,24 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
             recyclerView.setAdapter(adapter);
             recyclerView.setNestedScrollingEnabled(false);
 
-            for (int i = 0; i < userStore.getCategories().size(); i++)
+            for (int i = 0; i < categories.size(); i++)
             {
-                Category category = userStore.getCategories().get(i);
-                if (category.getiD() == categoryList.get(i).getiD())
+                categories.get(i).setChecked(false);
+            }
+
+            // categories: list categori đầy đủ
+            // categoryList list categori của cửa hàng
+            for (int i = 0; i < categoryList.size(); i++)
+            {
+                Category categoryCuaHang = categoryList.get(i);
+                int idCategoryCuaHang = categoryCuaHang.getiD();
+                for (int a = 0; a < categories.size(); a++)
                 {
-                    categories.get(i).setChecked(true);
+                    Category categoryFull = categories.get(a);
+                    if (idCategoryCuaHang == categoryFull.getiD())
+                    {
+                        categories.get(a).setChecked(true);
+                    }
                 }
             }
 
@@ -498,14 +511,14 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
                 else if (type == TYPE_STORE)
                 {
                     List<PriceServiceModel> priceServiceModels = new ArrayList<>();
-                    for (int i = 0; i < categoryList.size(); i++)
+                    for (int i = 0; i < categories.size(); i++)
                     {
                         RecyclerView.ViewHolder viewMain = recyclerView.findViewHolderForAdapterPosition(i);
                         CheckBox checkBox = viewMain.itemView.findViewById(R.id.checkbox);
                         EditText priceEdit = viewMain.itemView.findViewById(R.id.priceEdit);
                         if (checkBox.isChecked())
                         {
-                            Category category = categoryList.get(i);
+                            Category category = categories.get(i);
 
                             String key = "Price" + category.getiD();
                             String price = priceEdit.getText().toString();
@@ -519,13 +532,13 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
                     }
 
                     List<String> listIDCategory = new ArrayList<>();
-                    for (int i = 0; i < categoryList.size(); i++)
+                    for (int i = 0; i < categories.size(); i++)
                     {
                         RecyclerView.ViewHolder viewMain = recyclerView.findViewHolderForAdapterPosition(i);
                         CheckBox checkBox = viewMain.itemView.findViewById(R.id.checkbox);
                         if (checkBox.isChecked())
                         {
-                            Category category = categoryList.get(i);
+                            Category category = categories.get(i);
                             listIDCategory.add(category.getiD() + "");
                         }
                     }
@@ -653,6 +666,10 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
 
     public void setStorageAdapter(StorageAdapter storageAdapter) {
         this.storageAdapter = storageAdapter;
+    }
+
+    public void setCategories(List<Category> categories) {
+        this.categories = categories;
     }
 
     public void setPosition(int position) {

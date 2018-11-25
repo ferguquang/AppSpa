@@ -22,6 +22,7 @@ import com.ngo.ducquang.appspa.base.api.ApiService;
 import com.ngo.ducquang.appspa.base.font.FontChangeCrawler;
 import com.ngo.ducquang.appspa.base.reponseMessage.ResponseMessage;
 import com.ngo.ducquang.appspa.base.view.TextViewFont;
+import com.ngo.ducquang.appspa.storageList.model.Category;
 import com.ngo.ducquang.appspa.storageList.model.UserStore;
 import com.ngo.ducquang.appspa.storageList.storeDetail.StoreDetailActivity;
 
@@ -48,14 +49,16 @@ public class StorageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     private StoreActivity context;
     private List<UserStore> dataList;
+    private List<Category> categories;
     private FragmentManager fragmentManager;
     private boolean isAdmin;
 
-    public StorageAdapter(StoreActivity context, List<UserStore> dataList, FragmentManager fragmentManager, boolean isAdmin) {
+    public StorageAdapter(StoreActivity context, List<UserStore> dataList, FragmentManager fragmentManager, boolean isAdmin, List<Category> categories) {
         this.context = context;
         this.dataList = dataList;
         this.fragmentManager = fragmentManager;
         this.isAdmin = isAdmin;
+        this.categories = categories;
     }
 
     @NonNull
@@ -201,6 +204,7 @@ public class StorageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     bottomSheetStore.setUserStore(dataList.get(getAdapterPosition()));
                     bottomSheetStore.setAdmin(isAdmin);
                     bottomSheetStore.setStorageAdapter(StorageAdapter.this);
+                    bottomSheetStore.setCategories(categories);
                     bottomSheetStore.show(fragmentManager, bottomSheetStore.getTag());
                     break;
                 }

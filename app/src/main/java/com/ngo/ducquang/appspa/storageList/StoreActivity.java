@@ -142,7 +142,7 @@ public class StoreActivity extends BaseActivity implements View.OnClickListener,
                     DataStoreList dataStoreList = response.body().getData();
                     if (adapter == null)
                     {
-                        adapter = new StorageAdapter(StoreActivity.this, dataStoreList.getUserStores(), getSupportFragmentManager(), dataStoreList.getAdmin());
+                        adapter = new StorageAdapter(StoreActivity.this, dataStoreList.getUserStores(), getSupportFragmentManager(), dataStoreList.getAdmin(), dataStoreList.getCategories());
                         recyclerView.setLayoutManager(layoutManager);
                         recyclerView.setHasFixedSize(true);
                         recyclerView.setAdapter(adapter);

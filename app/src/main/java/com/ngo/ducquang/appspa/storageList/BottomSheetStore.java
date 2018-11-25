@@ -17,9 +17,11 @@ import com.ngo.ducquang.appspa.base.PreferenceUtil;
 import com.ngo.ducquang.appspa.base.api.ApiService;
 import com.ngo.ducquang.appspa.base.reponseMessage.ResponseMessage;
 import com.ngo.ducquang.appspa.profile.ProfileFragment;
+import com.ngo.ducquang.appspa.storageList.model.Category;
 import com.ngo.ducquang.appspa.storageList.model.UserStore;
 
 import java.util.HashMap;
+import java.util.List;
 
 import butterknife.BindView;
 import retrofit2.Call;
@@ -45,6 +47,7 @@ public class BottomSheetStore extends BaseBottomSheetDialogFragment implements V
     private int position;
 
     private int valueStatus;
+    private List<Category> categories;
 
     @Override
     protected int getContentView() {
@@ -106,6 +109,7 @@ public class BottomSheetStore extends BaseBottomSheetDialogFragment implements V
                 profileFragment.setUserStorel(userStore);
                 profileFragment.setStorageAdapter(storageAdapter);
                 profileFragment.setPosition(position);
+                profileFragment.setCategories(categories);
                 addFragment(profileFragment, null, true);
                 dismiss();
                 break;
@@ -127,5 +131,9 @@ public class BottomSheetStore extends BaseBottomSheetDialogFragment implements V
 
     public void setStorageAdapter(StorageAdapter storageAdapter) {
         this.storageAdapter = storageAdapter;
+    }
+
+    public void setCategories(List<Category> categories) {
+        this.categories = categories;
     }
 }
