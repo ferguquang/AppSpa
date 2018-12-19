@@ -325,7 +325,6 @@
                     android:textSize="@dimen/textSize"/>
 
                 <com.ngo.ducquang.appspa.base.view.TextViewFont
-                    android:text="Nữ"
                     android:textColor="@color/black"
                     android:id="@+id/birthdayEdt"
                     android:layout_width="0dp"
@@ -359,6 +358,7 @@
                 <com.ngo.ducquang.appspa.base.view.TextViewFont
                     android:textColor="@color/black"
                     android:id="@+id/genderEdt"
+                    android:text="Nữ"
                     android:background="@color/transparent"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />

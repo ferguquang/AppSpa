@@ -14,6 +14,7 @@ public class PreferenceUtil
     public static final String TOKEN = "token";
     public static final String USER_APP = "userapp";
     public static final String POSITION_ID = "positionid";
+    public static final String ID_USER = "iduser";
 
     public static final String DATA_GET_STORE = "datagetstore";
     public static final String DATA_GET_ADDRESS = "datagetaddress";

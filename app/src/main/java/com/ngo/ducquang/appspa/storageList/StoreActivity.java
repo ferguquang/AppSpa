@@ -91,7 +91,7 @@ public class StoreActivity extends BaseActivity implements View.OnClickListener,
 
         token = PreferenceUtil.getPreferences(getApplicationContext(), PreferenceUtil.TOKEN, "");
         int positionID = PreferenceUtil.getPreferences(getApplicationContext(), PreferenceUtil.POSITION_ID, -1);
-        if (positionID == GlobalVariables.IS_ADMIN)
+        if (positionID == GlobalVariables.IS_ADMIN || positionID == GlobalVariables.IS_VAN_HANH)
             fab.setVisibility(View.VISIBLE);
         else
             fab.setVisibility(View.GONE);

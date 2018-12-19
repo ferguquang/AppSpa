@@ -18,6 +18,8 @@ import com.ngo.ducquang.appspa.base.FooterViewHolder;
 import com.ngo.ducquang.appspa.base.LogManager;
 import com.ngo.ducquang.appspa.base.view.TextViewFont;
 import com.ngo.ducquang.appspa.base.view.TransformerFadeViewPager;
+import com.ngo.ducquang.appspa.listDauTu.DauTuActivity;
+import com.ngo.ducquang.appspa.listVanHanh.VanHanhActivity;
 import com.ngo.ducquang.appspa.modelImageSlide.File;
 import com.ngo.ducquang.appspa.oder.OrderFragment;
 import com.ngo.ducquang.appspa.notification.NotificationActivity;
@@ -279,6 +281,16 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 case MainActivity.REPORT:
                 {
                     context.startActivity(ReportActivity.class, null, false);
+                    break;
+                }
+                case MainActivity.LIST_DAU_TU:
+                {
+                    context.startActivity(DauTuActivity.class, null, false);
+                    break;
+                }
+                case MainActivity.LIST_VAN_HANH:
+                {
+                    context.startActivity(VanHanhActivity.class, null, false);
                     break;
                 }
             }

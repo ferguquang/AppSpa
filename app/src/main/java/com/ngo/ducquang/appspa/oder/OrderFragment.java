@@ -80,28 +80,18 @@ public class OrderFragment extends BaseFragment implements View.OnClickListener,
     private boolean isInDetail = false;
     private String nameStoreInDetail;
 
-    @BindView(R.id.book)
-    Button book;
-    @BindView(R.id.toolBar)
-    Toolbar toolBar;
-    @BindView(R.id.title)
-    TextView title;
-    @BindView(R.id.recyclerView)
-    RecyclerView recyclerView;
-    @BindView(R.id.llStartDate)
-    LinearLayout llStartDate;
-    @BindView(R.id.startDate)
-    TextView startDate;
-    @BindView(R.id.noteEdt)
-    EditText noteEdt;
+    @BindView(R.id.book) Button book;
+    @BindView(R.id.toolBar) Toolbar toolBar;
+    @BindView(R.id.title) TextView title;
+    @BindView(R.id.recyclerView) RecyclerView recyclerView;
+    @BindView(R.id.llStartDate) LinearLayout llStartDate;
+    @BindView(R.id.startDate) TextView startDate;
+    @BindView(R.id.noteEdt) EditText noteEdt;
 
-    @BindView(R.id.layoutAddress)
-    LinearLayout layoutAddress;
-    @BindView(R.id.nameAddress)
-    TextView nameAddress;
+    @BindView(R.id.layoutAddress) LinearLayout layoutAddress;
+    @BindView(R.id.nameAddress) TextView nameAddress;
 
-    @BindView(R.id.llOrderStore)
-    LinearLayout llOrderStore;
+    @BindView(R.id.llOrderStore) LinearLayout llOrderStore;
 
     private CategoryOptionAdapter adapter;
 
@@ -160,7 +150,8 @@ public class OrderFragment extends BaseFragment implements View.OnClickListener,
         provider = getEnabledLocationProvider();
 
         Bundle bundle = getArguments();
-        if (bundle != null) {
+        if (bundle != null)
+        {
             type = bundle.getInt(TYPE);
             isInDetail = bundle.getBoolean(WHERE, false);
             nameStoreInDetail = bundle.getString(NAME_STORE, "Chọn cửa hàng");
@@ -168,13 +159,15 @@ public class OrderFragment extends BaseFragment implements View.OnClickListener,
             orderModelString = bundle.getString(ORDER_MODEL_STRING, "");
             isUpdate = bundle.getBoolean(UPDATE, false);
 
-            if (type == ORDER_AT_HOME) {
+            if (type == ORDER_AT_HOME)
+            {
                 llOrderStore.setVisibility(View.GONE);
                 title.setText("Đặt lịch tại nhà");
                 ApiService.Factory.getInstance().getListServiceAdmin(token, 0).enqueue(callbackGetService());
             }
 
-            if (isInDetail) {
+            if (isInDetail)
+            {
                 ApiService.Factory.getInstance().getStoreToOrder(token, idStore).enqueue(new Callback<ResponseGetStoreToOrder>() {
                     @Override
                     public void onResponse(Call<ResponseGetStoreToOrder> call, Response<ResponseGetStoreToOrder> response) {
@@ -218,7 +211,8 @@ public class OrderFragment extends BaseFragment implements View.OnClickListener,
             idStore = order.getStoreID();
         }
 
-        if (isUpdate) {
+        if (isUpdate)
+        {
             startDate.setText(ManagerTime.convertToMonthDayYearHourMinuteFormat(order.getOnDate()));
             noteEdt.setText(order.getDescribe());
 
@@ -250,15 +244,20 @@ public class OrderFragment extends BaseFragment implements View.OnClickListener,
         }
     };
 
-    private Callback<ResponseGetStoreToOrder> callbackGetStoreToOrder() {
-        return new Callback<ResponseGetStoreToOrder>() {
+    private Callback<ResponseGetStoreToOrder> callbackGetStoreToOrder()
+    {
+        return new Callback<ResponseGetStoreToOrder>()
+        {
             @Override
-            public void onResponse(@NonNull Call<ResponseGetStoreToOrder> call, @NonNull Response<ResponseGetStoreToOrder> response) {
-                if (response.body().getStatus() == 1) {
+            public void onResponse(@NonNull Call<ResponseGetStoreToOrder> call, @NonNull Response<ResponseGetStoreToOrder> response)
+            {
+                if (response.body().getStatus() == 1)
+                {
                     storesToOrrders = response.body().getData().getStoresToOrrder();
                     hideLoadingDialog();
 
-                    if (storesToOrrders.size() > 0) {
+                    if (storesToOrrders.size() > 0)
+                    {
                         nameAddress.setText(storesToOrrders.get(0).getName());
 
                         storeOrderList = storesToOrrders.get(0).getStores();
@@ -278,15 +277,20 @@ public class OrderFragment extends BaseFragment implements View.OnClickListener,
         };
     }
 
-    private Callback<ResponseServiceAdmin> callbackGetService() {
-        return new Callback<ResponseServiceAdmin>() {
+    private Callback<ResponseServiceAdmin> callbackGetService()
+    {
+        return new Callback<ResponseServiceAdmin>()
+        {
             @Override
-            public void onResponse(@NonNull Call<ResponseServiceAdmin> call, @NonNull Response<ResponseServiceAdmin> response) {
-                if (response.body().getStatus() == 1) {
+            public void onResponse(@NonNull Call<ResponseServiceAdmin> call, @NonNull Response<ResponseServiceAdmin> response)
+            {
+                if (response.body().getStatus() == 1)
+                {
                     categories.clear();
                     categories = response.body().getData().getCategories();
 
-                    if (adapter == null) {
+                    if (adapter == null)
+                    {
                         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
                         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
                         adapter = new CategoryOptionAdapter(getActivity(), categories, OrderFragment.this);
@@ -295,7 +299,9 @@ public class OrderFragment extends BaseFragment implements View.OnClickListener,
                         recyclerView.setHasFixedSize(true);
                         recyclerView.setAdapter(adapter);
                         recyclerView.setNestedScrollingEnabled(false);
-                    } else {
+                    }
+                    else
+                    {
                         adapter.refreshData(categories);
                     }
 
@@ -327,9 +333,12 @@ public class OrderFragment extends BaseFragment implements View.OnClickListener,
     }
 
     @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.book: {
+    public void onClick(View v)
+    {
+        switch (v.getId())
+        {
+            case R.id.book:
+            {
                 String date = startDate.getText().toString();
                 String describe = noteEdt.getText().toString();
 
@@ -369,11 +378,14 @@ public class OrderFragment extends BaseFragment implements View.OnClickListener,
 
                 book.setEnabled(false);
 
-                if (isUpdate) {
+                if (isUpdate)
+                {
                     params.put("ID", order.getiD() + "");
-                    ApiService.Factory.getInstance().orderUpdate(params).enqueue(new Callback<ResponseOrder>() {
+                    ApiService.Factory.getInstance().orderUpdate(params).enqueue(new Callback<ResponseOrder>()
+                    {
                         @Override
-                        public void onResponse(Call<ResponseOrder> call, Response<ResponseOrder> response) {
+                        public void onResponse(Call<ResponseOrder> call, Response<ResponseOrder> response)
+                        {
                             Message message = response.body().getMessages().get(0);
                             if (response.body().getStatus() == 1) {
                                 showToast(message.getText(), GlobalVariables.TOAST_SUCCESS);
@@ -397,10 +409,14 @@ public class OrderFragment extends BaseFragment implements View.OnClickListener,
                             hideLoadingDialog();
                         }
                     });
-                } else {
-                    ApiService.Factory.getInstance().orderCreate(params).enqueue(new Callback<ResponseOrder>() {
+                }
+                else
+                {
+                    ApiService.Factory.getInstance().orderCreate(params).enqueue(new Callback<ResponseOrder>()
+                    {
                         @Override
-                        public void onResponse(Call<ResponseOrder> call, Response<ResponseOrder> response) {
+                        public void onResponse(Call<ResponseOrder> call, Response<ResponseOrder> response)
+                        {
                             Message message = response.body().getMessages().get(0);
                             if (response.body().getStatus() == 1) {
                                 showToast(message.getText(), GlobalVariables.TOAST_SUCCESS);
@@ -431,7 +447,8 @@ public class OrderFragment extends BaseFragment implements View.OnClickListener,
 
                 break;
             }
-            case R.id.llStartDate: {
+            case R.id.llStartDate:
+            {
                 SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm");
                 new SlideDateTimePicker.Builder(getFragmentManager())
                         .setListener(new SlideDateTimeListener() {
@@ -447,7 +464,8 @@ public class OrderFragment extends BaseFragment implements View.OnClickListener,
                         .show();
                 break;
             }
-            case R.id.nameAddress: {
+            case R.id.nameAddress:
+            {
                 listItemAddress.clear();
                 listPopupAddress = new ListPopupWindow(getContext());
                 for (int i = 0; i < storesToOrrders.size(); i++) {

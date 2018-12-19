@@ -1,5 +1,6 @@
 package com.ngo.ducquang.appspa.userList;
 
+import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
@@ -8,12 +9,9 @@ import com.ngo.ducquang.appspa.R;
 import com.ngo.ducquang.appspa.base.BaseActivity;
 import com.ngo.ducquang.appspa.base.PreferenceUtil;
 import com.ngo.ducquang.appspa.base.api.ApiService;
-import com.ngo.ducquang.appspa.login.modelLogin.UserApp;
-import com.ngo.ducquang.appspa.storageList.StorageAdapter;
 import com.ngo.ducquang.appspa.userList.model.ResponseGetListUser;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 
 import butterknife.BindView;
 import retrofit2.Call;
@@ -42,15 +40,17 @@ public class UserListActivity extends BaseActivity
 
         showLoadingDialog();
         String token = PreferenceUtil.getPreferences(getApplicationContext(), PreferenceUtil.TOKEN, "");
-        ApiService.Factory.getInstance().getListUser(token).enqueue(new Callback<ResponseGetListUser>()
+        HashMap<String, String> params = new HashMap<>();
+        params.put("Token", token);
+        ApiService.Factory.getInstance().getListUser(params).enqueue(new Callback<ResponseGetListUser>()
         {
             @Override
-            public void onResponse(Call<ResponseGetListUser> call, Response<ResponseGetListUser> response)
+            public void onResponse(@NonNull Call<ResponseGetListUser> call, @NonNull Response<ResponseGetListUser> response)
             {
                 if (response.body().getStatus() == 1)
                 {
                     LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
-                    UserListAdapter adapter = new UserListAdapter(UserListActivity.this, response.body().getData().getUserApps());
+                    UserListAdapter adapter = new UserListAdapter(UserListActivity.this, getSupportFragmentManager(), response.body().getData().getUserApps());
                     layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
                     recyclerView.setLayoutManager(layoutManager);
                     recyclerView.setHasFixedSize(true);
@@ -61,7 +61,7 @@ public class UserListActivity extends BaseActivity
             }
 
             @Override
-            public void onFailure(Call<ResponseGetListUser> call, Throwable t) {
+            public void onFailure(@NonNull Call<ResponseGetListUser> call, @NonNull Throwable t) {
                 hideLoadingDialog();
             }
         });

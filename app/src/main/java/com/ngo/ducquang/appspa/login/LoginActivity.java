@@ -26,6 +26,7 @@ import android.widget.TextView;
 import com.ngo.ducquang.appspa.BuildConfig;
 import com.ngo.ducquang.appspa.MainActivity;
 import com.ngo.ducquang.appspa.R;
+import com.ngo.ducquang.appspa.alarmService.GPSTracker;
 import com.ngo.ducquang.appspa.alarmService.ServiceManager;
 import com.ngo.ducquang.appspa.base.BaseActivity;
 import com.ngo.ducquang.appspa.base.DrawableHelper;
@@ -50,6 +51,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import butterknife.BindView;
+import me.leolin.shortcutbadger.ShortcutBadger;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -91,6 +93,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener
     final long MIN_TIME_BW_UPDATES = 1000;
     final float MIN_DISTANCE_CHANGE_FOR_UPDATES = 1;
 
+    private GPSTracker gps;
+
     private SubcriberLogin subcriberLogin = new SubcriberLogin()
     {
         @Override
@@ -120,7 +124,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener
         listPermission.add(new Permission(ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION));
         listPermission.add(new Permission(ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION));
         requestPermission();
-//        checkLocationPermission();
+        checkLocationPermission();
 
         if (BuildConfig.DEBUG) {
             userName.setText("admin_cloud"); // todo only dev
@@ -157,7 +161,18 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener
         }
         catch (Exception e)
         {
-            showToast(e.toString(), 3);
+            LogManager.tagDefault().error(e.toString());
+        }
+
+        gps = new GPSTracker(LoginActivity.this);
+
+        try
+        {
+            ShortcutBadger.removeCount(getApplicationContext());
+        }
+        catch (Exception e)
+        {
+            LogManager.tagDefault().error(e.toString());
         }
     }
 
@@ -174,6 +189,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener
         {
             locationManager.requestLocationUpdates(provider, MIN_TIME_BW_UPDATES, MIN_DISTANCE_CHANGE_FOR_UPDATES, locationListener);
             myLocation = locationManager.getLastKnownLocation(provider);
+            if (myLocation == null)
+            {
+                myLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+            }
         }
         catch (SecurityException e)  // Với Android API >= 23 phải catch SecurityException.
         {
@@ -268,6 +287,20 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener
             {
                 showToast("Đang tìm kiếm vị trí của bạn", GlobalVariables.TOAST_INFO);
                 getMyLocation();
+
+                if(gps.canGetLocation())
+                {
+                    double latitude = gps.getLatitude();
+                    double longitude = gps.getLongitude();
+
+                    txtLongitude.setText(longitude + "");
+                    txtLatitude.setText(latitude + "");
+                }
+                else
+                {
+                    gps.showSettingsAlert();
+                }
+
                 break;
             }
             case R.id.copyLatitude:
@@ -310,6 +343,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener
                             PreferenceUtil.savePreferences(getApplicationContext(), PreferenceUtil.LOGIN_SUCCESS, true);
                             PreferenceUtil.savePreferences(getApplicationContext(), PreferenceUtil.USER_APP, dataLogin.getUserApp().toJson());
                             PreferenceUtil.savePreferences(getApplicationContext(), PreferenceUtil.POSITION_ID, dataLogin.getUserApp().getPositionID());
+                            PreferenceUtil.savePreferences(getApplicationContext(), PreferenceUtil.ID_USER, dataLogin.getUserApp().getiDUser());
                             startActivity(MainActivity.class, null, true);
                             finish();
                         }

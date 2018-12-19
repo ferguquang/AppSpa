@@ -1,8 +1,9 @@
 package com.ngo.ducquang.appspa;
 
+import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
@@ -16,8 +17,8 @@ import com.ngo.ducquang.appspa.base.LogManager;
 import com.ngo.ducquang.appspa.base.Manager;
 import com.ngo.ducquang.appspa.base.PreferenceUtil;
 import com.ngo.ducquang.appspa.base.Share;
-import com.ngo.ducquang.appspa.base.font.TypefaceUtil;
 import com.ngo.ducquang.appspa.base.api.ApiService;
+import com.ngo.ducquang.appspa.base.font.TypefaceUtil;
 import com.ngo.ducquang.appspa.base.getAddress.ResponseGetAddress;
 import com.ngo.ducquang.appspa.login.LoginActivity;
 import com.ngo.ducquang.appspa.modelImageSlide.File;
@@ -25,6 +26,7 @@ import com.ngo.ducquang.appspa.modelImageSlide.ResponseGetImage;
 import com.ngo.ducquang.appspa.modelStore.DataGetStore;
 import com.ngo.ducquang.appspa.modelStore.ResponseGetStore;
 import com.ngo.ducquang.appspa.notification.NotificationActivity;
+import com.ngo.ducquang.appspa.notification.model.ResponseNotification;
 import com.ngo.ducquang.appspa.slideMenu.SlideMenuFragment;
 
 import java.util.ArrayList;
@@ -33,6 +35,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import es.dmoral.toasty.Toasty;
+import me.leolin.shortcutbadger.ShortcutBadger;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -47,6 +50,9 @@ public class MainActivity extends BaseActivity implements SlideMenuFragment.Even
     public static final int LIST_SERVICE = 6;
     public static final int LIST_ORDER = 7;
     public static final int REPORT = 8;
+
+    public static final int LIST_DAU_TU = 9;
+    public static final int LIST_VAN_HANH = 10;
 
     @BindView(R.id.drawerLayout) DrawerLayout drawerLayout;
     @BindView(R.id.leftDrawer) FrameLayout leftDrawer;
@@ -144,33 +150,65 @@ public class MainActivity extends BaseActivity implements SlideMenuFragment.Even
 
         List<ModelItemMain> dataList = new ArrayList<>();
 
+        ModelItemMain dauTuModel = new ModelItemMain(LIST_DAU_TU, "danh sách đầu tư", "", R.drawable.sale, getResources().getColor(R.color.main2));
+        ModelItemMain vanHanhModel = new ModelItemMain(LIST_VAN_HANH, "danh sách vận hành", "", R.drawable.sale, getResources().getColor(R.color.main2));
+        ModelItemMain danhSachCuaHangModel = new ModelItemMain(STORE_LIST, "danh sách cửa hàng", "Thông tin cửa hàng", R.drawable.sale, getResources().getColor(R.color.main1));
+        ModelItemMain danhSachLichDat = new ModelItemMain(LIST_ORDER, "danh sách lịch đặt", "Thông tin lịch đặt", R.drawable.option, getResources().getColor(R.color.main2));
+        ModelItemMain danhSachDichVu = new ModelItemMain(LIST_SERVICE, "danh sách dịch vụ", "Dịch vụ của cửa hàng", R.drawable.qttt, getResources().getColor(R.color.main3));
+        ModelItemMain danhSachKhachHang = new ModelItemMain(LIST_USER, "danh sách khách hàng", "Thông tin chi tiết khách hàng", R.drawable.cust, getResources().getColor(R.color.main4));
+        ModelItemMain thongBaoModel = new ModelItemMain(NOTIFICATION, "thông báo", "Thông báo", R.drawable.icon_notification_main, getResources().getColor(R.color.main5));
+        ModelItemMain thongKeModel = new ModelItemMain(REPORT, "thống kê", "Báo cáo, thống kê", R.drawable.mtask, getResources().getColor(R.color.main6));
+
         switch (positionID)
         {
             case GlobalVariables.IS_ADMIN:
             {
-                dataList.add(new ModelItemMain(STORE_LIST, "danh sách cửa hàng", "Thông tin cửa hàng", R.drawable.sale, getResources().getColor(R.color.main1)));
-                dataList.add(new ModelItemMain(LIST_ORDER, "danh sách lịch đặt", "Thông tin lịch đặt", R.drawable.option, getResources().getColor(R.color.main2)));
-                dataList.add(new ModelItemMain(LIST_SERVICE, "danh sách dịch vụ", "Dịch vụ của cửa hàng", R.drawable.qttt, getResources().getColor(R.color.main3)));
-                dataList.add(new ModelItemMain(LIST_USER, "danh sách khách hàng", "Thông tin chi tiết khách hàng", R.drawable.cust, getResources().getColor(R.color.main4)));
-                dataList.add(new ModelItemMain(NOTIFICATION, "thông báo", "Thông báo", R.drawable.icon_notification_main, getResources().getColor(R.color.main5)));
-                dataList.add(new ModelItemMain(REPORT, "thống kê", "Báo cáo, thống kê", R.drawable.mtask, getResources().getColor(R.color.main6)));
+                dataList.add(dauTuModel);
+//                dataList.add(vanHanhModel);
+                dataList.add(danhSachCuaHangModel);
+                dataList.add(danhSachLichDat);
+                dataList.add(danhSachDichVu);
+                dataList.add(danhSachKhachHang);
+                dataList.add(thongBaoModel);
+                dataList.add(thongKeModel);
                 break;
             }
             case GlobalVariables.IS_STORE:
             {
                 dataList.add(new ModelItemMain(STORE_LIST, "cửa hàng của bạn", "Thông tin cửa hàng", R.drawable.sale, getResources().getColor(R.color.main1)));
-                dataList.add(new ModelItemMain(LIST_ORDER, "danh sách lịch đặt", "Thông tin lịch đặt", R.drawable.option, getResources().getColor(R.color.main2)));
-                dataList.add(new ModelItemMain(LIST_USER, "danh sách khách hàng", "", R.drawable.cust, getResources().getColor(R.color.main3)));
-                dataList.add(new ModelItemMain(NOTIFICATION, "thông báo", "Thông báo", R.drawable.icon_notification_main, getResources().getColor(R.color.main4)));
+                dataList.add(danhSachLichDat);
+                dataList.add(danhSachKhachHang);
+                dataList.add(thongBaoModel);
                 break;
             }
             case GlobalVariables.IS_USER:
             {
                 dataList.add(new ModelItemMain(BOOK, "đặt lịch", "Thông tin đặt lịch", R.drawable.icon_map, getResources().getColor(R.color.main1)));
                 dataList.add(new ModelItemMain(BOOK_AT_HOME, "ĐẶT TẠI NHÀ", "Tại nhà", R.drawable.icon_home, getResources().getColor(R.color.main2)));
-                dataList.add(new ModelItemMain(STORE_LIST, "danh sách cửa hàng", "Thông tin cửa hàng", R.drawable.sale, getResources().getColor(R.color.main3)));
-                dataList.add(new ModelItemMain(LIST_ORDER, "danh sách lịch đặt", "Thông tin lịch đặt", R.drawable.mtask, getResources().getColor(R.color.main4)));
-                dataList.add(new ModelItemMain(NOTIFICATION, "thông báo", "Thông báo", R.drawable.icon_notification_main, getResources().getColor(R.color.main5)));
+                dataList.add(danhSachCuaHangModel);
+                dataList.add(danhSachLichDat);
+                dataList.add(thongBaoModel);
+                break;
+            }
+            case GlobalVariables.IS_DAU_TU:
+            {
+                dataList.add(vanHanhModel);
+                dataList.add(danhSachCuaHangModel);
+                dataList.add(danhSachLichDat);
+                dataList.add(danhSachDichVu);
+                dataList.add(danhSachKhachHang);
+                dataList.add(thongBaoModel);
+                dataList.add(thongKeModel);
+                break;
+            }
+            case GlobalVariables.IS_VAN_HANH:
+            {
+                dataList.add(danhSachCuaHangModel);
+                dataList.add(danhSachLichDat);
+                dataList.add(danhSachDichVu);
+                dataList.add(danhSachKhachHang);
+                dataList.add(thongBaoModel);
+                dataList.add(thongKeModel);
                 break;
             }
         }
@@ -199,6 +237,41 @@ public class MainActivity extends BaseActivity implements SlideMenuFragment.Even
             @Override
             public void onFailure(Call<ResponseGetImage> call, Throwable t) {
 
+            }
+        });
+
+        ShortcutBadger.removeCount(getApplicationContext());
+        HashMap<String, String> params = new HashMap<>();
+        params.put("Token", token);
+        ApiService.Factory.getInstance().getListNotification(params).enqueue(new Callback<ResponseNotification>()
+        {
+            @Override
+            public void onResponse(@NonNull Call<ResponseNotification> call, @NonNull Response<ResponseNotification> response)
+            {
+                try
+                {
+                    if (response.body().getStatus() == 1)
+                    {
+                        int totalNotView = response.body().getData().getTotalNotView();
+                        if (totalNotView > 0)
+                        {
+                            ShortcutBadger.applyCount(getApplicationContext(), totalNotView);
+                        }
+                        else
+                        {
+                            ShortcutBadger.removeCount(getApplicationContext());
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                    LogManager.tagDefault().error(e.toString());
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<ResponseNotification> call, @NonNull Throwable t) {
+                LogManager.tagDefault().error(t.getMessage());
             }
         });
     }

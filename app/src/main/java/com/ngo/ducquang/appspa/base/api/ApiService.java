@@ -73,7 +73,7 @@ public interface ApiService
 
     @POST("user/index")
     @FormUrlEncoded
-    Call<ResponseGetListUser> getListUser(@Field("Token") String token);
+    Call<ResponseGetListUser> getListUser(@FieldMap Map<String, String> params);
 
     @POST("user/detail")
     @FormUrlEncoded
@@ -244,7 +244,7 @@ public interface ApiService
                     .build();
 
             retrofit = new Retrofit.Builder()
-                    .baseUrl(GlobalVariables.BASE_URL)
+                    .baseUrl(GlobalVariables.BASE_URL_DEV)
                     .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .addConverterFactory(GsonConverterFactory.create())
                     .client(okHttpClient)

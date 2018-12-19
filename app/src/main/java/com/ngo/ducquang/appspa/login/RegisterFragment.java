@@ -1,7 +1,6 @@
 package com.ngo.ducquang.appspa.login;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -26,6 +25,7 @@ import android.widget.TextView;
 import com.github.jjobes.slidedatetimepicker.SlideDateTimeListener;
 import com.github.jjobes.slidedatetimepicker.SlideDateTimePicker;
 import com.ngo.ducquang.appspa.R;
+import com.ngo.ducquang.appspa.alarmService.GPSTracker;
 import com.ngo.ducquang.appspa.base.BaseFragment;
 import com.ngo.ducquang.appspa.base.CustomEditText;
 import com.ngo.ducquang.appspa.base.EventBusManager;
@@ -43,16 +43,13 @@ import com.ngo.ducquang.appspa.base.view.AddingArrayDialog;
 import com.ngo.ducquang.appspa.base.view.TextViewFont;
 import com.ngo.ducquang.appspa.base.view.popupWindow.ItemPopupMenu;
 import com.ngo.ducquang.appspa.base.view.popupWindow.ListPopupWindowAdapter;
-import com.ngo.ducquang.appspa.oder.CategoryOptionAdapter;
 import com.ngo.ducquang.appspa.login.modelRegister.ResponseRegister;
+import com.ngo.ducquang.appspa.oder.CategoryOptionAdapter;
 import com.ngo.ducquang.appspa.service.PriceServiceModel;
 import com.ngo.ducquang.appspa.storageList.StoreActivity;
 import com.ngo.ducquang.appspa.storageList.createStore.model.ResponseCreateStore;
 import com.ngo.ducquang.appspa.storageList.model.Category;
 import com.ngo.ducquang.appspa.storageList.model.UserStore;
-
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -125,6 +122,8 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
     String provider = "";
     @BindView(R.id.getCurrentLocation) LinearLayout getCurrentLocation;
 
+    private GPSTracker gps;
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -183,6 +182,8 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
             fullNameEdt.setHint("Tên cửa hàng");
             titleFullName.setText("Tên cửa hàng");
         }
+
+        gps = new GPSTracker(getContext());
     }
 
     private void setListPopupWindow()
@@ -510,6 +511,18 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
                 locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, mLocationListener);
 
                 getMyLocation();
+                if(gps.canGetLocation())
+                {
+                    double latitude = gps.getLatitude();
+                    double longitude = gps.getLongitude();
+
+                    longitudeEdt.setText(longitude + "");
+                    latitudeEdt.setText(latitude + "");
+                }
+                else
+                {
+                    gps.showSettingsAlert();
+                }
                 break;
             }
         }

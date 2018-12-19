@@ -10,6 +10,9 @@ import java.util.List;
  */
 
 public class DataNotification {
+    @SerializedName("TotalNotView")
+    @Expose
+    int totalNotView;
     @SerializedName("Notifications")
     @Expose
     private List<Notification> notifications = null;
@@ -20,5 +23,13 @@ public class DataNotification {
 
     public void setNotifications(List<Notification> notifications) {
         this.notifications = notifications;
+    }
+
+    public int getTotalNotView() {
+        return totalNotView;
+    }
+
+    public void setTotalNotView(int totalNotView) {
+        this.totalNotView = totalNotView;
     }
 }

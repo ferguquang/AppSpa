@@ -1,9 +1,6 @@
 package com.ngo.ducquang.appspa.service;
 
-import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -20,8 +17,6 @@ import com.ngo.ducquang.appspa.base.view.OnConfirmDialogAction;
 import com.ngo.ducquang.appspa.storageList.model.Category;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -48,6 +43,7 @@ public class BottomSheetServiceFragment extends BaseBottomSheetDialogFragment im
     protected void initView(View view) {
         editOption.setOnClickListener(this);
         deleteOption.setOnClickListener(this);
+        nameOption.setText(category.getName());
     }
 
     @Override
